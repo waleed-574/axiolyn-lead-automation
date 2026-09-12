@@ -28,7 +28,7 @@ These are fixed and non-negotiable.
 
 | Decision | Choice | Rationale |
 |---|---|---|
-| Target market | Pakistan first | Strong OpenStreetMap coverage, businesses reachable by phone, easy verification, no EU consent law to navigate. International added later. |
+| Target market | Pakistan first, international from Phase 3 | Pakistan proves the machine fastest: strong OpenStreetMap coverage, businesses reachable by phone, easy verification. International is a **priority second lane, not an exclusion** — it carries the larger deal sizes and is built into WF1 as soon as the pipeline works end to end. |
 | No-website businesses | Separate track (`Leads_NoWeb`) | "No website in 2026" is a strong buy signal, not a disqualifier — but these leads need different scoring and a different pitch, so they get their own tab. |
 | Google auth | Service Account, not OAuth2 | OAuth apps left in "Testing" publishing status expire their refresh token every 7 days. A service account with the sheet shared to its address never expires. |
 | Filtering model | 0–100 score, not binary keep/drop | Turns the sheet from a list into a priority queue. The team calls the best 10, not the newest 10. |
@@ -72,6 +72,22 @@ Target cities: Lahore, Karachi, Islamabad/Rawalpindi, Faisalabad, Multan, Peshaw
 Target verticals: e-commerce and retail, healthcare and clinics, logistics and supply chain, real estate, professional services, agencies and consultancies, education and training, SaaS and tech startups.
 
 **Explicitly excluded:** LinkedIn. Aggressive anti-scraping, terms-of-service violation, and account-ban risk outweigh any value.
+
+#### International lane (added Phase 3)
+
+Pakistan is the sequencing choice, not the scope. International sources run in the same WF1 as a second lane, tagged by `region`, scored by the same web-track model, and written to the same `Leads` tab. Larger deal sizes justify building this as soon as the pipeline is proven rather than "someday".
+
+| Source | Region | Yields | Cost |
+|---|---|---|---|
+| Clutch, GoodFirms public listings | Global | Agencies and SMBs already shopping for digital transformation | Free, scraped |
+| Google News RSS | Global | Funding rounds, expansions, new market entries | Free, no key |
+| Job boards (We Work Remotely, Remote OK, HN "Who is hiring") | US / EU / Global | Companies hiring for roles automation reduces | Free, RSS |
+| SearXNG / CSE with region operators | Targeted | `site:.ae`, `site:.co.uk`, city + industry combos | Free |
+| OSM Overpass, other bounding boxes | UAE, Gulf, UK | Same tag queries, different geography | Free, no key |
+
+Recommended priority order for international: **UAE and Gulf** first (same time zone, large Pakistani-run business community, high budgets, no consent-law friction), then **US** (CAN-SPAM permits cold B2B email with a working opt-out), then **UK and EU** — which go to the phone and LinkedIn lane described in Section 10 rather than automated email.
+
+A `region` column drives both the outreach channel and the compliance lane, so this stays a routing decision in data rather than separate workflows.
 
 ### WF2 — Enrichment
 
@@ -137,11 +153,11 @@ This is separated from the core pipeline deliberately — discovery and enrichme
 
 ### `Leads` columns
 
-`lead_id`, `company_name`, `website`, `normalized_domain`, `email`, `email_valid`, `phone_e164`, `whatsapp_ready`, `city`, `industry`, `service_fit`, `score`, `score_reasons`, `tech_detected`, `hiring_signal`, `source`, `date_found`, `last_seen`, `contact_status`, `ai_opener`, `notes`
+`lead_id`, `company_name`, `website`, `normalized_domain`, `email`, `email_valid`, `phone_e164`, `whatsapp_ready`, `city`, `country`, `region`, `industry`, `service_fit`, `score`, `score_reasons`, `tech_detected`, `hiring_signal`, `source`, `date_found`, `last_seen`, `contact_status`, `ai_opener`, `notes`
 
 ### `Leads_NoWeb` columns
 
-`lead_id`, `company_name`, `phone_e164`, `whatsapp_ready`, `address`, `city`, `category`, `score`, `score_reasons`, `source`, `date_found`, `last_seen`, `contact_status`, `notes`
+`lead_id`, `company_name`, `phone_e164`, `whatsapp_ready`, `address`, `city`, `country`, `region`, `category`, `score`, `score_reasons`, `source`, `date_found`, `last_seen`, `contact_status`, `notes`
 
 ### Identity and deduplication
 
@@ -192,7 +208,7 @@ Principle: no single source or single company may abort a run. Partial results a
 | 0 | Tooling and environment | n8n MCP connected; Docker n8n running with correct env vars; git repo tracking workflows |
 | 1 | Foundations | Service Account authenticated; all 7 tabs created; n8n writes a test row |
 | 2 | Thin vertical slice | 20 real PK companies in the sheet from Overpass alone; a re-run appends zero duplicates |
-| 3 | Discovery layer (WF1) | 100+ candidates per run from at least 3 independent sources |
+| 3 | Discovery layer (WF1) | 100+ candidates per run from at least 3 independent sources, across both the Pakistan and international lanes |
 | 4 | Enrichment (WF2) | At least 50% of web candidates yield a verified email; no single site aborts a run |
 | 5 | Scoring (WF3) | Sheet sorted by score; the team agrees the top 10 are genuinely the best 10 |
 | 6 | AI layer | Openers reference something specific and verifiable about each company |
@@ -234,5 +250,4 @@ Deliberately excluded to keep the first version shippable:
 - Postgres or SQLite as an internal store. Multi-tab Sheets suffices well past the current volume.
 - A web UI or custom CRM. The sheet is the interface.
 - Automated unattended email sending. Drafts only, human sends.
-- International targeting. Added after the Pakistan pipeline is proven.
 - LinkedIn as a source, at any stage.
