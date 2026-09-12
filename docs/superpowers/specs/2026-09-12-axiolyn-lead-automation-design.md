@@ -225,9 +225,11 @@ Development runs on the local machine with manual triggers. Hosting is deliberat
 
 At Phase 10 the instance moves to always-on hosting, because a Schedule Trigger on a laptop only fires while the laptop is awake. Oracle Cloud Always Free (4 ARM cores, 24 GB RAM, free indefinitely — not a trial) is the recommended target. Still self-hosted, still zero cost.
 
+**Current environment.** n8n 2.35.7 is already installed globally via npm on the development machine, with data in `~/.n8n/database.sqlite` and an encryption key already generated in `~/.n8n/config`. No install is needed; it is started with `scripts/start-n8n.ps1`.
+
 Required n8n environment variables:
 
-- `N8N_ENCRYPTION_KEY` — set explicitly, or all stored credentials break when the container is recreated
+- `N8N_ENCRYPTION_KEY` — **do not set on the development machine.** A key already exists in `~/.n8n/config`; overriding it with a different value renders every stored credential undecryptable. At Phase 10 the existing value is copied to the new host and set there explicitly, so that recreating the container does not break credentials.
 - `GENERIC_TIMEZONE=Asia/Karachi` and `TZ=Asia/Karachi` — or schedules fire at UTC
 - `NODE_FUNCTION_ALLOW_BUILTIN=dns,crypto,url`
 - `NODE_FUNCTION_ALLOW_EXTERNAL=libphonenumber-js,cheerio`
