@@ -81,6 +81,8 @@ Target cities: Lahore, Karachi, Islamabad/Rawalpindi, Faisalabad, Multan, Peshaw
 
 Target verticals: e-commerce and retail, healthcare and clinics, logistics and supply chain, real estate, professional services, agencies and consultancies, education and training, SaaS and tech startups.
 
+Note that `axiolyn.com` currently advertises only six of these — real estate and education/training are targeted but have no corresponding page on the site. Both are strong fits in Pakistan (property agencies run on WhatsApp and spreadsheets; academies on manual admissions and fee chasing), so the gap is on the website rather than in the targeting. Adding those two pages would let outreach link a prospect to a page that speaks to their sector.
+
 **Explicitly excluded:** LinkedIn. Aggressive anti-scraping, terms-of-service violation, and account-ban risk outweigh any value.
 
 #### International lane (added Phase 3)
