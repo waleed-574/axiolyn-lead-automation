@@ -12,6 +12,16 @@ Axiolyn sells three service lines — Business Management, Software Solutions, a
 
 Success means: the team opens a sheet each morning, sorted best-first, and spends its time calling rather than searching.
 
+### What Axiolyn actually sells
+
+Taken from `axiolyn.com/ai-automation.html`. The `service_fit` classification in WF3 maps each lead to one of these, so the list is authoritative rather than illustrative.
+
+**AI Automation:** chatbots and virtual assistants; workflow and task automation; document and data processing (forms, PDFs, invoices, emails); internal operations agents; customer support automation and ticket triage; sales and lead qualification; voice and messaging automation (WhatsApp, SMS, voice); analytics and insights; custom model integration.
+
+Positioning is "volume outpaces headcount" — automation absorbs repetitive, judgment-free work rather than replacing staff, with explicit escalation paths for uncertain cases. The call to action is a free consult. This phrasing should carry into the AI-generated openers in Phase 6.
+
+Note that **sales and lead qualification is itself one of the listed services**, so this pipeline doubles as a working demo of Axiolyn's own product. The Phase 10 dashboard is therefore a sales asset, not just internal reporting.
+
 ## 2. Constraints
 
 These are fixed and non-negotiable.
@@ -242,6 +252,14 @@ Pakistan-first targeting avoids GDPR and the EU consent regime entirely. The fol
 - Source sites' terms of service respected; rate limits honored.
 - A suppression list checked before every outreach action, and removal requests honored on request.
 - Outreach drafted by automation but sent by a human. Free Gmail caps at roughly 500 sends per day, and unattended bulk sending from the primary domain damages its sending reputation.
+
+### Sending identity (prerequisite for Phase 8)
+
+The public contact address on `axiolyn.com` is currently `axiolyn2026@gmail.com`. Cold outreach from a free Gmail address, sent by a company that owns its own domain, is both a credibility problem with SMB decision-makers and a deliverability problem — a `gmail.com` sender cannot carry SPF, DKIM, or DMARC for the brand.
+
+Zero-cost remedy, to be in place before Phase 8: Cloudflare Email Routing (free, unlimited addresses) forwards `hello@axiolyn.com` to the existing Gmail inbox, and Gmail's "Send mail as" allows replies to originate from the domain address. This yields a professional sending identity with proper DNS authentication at no cost.
+
+A free Cal.com booking link is also recommended, so outreach drives directly to the site's "book a free consult" call to action rather than into an email thread.
 
 When international targeting is added, EU and UK prospects move to a phone and LinkedIn lane rather than automated email, because Germany's UWG and the EU ePrivacy rules effectively require prior consent for B2B cold email.
 
