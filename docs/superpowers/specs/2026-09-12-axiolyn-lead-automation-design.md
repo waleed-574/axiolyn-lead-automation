@@ -12,15 +12,9 @@ Axiolyn sells three service lines — Business Management, Software Solutions, a
 
 Success means: the team opens a sheet each morning, sorted best-first, and spends its time calling rather than searching.
 
-### What Axiolyn actually sells
+### Scope boundary
 
-Taken from `axiolyn.com/ai-automation.html`. The `service_fit` classification in WF3 maps each lead to one of these, so the list is authoritative rather than illustrative.
-
-**AI Automation:** chatbots and virtual assistants; workflow and task automation; document and data processing (forms, PDFs, invoices, emails); internal operations agents; customer support automation and ticket triage; sales and lead qualification; voice and messaging automation (WhatsApp, SMS, voice); analytics and insights; custom model integration.
-
-Positioning is "volume outpaces headcount" — automation absorbs repetitive, judgment-free work rather than replacing staff, with explicit escalation paths for uncertain cases. The call to action is a free consult. This phrasing should carry into the AI-generated openers in Phase 6.
-
-Note that **sales and lead qualification is itself one of the listed services**, so this pipeline doubles as a working demo of Axiolyn's own product. The Phase 10 dashboard is therefore a sales asset, not just internal reporting.
+This project ends when a scored, deduplicated lead lands in the Google Sheet. Contacting prospects is done by the team, manually, outside this system. No outreach is automated, drafted, or sent.
 
 ## 2. Constraints
 
@@ -28,7 +22,7 @@ These are fixed and non-negotiable.
 
 | Constraint | Detail |
 |---|---|
-| Self-hosted n8n | Local Docker instance. No n8n Cloud subscription. |
+| Self-hosted n8n | Local instance (n8n 2.35.7 via global npm). No n8n Cloud subscription. |
 | Zero budget | No paid APIs, no paid tiers, no subscriptions. Free tiers and open tools only. |
 | Google Sheets storage | Team-facing lead database, via a personal Google account. |
 | Idempotent | Re-running any workflow must never create a duplicate row. |
@@ -43,7 +37,7 @@ These are fixed and non-negotiable.
 | Google auth | Service Account, not OAuth2 | OAuth apps left in "Testing" publishing status expire their refresh token every 7 days. A service account with the sheet shared to its address never expires. |
 | Filtering model | 0–100 score, not binary keep/drop | Turns the sheet from a list into a priority queue. The team calls the best 10, not the newest 10. |
 | Workflow structure | Four workflows, not one chain | Independently testable and debuggable. Re-running enrichment costs zero search quota. |
-| Primary outreach channel | Phone / WhatsApp, email secondary | Pakistani SMBs respond to WhatsApp far more reliably than to cold email. |
+| Primary contact channel | Phone / WhatsApp, email secondary | Pakistani SMBs respond to WhatsApp far more reliably than to cold email. This shapes which fields the pipeline works hardest to find, not any sending behaviour — the team contacts prospects manually. |
 | Throughput target | ~50 new qualified leads/week | Matches realistic follow-up capacity for a small team. Sets rate limits and query volume. |
 | AI provider | Ollama local, Gemini Flash free tier as fallback | Zero cost, no rate limit, fully private. Fallback if hardware is insufficient. |
 
@@ -81,7 +75,7 @@ Target cities: Lahore, Karachi, Islamabad/Rawalpindi, Faisalabad, Multan, Peshaw
 
 Target verticals: e-commerce and retail, healthcare and clinics, logistics and supply chain, real estate, professional services, agencies and consultancies, education and training, SaaS and tech startups.
 
-Note that `axiolyn.com` currently advertises only six of these — real estate and education/training are targeted but have no corresponding page on the site. Both are strong fits in Pakistan (property agencies run on WhatsApp and spreadsheets; academies on manual admissions and fee chasing), so the gap is on the website rather than in the targeting. Adding those two pages would let outreach link a prospect to a page that speaks to their sector.
+Real estate and education/training are included deliberately: in Pakistan both run on WhatsApp and spreadsheets — property agencies on manual lead chasing, academies on manual admissions and fee collection — which makes them strong automation prospects.
 
 **Explicitly excluded:** LinkedIn. Aggressive anti-scraping, terms-of-service violation, and account-ban risk outweigh any value.
 
@@ -97,9 +91,9 @@ Pakistan is the sequencing choice, not the scope. International sources run in t
 | SearXNG / CSE with region operators | Targeted | `site:.ae`, `site:.co.uk`, city + industry combos | Free |
 | OSM Overpass, other bounding boxes | UAE, Gulf, UK | Same tag queries, different geography | Free, no key |
 
-Recommended priority order for international: **UAE and Gulf** first (same time zone, large Pakistani-run business community, high budgets, no consent-law friction), then **US** (CAN-SPAM permits cold B2B email with a working opt-out), then **UK and EU** — which go to the phone and LinkedIn lane described in Section 10 rather than automated email.
+Recommended priority order for international: **UAE and Gulf** first (same time zone, large Pakistani-run business community, high budgets), then **US**, then **UK and EU**. Because the team contacts every prospect manually, this ordering reflects deal quality and reachability rather than any sending-compliance constraint.
 
-A `region` column drives both the outreach channel and the compliance lane, so this stays a routing decision in data rather than separate workflows.
+A `region` column records which contact channel suits each lead, so this stays a data attribute rather than separate workflows.
 
 ### WF2 — Enrichment
 
@@ -143,13 +137,6 @@ Daily Telegram or Discord message: count of new leads, the top three by score, a
 
 Without this stage a broken pipeline dies silently and nobody notices for a week.
 
-### WF5 — Outreach Assist (Phase 8, optional)
-
-A fifth workflow, built only after the core four are proven. It does not send anything.
-
-For each lead above a score threshold, it checks `_suppression`, then prepares an outreach package: a WhatsApp-ready phone link (`wa.me/<e164>`) and a pre-written opener for phone-first leads, or a Gmail **draft** for email-first leads. A human reviews and sends.
-
-This is separated from the core pipeline deliberately — discovery and enrichment are worth having even if outreach stays entirely manual.
 
 ## 5. Data Model
 
@@ -160,12 +147,12 @@ This is separated from the core pipeline deliberately — discovery and enrichme
 | `raw_candidates` | WF1 output queue |
 | `enriched` | WF2 output queue |
 | `_state` | Run cursor, query-index cursor, quota counters, dead-letter URLs |
-| `_suppression` | Do-not-contact list, checked before any outreach |
+| `_suppression` | Exclusion list — companies here are filtered out and never re-appear in `Leads` |
 | `_runlog` | Per-run metrics and errors |
 
 ### `Leads` columns
 
-`lead_id`, `company_name`, `website`, `normalized_domain`, `email`, `email_valid`, `phone_e164`, `whatsapp_ready`, `city`, `country`, `region`, `industry`, `service_fit`, `score`, `score_reasons`, `tech_detected`, `hiring_signal`, `source`, `date_found`, `last_seen`, `contact_status`, `ai_opener`, `notes`
+`lead_id`, `company_name`, `website`, `normalized_domain`, `email`, `email_valid`, `phone_e164`, `whatsapp_ready`, `city`, `country`, `region`, `industry`, `service_fit`, `score`, `score_reasons`, `tech_detected`, `hiring_signal`, `source`, `date_found`, `last_seen`, `contact_status`, `ai_summary`, `notes`
 
 ### `Leads_NoWeb` columns
 
@@ -200,7 +187,7 @@ Reading the whole tab once is deliberate: per-lead lookups would exceed the Shee
 | Sheets rate limit | Exponential backoff and retry |
 | CSE quota exhausted | Skip CSE for the day; `_state` records it; other sources continue |
 | SearXNG container down | Skip that source, log, continue |
-| Ollama unavailable | Skip AI enrichment; leads still written without `ai_opener` |
+| Ollama unavailable | Skip AI enrichment; leads still written without `ai_summary` |
 | Malformed source HTML | Extraction returns empty rather than throwing |
 
 Principle: no single source or single company may abort a run. Partial results are always better than none.
@@ -223,11 +210,10 @@ Principle: no single source or single company may abort a run. Partial results a
 | 3 | Discovery layer (WF1) | 100+ candidates per run from at least 3 independent sources, across both the Pakistan and international lanes |
 | 4 | Enrichment (WF2) | At least 50% of web candidates yield a verified email; no single site aborts a run |
 | 5 | Scoring (WF3) | Sheet sorted by score; the team agrees the top 10 are genuinely the best 10 |
-| 6 | AI layer | Openers reference something specific and verifiable about each company |
+| 6 | AI layer | Each lead carries an accurate one-line summary of what the company does and why it scored as it did |
 | 7 | Observability (WF4) | A broken run alerts within minutes instead of failing silently |
-| 8 | Outreach assist (WF5) | 10 leads reviewed and contacted in under 10 minutes, nothing sent without human review |
-| 9 | Tune and harden | Two consecutive clean runs; under 10% junk leads |
-| 10 | Go live | Runs unattended for 7 days on always-on hosting |
+| 8 | Tune and harden | Two consecutive clean runs; under 10% junk leads |
+| 9 | Go live | Runs unattended for 7 days on always-on hosting |
 
 Phase 2 is the confidence milestone and comes before any sophistication. Phases 3–5 are expected to be revised once real data from Phase 2 is visible; re-planning on observed data beats over-designing on assumptions.
 
@@ -252,18 +238,10 @@ Pakistan-first targeting avoids GDPR and the EU consent regime entirely. The fol
 
 - Public, business-facing contact information only. No personal addresses.
 - Source sites' terms of service respected; rate limits honored.
-- A suppression list checked before every outreach action, and removal requests honored on request.
-- Outreach drafted by automation but sent by a human. Free Gmail caps at roughly 500 sends per day, and unattended bulk sending from the primary domain damages its sending reputation.
+- An exclusion list, so any company asking not to be contacted is filtered out of future runs.
+- All contact is made manually by the team. This system sends nothing, so there is no bulk-sending or sender-reputation exposure.
 
-### Sending identity (prerequisite for Phase 8)
-
-The public contact address on `axiolyn.com` is currently `axiolyn2026@gmail.com`. Cold outreach from a free Gmail address, sent by a company that owns its own domain, is both a credibility problem with SMB decision-makers and a deliverability problem — a `gmail.com` sender cannot carry SPF, DKIM, or DMARC for the brand.
-
-Zero-cost remedy, to be in place before Phase 8: Cloudflare Email Routing (free, unlimited addresses) forwards `hello@axiolyn.com` to the existing Gmail inbox, and Gmail's "Send mail as" allows replies to originate from the domain address. This yields a professional sending identity with proper DNS authentication at no cost.
-
-A free Cal.com booking link is also recommended, so outreach drives directly to the site's "book a free consult" call to action rather than into an email thread.
-
-When international targeting is added, EU and UK prospects move to a phone and LinkedIn lane rather than automated email, because Germany's UWG and the EU ePrivacy rules effectively require prior consent for B2B cold email.
+When international targeting is added, note that EU and UK prospects sit under stricter rules — Germany's UWG and the EU ePrivacy regime effectively require prior consent for unsolicited B2B email. Since all contact here is manual, this is a matter for whoever writes the message, not a pipeline constraint. The `region` column exists so that distinction is visible in the sheet.
 
 ## 11. Out of Scope
 
@@ -271,5 +249,5 @@ Deliberately excluded to keep the first version shippable:
 
 - Postgres or SQLite as an internal store. Multi-tab Sheets suffices well past the current volume.
 - A web UI or custom CRM. The sheet is the interface.
-- Automated unattended email sending. Drafts only, human sends.
+- **All outreach automation.** No sending, no drafting, no message templates, no booking links. The team contacts prospects manually using the sheet. This is a deliberate scope boundary, not a deferral.
 - LinkedIn as a source, at any stage.
