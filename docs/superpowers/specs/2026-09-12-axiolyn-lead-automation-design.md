@@ -204,7 +204,7 @@ Principle: no single source or single company may abort a run. Partial results a
 
 | # | Phase | Exit criteria |
 |---|---|---|
-| 0 | Tooling and environment | n8n MCP connected; Docker n8n running with correct env vars; git repo tracking workflows |
+| 0 | Tooling and environment | n8n MCP connected; n8n running with correct env vars; git repo tracking workflows |
 | 1 | Foundations | Service Account authenticated; all 7 tabs created; n8n writes a test row |
 | 2 | Thin vertical slice | 20 real PK companies in the sheet from Overpass alone; a re-run appends zero duplicates |
 | 3 | Discovery layer (WF1) | 100+ candidates per run from at least 3 independent sources, across both the Pakistan and international lanes |
