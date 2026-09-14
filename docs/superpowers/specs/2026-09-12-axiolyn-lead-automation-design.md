@@ -36,6 +36,7 @@ These are fixed and non-negotiable.
 | No-website businesses | Separate track (`Leads_NoWeb`) | "No website in 2026" is a strong buy signal, not a disqualifier — but these leads need different scoring and a different pitch, so they get their own tab. |
 | Google auth | Service Account, not OAuth2 | OAuth apps left in "Testing" publishing status expire their refresh token every 7 days. A service account with the sheet shared to its address never expires. |
 | Filtering model | 0–100 score, not binary keep/drop | Turns the sheet from a list into a priority queue. The team calls the best 10, not the newest 10. |
+| Category coverage | Every business category | Discovery sweeps all commercial OSM tags and, later, all directory categories. The eight priority verticals raise a score; they never exclude a candidate. |
 | Workflow structure | Four workflows, not one chain | Independently testable and debuggable. Re-running enrichment costs zero search quota. |
 | Primary contact channel | Phone / WhatsApp, email secondary | Pakistani SMBs respond to WhatsApp far more reliably than to cold email. This shapes which fields the pipeline works hardest to find, not any sending behaviour — the team contacts prospects manually. |
 | Throughput target | ~50 new qualified leads/week | Matches realistic follow-up capacity for a small team. Sets rate limits and query volume. |
@@ -73,9 +74,13 @@ Gathers candidate companies from multiple independent free sources, normalizes t
 
 Target cities: Lahore, Karachi, Islamabad/Rawalpindi, Faisalabad, Multan, Peshawar.
 
-Target verticals: e-commerce and retail, healthcare and clinics, logistics and supply chain, real estate, professional services, agencies and consultancies, education and training, SaaS and tech startups.
+**Discovery targets every business category, without exception.** Queries sweep broadly — all `office:*`, `shop:*`, `craft:*`, commercial `amenity:*`, `healthcare:*`, `tourism:*` and `leisure:*` — rather than an enumerated allow-list. Any business running manual processes is a prospect, so a curated list would discard leads for no reason.
 
-Real estate and education/training are included deliberately: in Pakistan both run on WhatsApp and spreadsheets — property agencies on manual lead chasing, academies on manual admissions and fee collection — which makes them strong automation prospects.
+The eight verticals below are therefore a **scoring input, never a filter**: a match raises a lead's score, a non-match does not drop it.
+
+Priority verticals: e-commerce and retail, healthcare and clinics, logistics and supply chain, real estate, professional services, agencies and consultancies, education and training, SaaS and tech startups.
+
+Real estate and education/training earn their place: in Pakistan both run on WhatsApp and spreadsheets — property agencies on manual lead chasing, academies on manual admissions and fee collection.
 
 **Explicitly excluded:** LinkedIn. Aggressive anti-scraping, terms-of-service violation, and account-ban risk outweigh any value.
 
