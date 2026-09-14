@@ -20,10 +20,19 @@ const normalizerSource = fs
   .readFileSync(path.join(ROOT, 'workflows', 'src', 'normalize-overpass.js'), 'utf8')
   .replace(/module\.exports\s*=\s*\{[\s\S]*?\};\s*$/, '');
 
+/**
+ * Mirrors must serve the whole planet. overpass.osm.ch is deliberately absent:
+ * it is a Switzerland-only instance that answers Pakistani queries with HTTP
+ * 200 and zero elements in about a second. That is worse than an error — the
+ * run would look successful, append nothing, and log nothing.
+ *
+ * The "Got Data?" guard downstream catches this class of failure generally,
+ * for any mirror that returns an empty success.
+ */
 const MIRRORS = [
   'https://overpass.private.coffee/api/interpreter',
   'https://overpass-api.de/api/interpreter',
-  'https://overpass.osm.ch/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
 ];
 
 const sheetsCred = { googleApi: CRED };
@@ -188,6 +197,26 @@ const nodes = [
       ].join('\n'),
     },
   },
+  {
+    id: 'gotData',
+    name: 'Got Data?',
+    type: 'n8n-nodes-base.if',
+    typeVersion: 2.2,
+    position: [150, 0],
+    parameters: {
+      conditions: {
+        options: { caseSensitive: true, leftValue: '', typeValidation: 'loose', version: 2 },
+        conditions: [{
+          id: 'g1',
+          leftValue: '={{ $json.__empty }}',
+          rightValue: '',
+          operator: { type: 'boolean', operation: 'notTrue', singleValue: true },
+        }],
+        combinator: 'and',
+      },
+      options: {},
+    },
+  },
   readTab('readLeads', 'Read Leads', 'Leads', [260, -120]),
   readTab('readNoWeb', 'Read Leads_NoWeb', 'Leads_NoWeb', [260, 120]),
   {
@@ -341,6 +370,37 @@ const nodes = [
       ].join('\n'),
     },
   },
+  {
+    id: 'emptyResp',
+    name: 'Empty Response',
+    type: 'n8n-nodes-base.code',
+    typeVersion: 2,
+    position: [150, 560],
+    parameters: {
+      jsCode: [
+        '// A mirror answered 200 but the payload held no usable businesses.',
+        '// Region-limited mirrors do exactly this, and an unguarded run would',
+        '// report success having found nothing.',
+        "const cfg = $('Config').first().json;",
+        "const stats = ($input.first().json || {}).stats || {};",
+        '',
+        'return [{ json: {',
+        '  run_id: cfg.run_id,',
+        "  workflow: 'wf1-discovery-overpass',",
+        '  started_at: cfg.started_at,',
+        '  finished_at: new Date().toISOString(),',
+        '  candidates_found: String(stats.received || 0),',
+        "  new_leads: '0',",
+        "  errors: '1',",
+        '  notes: `EMPTY RESPONSE for ${cfg.source_query}. Received ` +',
+        '    `${stats.received || 0} elements, none usable. ` +',
+        '    `unnamed=${stats.unnamed || 0} noContact=${stats.noContact || 0} ` +',
+        '    `institutional=${stats.institutional || 0}. Check whether a mirror ` +',
+        '    `is region-limited.`,',
+        '} }];',
+      ].join('\n'),
+    },
+  },
   appendTab('appendFailLog', 'Log Failure', '_runlog', [260, 400]),
 ];
 
@@ -367,7 +427,16 @@ const connections = {
     ],
   },
   'All Mirrors Failed': { main: [[{ node: 'Log Failure', type: 'main', index: 0 }]] },
-  Normalize: { main: [[{ node: 'Read Leads', type: 'main', index: 0 }]] },
+  // A mirror that answers 200 with no elements would otherwise sail through as
+  // a successful run that found nothing. Route the empty case to the log.
+  Normalize: { main: [[{ node: 'Got Data?', type: 'main', index: 0 }]] },
+  'Got Data?': {
+    main: [
+      [{ node: 'Read Leads', type: 'main', index: 0 }],
+      [{ node: 'Empty Response', type: 'main', index: 0 }],
+    ],
+  },
+  'Empty Response': { main: [[{ node: 'Log Failure', type: 'main', index: 0 }]] },
   'Read Leads': { main: [[{ node: 'Read Leads_NoWeb', type: 'main', index: 0 }]] },
   'Read Leads_NoWeb': { main: [[{ node: 'Drop Already Known', type: 'main', index: 0 }]] },
   'Drop Already Known': { main: [[{ node: 'Has Website?', type: 'main', index: 0 }]] },

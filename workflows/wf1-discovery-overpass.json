@@ -135,7 +135,7 @@
       ],
       "parameters": {
         "method": "POST",
-        "url": "https://overpass.osm.ch/api/interpreter",
+        "url": "https://overpass.kumi.systems/api/interpreter",
         "sendBody": true,
         "contentType": "form-urlencoded",
         "bodyParameters": {
@@ -180,6 +180,40 @@
       ],
       "parameters": {
         "jsCode": "/**\n * Normalises a raw Overpass response into raw_candidates-shaped rows.\n *\n * This is the single source of truth for the logic. `scripts/build-code-node.js`\n * wraps it for the n8n Code node, and `scripts/test-normalize.js` exercises it\n * against the captured fixture — so the tested code and the deployed code\n * cannot drift apart.\n *\n * Dependency-free apart from crypto, because n8n Code nodes cannot import\n * project files.\n */\nconst crypto = require('crypto');\n\n// --- helpers ---------------------------------------------------------------\n\n/** Overpass spreads contact details across several tag spellings. */\nfunction pick(tags, ...keys) {\n  for (const k of keys) {\n    const v = tags[k];\n    if (v && String(v).trim()) return String(v).trim();\n  }\n  return '';\n}\n\n/**\n * Link shorteners and social profiles are not a company's own site. Hashing one\n * as identity would collapse every business behind the same shortener into a\n * single deduplicated lead, silently discarding real prospects.\n */\nconst NOT_A_HOMEPAGE = new Set([\n  'share.google', 'goo.gl', 'g.page', 'maps.app.goo.gl', 'google.com',\n  'sites.google.com', 'business.site', 'bit.ly', 'tinyurl.com', 'linktr.ee',\n  'facebook.com', 'm.facebook.com', 'fb.me', 'fb.com', 'instagram.com',\n  'twitter.com', 'x.com', 'linkedin.com', 'youtube.com', 'youtu.be',\n  'wa.me', 'api.whatsapp.com', 'chat.whatsapp.com', 'tiktok.com',\n]);\n\n/** Strip protocol, www, port, path and query; lowercase. */\nfunction normalizeDomain(url) {\n  if (!url) return '';\n  let s = String(url).trim().toLowerCase();\n  s = s.replace(/^https?:\\/\\//, '').replace(/^www\\./, '');\n  s = s.split('/')[0].split('?')[0].split('#')[0].split(':')[0];\n  if (!/^[a-z0-9.-]+\\.[a-z]{2,}$/.test(s)) return '';\n  return NOT_A_HOMEPAGE.has(s) ? '' : s;\n}\n\n/**\n * Pakistani phone numbers to E.164, or '' when the input cannot be trusted.\n * Landlines are 9 digits after the country code, mobiles 10.\n */\nfunction toE164PK(raw) {\n  if (!raw) return '';\n  let s = String(raw).split(/[;,/]|\\bor\\b/i)[0]; // tags often hold several numbers\n  s = s.replace(/\\(0\\)/g, '').replace(/[^\\d+]/g, '');\n  if (!s) return '';\n\n  if (s.startsWith('+92')) s = s;\n  else if (s.startsWith('0092')) s = '+92' + s.slice(4);\n  else if (s.startsWith('92') && s.length >= 11) s = '+92' + s.slice(2);\n  else if (s.startsWith('0')) s = '+92' + s.slice(1);\n  else if (/^\\d{9,10}$/.test(s)) s = '+92' + s;\n  else return '';\n\n  return /^\\+92\\d{9,10}$/.test(s) ? s : '';\n}\n\n/** PK mobiles are +923XXXXXXXXX — the numbers reachable on WhatsApp. */\nfunction isMobilePK(e164) {\n  return /^\\+923\\d{9}$/.test(e164);\n}\n\n/** Collapse punctuation and company suffixes so name variants match. */\nfunction normalizeName(name) {\n  return String(name || '')\n    .toLowerCase()\n    .replace(/[^\\w\\s]/g, ' ')\n    .replace(/\\b(pvt|private|ltd|limited|co|company|inc|llc|and|the)\\b/g, ' ')\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nfunction sha1(s) {\n  return crypto.createHash('sha1').update(s).digest('hex');\n}\n\nfunction categoryOf(tags) {\n  if (tags.office) return 'office:' + tags.office;\n  if (tags.shop) return 'shop:' + tags.shop;\n  if (tags.healthcare) return 'healthcare:' + tags.healthcare;\n  if (tags.amenity) return 'amenity:' + tags.amenity;\n  if (tags.craft) return 'craft:' + tags.craft;\n  return 'other';\n}\n\nfunction addressOf(tags) {\n  return [\n    pick(tags, 'addr:housenumber'),\n    pick(tags, 'addr:street'),\n    pick(tags, 'addr:suburb', 'addr:neighbourhood'),\n    pick(tags, 'addr:city'),\n  ].filter(Boolean).join(', ');\n}\n\n/**\n * Institutions and government facilities are not prospects for an automation\n * agency — they do not buy this way. Filtering them here keeps the sheet\n * honest rather than padding the count.\n */\nconst INSTITUTIONAL = /\\b(combined military|cmh|army|navy|air force|government|govt|district headquarters|dhq|thq|tehsil|punjab government|social security|railway|police|jail|prison|university|college of|medical college|public school)\\b/i;\n\n// --- main ------------------------------------------------------------------\n\n/**\n * @param {Array}  elements  Overpass `elements` array\n * @param {Object} opts      { city, sourceQuery, now }\n * @returns {{rows: Array, stats: Object}}\n */\nfunction normalizeOverpass(elements, opts) {\n  const city = (opts && opts.city) || '';\n  const sourceQuery = (opts && opts.sourceQuery) || 'overpass';\n  const now = (opts && opts.now) || new Date().toISOString();\n\n  const stats = {\n    received: elements.length,\n    unnamed: 0,\n    institutional: 0,\n    noContact: 0,\n    dupInRun: 0,\n    web: 0,\n    noWeb: 0,\n  };\n\n  const rows = [];\n  const seen = new Set();\n\n  for (const el of elements) {\n    const tags = el.tags || {};\n    const name = pick(tags, 'name:en', 'name');\n    if (!name) { stats.unnamed++; continue; }\n\n    if (INSTITUTIONAL.test(name)) { stats.institutional++; continue; }\n\n    const rawPhone = pick(tags, 'phone', 'contact:phone', 'contact:mobile', 'mobile');\n    const rawSite = pick(tags, 'website', 'contact:website', 'url');\n\n    const phone = toE164PK(rawPhone);\n    const domain = normalizeDomain(rawSite);\n\n    // No reachable channel is not a lead.\n    if (!phone && !domain) { stats.noContact++; continue; }\n\n    // Domain is the stronger identity; otherwise name + city + phone.\n    const lead_id = domain\n      ? sha1(domain)\n      : sha1([normalizeName(name), city.toLowerCase(), phone].join('|'));\n\n    if (seen.has(lead_id)) { stats.dupInRun++; continue; }\n    seen.add(lead_id);\n\n    const hasWebsite = Boolean(domain);\n    if (hasWebsite) stats.web++; else stats.noWeb++;\n\n    rows.push({\n      candidate_id: lead_id,\n      lead_id,\n      company_name: name,\n      website: domain ? 'https://' + domain : '',\n      normalized_domain: domain,\n      phone_raw: rawPhone,\n      phone_e164: phone,\n      whatsapp_ready: phone ? isMobilePK(phone) : false,\n      address: addressOf(tags),\n      city,\n      country: 'Pakistan',\n      region: 'PK',\n      category: categoryOf(tags),\n      source: 'osm_overpass',\n      source_query: sourceQuery,\n      discovered_at: now,\n      status: 'new',\n      has_website: hasWebsite,\n    });\n  }\n\n  return { rows, stats };\n}\n\n\n\n// --- n8n wrapper ---\nconst payload = $input.first().json;\nconst elements = payload.elements || [];\nconst cfg = $('Config').first().json;\n\nconst { rows, stats } = normalizeOverpass(elements, {\n  city: cfg.city,\n  sourceQuery: cfg.source_query,\n});\n\nif (!rows.length) {\n  return [{ json: { __empty: true, stats } }];\n}\nreturn rows.map(r => ({ json: Object.assign({}, r, { __stats: stats }) }));"
+      }
+    },
+    {
+      "id": "gotData",
+      "name": "Got Data?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        150,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "g1",
+              "leftValue": "={{ $json.__empty }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "notTrue",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
       }
     },
     {
@@ -421,6 +455,19 @@
       }
     },
     {
+      "id": "emptyResp",
+      "name": "Empty Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        150,
+        560
+      ],
+      "parameters": {
+        "jsCode": "// A mirror answered 200 but the payload held no usable businesses.\n// Region-limited mirrors do exactly this, and an unguarded run would\n// report success having found nothing.\nconst cfg = $('Config').first().json;\nconst stats = ($input.first().json || {}).stats || {};\n\nreturn [{ json: {\n  run_id: cfg.run_id,\n  workflow: 'wf1-discovery-overpass',\n  started_at: cfg.started_at,\n  finished_at: new Date().toISOString(),\n  candidates_found: String(stats.received || 0),\n  new_leads: '0',\n  errors: '1',\n  notes: `EMPTY RESPONSE for ${cfg.source_query}. Received ` +\n    `${stats.received || 0} elements, none usable. ` +\n    `unnamed=${stats.unnamed || 0} noContact=${stats.noContact || 0} ` +\n    `institutional=${stats.institutional || 0}. Check whether a mirror ` +\n    `is region-limited.`,\n} }];"
+      }
+    },
+    {
       "id": "appendFailLog",
       "name": "Log Failure",
       "type": "n8n-nodes-base.googleSheets",
@@ -554,7 +601,36 @@
       "main": [
         [
           {
+            "node": "Got Data?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Got Data?": {
+      "main": [
+        [
+          {
             "node": "Read Leads",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Empty Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Empty Response": {
+      "main": [
+        [
+          {
+            "node": "Log Failure",
             "type": "main",
             "index": 0
           }
