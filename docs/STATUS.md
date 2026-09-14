@@ -10,10 +10,11 @@
 No manual setup left. Phase 2 builds WF1's first source end to end:
 
 1. OSM Overpass query for one vertical in one city (clinics in Lahore)
-2. Normalise results to the  schema
+2. Normalise results to the `raw_candidates` schema
 3. Split web-bearing from no-website businesses
-4. Deduplicate on  against what is already in the sheet
-5. Batch-append to  and 
+4. Deduplicate on `lead_id` against what is already in the sheet
+5. Batch-append to `Leads` and `Leads_NoWeb`
+
 **Exit criteria:** 20 real Pakistani companies in the sheet, and a second run
 that appends exactly zero rows.
 
