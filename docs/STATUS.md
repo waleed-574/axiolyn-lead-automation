@@ -1,26 +1,40 @@
 # Project Status — resume here
 
-**Last updated:** 2026-09-14
-**Current phase:** Phases 0 and 1 complete. Phase 2 is next and needs nothing from Waleed.
+**Last updated:** 2026-09-14, end of session
+**Current phase:** Phases 0, 1 and 2 complete. Phase 3 in progress.
 
 ---
 
-## ⏭️ NEXT ACTION — Phase 2, the thin vertical slice
+## ⏭️ NEXT ACTION — wire the cursor into WF1
 
-No manual setup left. Phase 2 builds WF1's first source end to end:
+Everything needed is already written and tested. The remaining work is plumbing,
+and needs nothing from Waleed beyond starting n8n.
 
-1. OSM Overpass query for one vertical in one city (clinics in Lahore)
-2. Normalise results to the `raw_candidates` schema
-3. Split web-bearing from no-website businesses
-4. Deduplicate on `lead_id` against what is already in the sheet
-5. Batch-append to `Leads` and `Leads_NoWeb`
+`workflows/src/targets.js` defines the full sweep — 9 cities x 14 category
+groups = **126 combinations** covering every commercial OSM tag. It is written
+and unit-checked, but **WF1 does not use it yet**: the Config node still holds
+the hardcoded Lahore-healthcare query from Phase 2.
 
-**Exit criteria:** 20 real Pakistani companies in the sheet, and a second run
-that appends exactly zero rows.
+To finish:
 
-Overpass is first because it is keyless, free, and returns name, website, phone
-and address already structured — no scraping and no parsing fragility to debug
-while the rest of the pipeline is still unproven.
+1. Add a `Read _state` node (Sheets read, `executeOnce`) before Config
+2. Config reads `wf1_cursor`, calls `atCursor(n)`, emits that combination's query
+3. After the appends, write `wf1_cursor = nextCursor` back to `_state`
+   (Sheets appendOrUpdate, matching on the `key` column)
+4. Change the schedule from daily 5am to **hourly**
+
+Hourly matters: at one combination per run, a daily schedule needs 126 days for
+a full sweep. Hourly completes it in about five days, keeps each query small
+enough that Overpass answers, stays polite at 24 queries a day, and gives more
+chances to run while the laptop happens to be awake.
+
+### Then verify
+
+- Run twice; the second run must use the *next* combination, not repeat the first
+- Confirm `_state` holds the advanced cursor
+- Confirm new cities and categories produce rows in both tabs
+
+---
 
 ## Before doing anything else in a new session
 
@@ -31,7 +45,76 @@ cd "C:\Users\Muhammad Waleed\Desktop\Axiolyn Lead Automation"
 powershell -ExecutionPolicy Bypass -File .\scripts\start-n8n.ps1
 ```
 
-Leave that window open. Then verify with `n8n_health_check` — expect `status: ok`.
+Leave that window open. Then verify with `n8n_health_check` — expect
+`status: ok` and `officialMcp.reachable: true`.
+
+**No workflow is active.** Nothing runs on a schedule yet, so the machine can be
+shut down freely. Activation is deliberately deferred until the cursor works and
+the hosting question (Phase 9) is settled — a Schedule Trigger only fires while
+the machine is awake.
+
+---
+
+## ✅ Phase 2 — done (2026-09-14)
+
+| Exit criterion | Target | Result |
+|---|---|---|
+| Real Pakistani companies in the sheet | 20 | **40** |
+| Re-run appends duplicates | 0 | **0**, proven with fixed input |
+
+40 real Lahore businesses: 14 with websites in `Leads`, 26 phone-first in
+`Leads_NoWeb`. Every `lead_id` unique, every phone valid E.164.
+
+### Four bugs found by running against real data
+
+| Bug | Consequence | Fix |
+|---|---|---|
+| Sheets read nodes ran once **per input item** | 39 candidates became 546 then 13,650 items — hundreds of API calls, certain rate-limit failure at scale | `executeOnce: true` |
+| `alwaysOutputData` on the dedup node | Emitted a placeholder `{}` when nothing was new, which reached the appenders as a blank row | Removed it; zero items now stops the branch |
+| `cellFormat: USER_ENTERED` (the default) | Sheets parsed `+923001234567` as arithmetic and stored `923001234567`, destroying the `+` | `cellFormat: 'RAW'`; `scripts/repair-phones.js` fixed the 33 existing rows |
+| `overpass.osm.ch` in the mirror list | Switzerland-only instance: answers Pakistani queries with HTTP 200 and **zero elements** in ~1s. The run would look successful, append nothing, log nothing | Mirror dropped; added a `Got Data?` branch that logs any empty success from any mirror |
+
+That last one is the dangerous class of bug — a silent zero is indistinguishable
+from "no new businesses today", and would have gone unnoticed indefinitely.
+
+### Verified working
+
+- **Mirror failover in production** — on one run `Overpass 1` failed and
+  `Overpass 2` completed the run
+- **Idempotency**, proven properly: running the workflow twice could not prove it
+  (different mirrors returned 39 vs 40 businesses), so
+  `scripts/test-idempotency.js` holds the input fixed and checks against live
+  sheet state instead
+
+---
+
+## What Overpass actually delivers
+
+Measured, not assumed. The spec originally called it the primary source on the
+assumption it returns structured contact data. It does not.
+
+| Measure | Value |
+|---|---|
+| Elements returned for Lahore healthcare | 393 |
+| With a name | 378 |
+| **With a phone** | **31 (8%)** |
+| **With a website** | **12 (3%)** |
+| Usable after filtering | 37–40 |
+| Response time | 60–200s, when it responds at all |
+| Success rate during testing | roughly 1 in 3 |
+
+**Implication:** Overpass is a supporting source feeding the phone-first track.
+It will not supply the web track that Phases 4–6 depend on — contact-page
+crawling, tech fingerprinting and CRM-absence scoring all need companies with
+websites, and an entire city's healthcare sector yielded 14.
+
+Queries now filter server-side for entries that already carry a phone or
+website, which cuts the wasted 90% out of the payload.
+
+**Still needed: a source that finds websites at volume.** SearXNG self-hosted is
+the leading candidate. Of the Pakistani directories tried, `businesslist.pk`
+404'd, `yellowpages.com.pk` and `findpk.com` failed to connect, and `pakbiz.com`
+returned an index page with no contact data. Real research needed, not guesswork.
 
 ---
 
@@ -40,60 +123,52 @@ Leave that window open. Then verify with `n8n_health_check` — expect `status: 
 | Item | State |
 |---|---|
 | n8n | 2.35.7, global npm, `http://127.0.0.1:5678` |
-| n8n account | Recreated (old password was lost; no SMTP, so CLI reset was the only route) |
-| API key | Created and verified — 200 with key, 401 without |
-| n8n-mcp 2.84.4 | Installed globally, connected, `status: ok` |
-| Instance contents | 0 workflows, 0 credentials — clean slate |
-| Git repo | Initialised, spec + setup docs + launcher committed |
+| n8n-mcp 2.84.4 | Connected; instance-level MCP reachable, 34 tools |
+| Google service account | `n8n-leads@n8n-resumed.iam.gserviceaccount.com`, project `n8n-resumed` |
+| n8n credential | `Axiolyn Google Sheets (Service Account)`, id `mx8TrhfzPvlkUeIJ` |
+| Spreadsheet | "Axiolyn Leads", 7 tabs, headers verified column-by-column |
+| WF1 | id `rmXgrxre45gPsY3w`, 18 nodes, inactive |
 
-Three problems solved along the way, all written up in `docs/SETUP.md`:
-`npx` first-run timeout, the `WEBHOOK_SECURITY_MODE` localhost block, and the
-no-SMTP password recovery path.
+Setup gotchas are in `docs/SETUP.md` — the `WEBHOOK_SECURITY_MODE` localhost
+block, the encryption-key hazard, the npx timeout, the no-SMTP recovery path,
+and the instance-MCP API-key tab.
 
 ---
 
-## Decisions locked so far
+## Decisions locked
 
 | Decision | Choice |
 |---|---|
 | Target market | Pakistan first; international is a Phase 3 lane, not excluded |
-| Industries | All 8 from the brief, including real estate and education |
+| **Category coverage** | **Every business category.** The eight verticals raise a score; they never filter a candidate out |
 | No-website businesses | Separate `Leads_NoWeb` track, phone-first |
-| Google auth | Service Account (never expires) rather than OAuth2 |
+| Google auth | Service Account (never expires) |
 | Filtering | 0–100 score, not binary keep/drop |
 | Architecture | Four workflows joined by Sheet tabs as queues |
-| **Scope** | **Leads into the sheet only. All outreach is manual — no sending, drafting, or templates.** |
+| Scope | Leads into the sheet only. All contact is manual |
 | Throughput target | ~50 qualified leads/week |
 
 Full reasoning in `docs/superpowers/specs/2026-09-12-axiolyn-lead-automation-design.md`.
 
 ---
 
-## Open items for later
+## Repo map
 
-- **Ollama (Phase 6)** — check available RAM. 8 GB+ free means a local model; otherwise Gemini Flash free tier.
-- **Hosting (Phase 9)** — a Schedule Trigger only fires while the laptop is awake. Oracle Cloud Always Free is the recommended target.
-- **API key hygiene** — the n8n API key was pasted into the session transcript. Fine for local dev, but revoke and reissue before sharing or exporting that transcript.
+| Path | Purpose |
+|---|---|
+| `workflows/src/normalize-overpass.js` | Single source of truth for the transform; shared by the tests and the n8n Code node |
+| `workflows/src/targets.js` | The 126-combination sweep — cities, categories, query builder, cursor |
+| `scripts/build-wf1.js` | Generates the workflow JSON from those sources |
+| `scripts/test-normalize.js` | 31 checks against the captured fixture, offline |
+| `scripts/test-idempotency.js` | Proves dedup against live sheet state |
+| `scripts/setup-sheet.js` | Recreates all 7 tabs and headers; safe to re-run |
+| `scripts/repair-phones.js` | Restores `+` prefixes lost to USER_ENTERED |
+| `fixtures/overpass-lahore-healthcare.json` | Real 103KB Overpass response, so the transform can be tested without the network |
 
 ---
 
-## ✅ Phase 1 — done (2026-09-14)
+## Open items
 
-| Item | State |
-|---|---|
-| Google Cloud project | `n8n-resumed` (an existing project — the account had hit its project-creation limit) |
-| Service account | `n8n-leads@n8n-resumed.iam.gserviceaccount.com` |
-| Sheets API | Enabled, verified by minting a token and calling the API directly |
-| Key file | `credentials/n8n-resumed-93ee2bf3f267.json` (gitignored) |
-| n8n credential | `Axiolyn Google Sheets (Service Account)`, id `mx8TrhfzPvlkUeIJ` |
-| Spreadsheet | "Axiolyn Leads", shared with the service account as Editor |
-| Tabs | All 7 created with spec headers, frozen and bolded; verified column-by-column |
-| End-to-end write | n8n appended a row to `_runlog`, confirmed by reading the sheet back independently |
-
-Timestamps came back as `+05:00`, confirming `GENERIC_TIMEZONE=Asia/Karachi`
-is applying — scheduled runs will fire at Pakistan time rather than UTC.
-
-The sheet is reproducible: `node scripts/setup-sheet.js <key.json> <spreadsheetId>`
-recreates every tab and header, and is safe to re-run (it never touches data rows).
-
-Identifiers live in `config.json`; secrets stay in `credentials/`.
+- **Ollama (Phase 6)** — check free RAM. 8 GB+ means a local model; otherwise Gemini Flash free tier.
+- **Hosting (Phase 9)** — a Schedule Trigger only fires while the machine is awake, which is why nothing is activated yet. Oracle Cloud Always Free is the recommended target.
+- **Secret hygiene** — the n8n API key, the instance-MCP token and the service account key all exist locally. Fine for local dev; rotate before sharing any transcript.
