@@ -1,0 +1,645 @@
+{
+  "name": "WF1 Discovery — Overpass (Pakistan)",
+  "nodes": [
+    {
+      "id": "sched",
+      "name": "Schedule 5am PKT",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 5 * * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cfg",
+      "name": "Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -420,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// One small query per run. Big multi-category queries get 504d by the\n// public Overpass instances, and a failure would cost the whole run.\nconst CITY = { name: 'Lahore', bbox: '31.35,74.15,31.65,74.50' };\nconst AMENITIES = 'clinic|doctors|dentist|hospital|pharmacy';\n\nconst query = `[out:json][timeout:90];\n(\n  node[\"amenity\"~\"^(${AMENITIES})$\"](${CITY.bbox});\n  way[\"amenity\"~\"^(${AMENITIES})$\"](${CITY.bbox});\n);\nout tags center 400;`;\n\nreturn [{ json: {\n  city: CITY.name,\n  bbox: CITY.bbox,\n  overpass_query: query,\n  source_query: `amenity=${AMENITIES} @ ${CITY.name}`,\n  run_id: String(Date.now()),\n  started_at: new Date().toISOString(),\n} }];"
+      }
+    },
+    {
+      "id": "mirror0",
+      "name": "Overpass 1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://overpass.private.coffee/api/interpreter",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "={{ $json.overpass_query }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "AxiolynLeadBot/1.0 (business research; contact via axiolyn.com)"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000,
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "onError": "continueErrorOutput",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "mirror1",
+      "name": "Overpass 2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://overpass-api.de/api/interpreter",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "={{ $json.overpass_query }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "AxiolynLeadBot/1.0 (business research; contact via axiolyn.com)"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000,
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "onError": "continueErrorOutput",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "mirror2",
+      "name": "Overpass 3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        400
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://overpass.osm.ch/api/interpreter",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "={{ $json.overpass_query }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "AxiolynLeadBot/1.0 (business research; contact via axiolyn.com)"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000,
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "onError": "continueErrorOutput",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "norm",
+      "name": "Normalize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        40,
+        0
+      ],
+      "parameters": {
+        "jsCode": "/**\n * Normalises a raw Overpass response into raw_candidates-shaped rows.\n *\n * This is the single source of truth for the logic. `scripts/build-code-node.js`\n * wraps it for the n8n Code node, and `scripts/test-normalize.js` exercises it\n * against the captured fixture — so the tested code and the deployed code\n * cannot drift apart.\n *\n * Dependency-free apart from crypto, because n8n Code nodes cannot import\n * project files.\n */\nconst crypto = require('crypto');\n\n// --- helpers ---------------------------------------------------------------\n\n/** Overpass spreads contact details across several tag spellings. */\nfunction pick(tags, ...keys) {\n  for (const k of keys) {\n    const v = tags[k];\n    if (v && String(v).trim()) return String(v).trim();\n  }\n  return '';\n}\n\n/**\n * Link shorteners and social profiles are not a company's own site. Hashing one\n * as identity would collapse every business behind the same shortener into a\n * single deduplicated lead, silently discarding real prospects.\n */\nconst NOT_A_HOMEPAGE = new Set([\n  'share.google', 'goo.gl', 'g.page', 'maps.app.goo.gl', 'google.com',\n  'sites.google.com', 'business.site', 'bit.ly', 'tinyurl.com', 'linktr.ee',\n  'facebook.com', 'm.facebook.com', 'fb.me', 'fb.com', 'instagram.com',\n  'twitter.com', 'x.com', 'linkedin.com', 'youtube.com', 'youtu.be',\n  'wa.me', 'api.whatsapp.com', 'chat.whatsapp.com', 'tiktok.com',\n]);\n\n/** Strip protocol, www, port, path and query; lowercase. */\nfunction normalizeDomain(url) {\n  if (!url) return '';\n  let s = String(url).trim().toLowerCase();\n  s = s.replace(/^https?:\\/\\//, '').replace(/^www\\./, '');\n  s = s.split('/')[0].split('?')[0].split('#')[0].split(':')[0];\n  if (!/^[a-z0-9.-]+\\.[a-z]{2,}$/.test(s)) return '';\n  return NOT_A_HOMEPAGE.has(s) ? '' : s;\n}\n\n/**\n * Pakistani phone numbers to E.164, or '' when the input cannot be trusted.\n * Landlines are 9 digits after the country code, mobiles 10.\n */\nfunction toE164PK(raw) {\n  if (!raw) return '';\n  let s = String(raw).split(/[;,/]|\\bor\\b/i)[0]; // tags often hold several numbers\n  s = s.replace(/\\(0\\)/g, '').replace(/[^\\d+]/g, '');\n  if (!s) return '';\n\n  if (s.startsWith('+92')) s = s;\n  else if (s.startsWith('0092')) s = '+92' + s.slice(4);\n  else if (s.startsWith('92') && s.length >= 11) s = '+92' + s.slice(2);\n  else if (s.startsWith('0')) s = '+92' + s.slice(1);\n  else if (/^\\d{9,10}$/.test(s)) s = '+92' + s;\n  else return '';\n\n  return /^\\+92\\d{9,10}$/.test(s) ? s : '';\n}\n\n/** PK mobiles are +923XXXXXXXXX — the numbers reachable on WhatsApp. */\nfunction isMobilePK(e164) {\n  return /^\\+923\\d{9}$/.test(e164);\n}\n\n/** Collapse punctuation and company suffixes so name variants match. */\nfunction normalizeName(name) {\n  return String(name || '')\n    .toLowerCase()\n    .replace(/[^\\w\\s]/g, ' ')\n    .replace(/\\b(pvt|private|ltd|limited|co|company|inc|llc|and|the)\\b/g, ' ')\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nfunction sha1(s) {\n  return crypto.createHash('sha1').update(s).digest('hex');\n}\n\nfunction categoryOf(tags) {\n  if (tags.office) return 'office:' + tags.office;\n  if (tags.shop) return 'shop:' + tags.shop;\n  if (tags.healthcare) return 'healthcare:' + tags.healthcare;\n  if (tags.amenity) return 'amenity:' + tags.amenity;\n  if (tags.craft) return 'craft:' + tags.craft;\n  return 'other';\n}\n\nfunction addressOf(tags) {\n  return [\n    pick(tags, 'addr:housenumber'),\n    pick(tags, 'addr:street'),\n    pick(tags, 'addr:suburb', 'addr:neighbourhood'),\n    pick(tags, 'addr:city'),\n  ].filter(Boolean).join(', ');\n}\n\n/**\n * Institutions and government facilities are not prospects for an automation\n * agency — they do not buy this way. Filtering them here keeps the sheet\n * honest rather than padding the count.\n */\nconst INSTITUTIONAL = /\\b(combined military|cmh|army|navy|air force|government|govt|district headquarters|dhq|thq|tehsil|punjab government|social security|railway|police|jail|prison|university|college of|medical college|public school)\\b/i;\n\n// --- main ------------------------------------------------------------------\n\n/**\n * @param {Array}  elements  Overpass `elements` array\n * @param {Object} opts      { city, sourceQuery, now }\n * @returns {{rows: Array, stats: Object}}\n */\nfunction normalizeOverpass(elements, opts) {\n  const city = (opts && opts.city) || '';\n  const sourceQuery = (opts && opts.sourceQuery) || 'overpass';\n  const now = (opts && opts.now) || new Date().toISOString();\n\n  const stats = {\n    received: elements.length,\n    unnamed: 0,\n    institutional: 0,\n    noContact: 0,\n    dupInRun: 0,\n    web: 0,\n    noWeb: 0,\n  };\n\n  const rows = [];\n  const seen = new Set();\n\n  for (const el of elements) {\n    const tags = el.tags || {};\n    const name = pick(tags, 'name:en', 'name');\n    if (!name) { stats.unnamed++; continue; }\n\n    if (INSTITUTIONAL.test(name)) { stats.institutional++; continue; }\n\n    const rawPhone = pick(tags, 'phone', 'contact:phone', 'contact:mobile', 'mobile');\n    const rawSite = pick(tags, 'website', 'contact:website', 'url');\n\n    const phone = toE164PK(rawPhone);\n    const domain = normalizeDomain(rawSite);\n\n    // No reachable channel is not a lead.\n    if (!phone && !domain) { stats.noContact++; continue; }\n\n    // Domain is the stronger identity; otherwise name + city + phone.\n    const lead_id = domain\n      ? sha1(domain)\n      : sha1([normalizeName(name), city.toLowerCase(), phone].join('|'));\n\n    if (seen.has(lead_id)) { stats.dupInRun++; continue; }\n    seen.add(lead_id);\n\n    const hasWebsite = Boolean(domain);\n    if (hasWebsite) stats.web++; else stats.noWeb++;\n\n    rows.push({\n      candidate_id: lead_id,\n      lead_id,\n      company_name: name,\n      website: domain ? 'https://' + domain : '',\n      normalized_domain: domain,\n      phone_raw: rawPhone,\n      phone_e164: phone,\n      whatsapp_ready: phone ? isMobilePK(phone) : false,\n      address: addressOf(tags),\n      city,\n      country: 'Pakistan',\n      region: 'PK',\n      category: categoryOf(tags),\n      source: 'osm_overpass',\n      source_query: sourceQuery,\n      discovered_at: now,\n      status: 'new',\n      has_website: hasWebsite,\n    });\n  }\n\n  return { rows, stats };\n}\n\n\n\n// --- n8n wrapper ---\nconst payload = $input.first().json;\nconst elements = payload.elements || [];\nconst cfg = $('Config').first().json;\n\nconst { rows, stats } = normalizeOverpass(elements, {\n  city: cfg.city,\n  sourceQuery: cfg.source_query,\n});\n\nif (!rows.length) {\n  return [{ json: { __empty: true, stats } }];\n}\nreturn rows.map(r => ({ json: Object.assign({}, r, { __stats: stats }) }));"
+      }
+    },
+    {
+      "id": "readLeads",
+      "name": "Read Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        260,
+        -120
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "readNoWeb",
+      "name": "Read Leads_NoWeb",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        260,
+        120
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads_NoWeb"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "dedup",
+      "name": "Drop Already Known",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Read both tabs once into a Set. Per-lead lookups would blow through\n// the Sheets read quota (~60 req/min) the moment volume grows.\nconst known = new Set();\nfor (const nodeName of ['Read Leads', 'Read Leads_NoWeb']) {\n  let items = [];\n  try { items = $(nodeName).all(); } catch (e) { items = []; }\n  for (const it of items) {\n    const id = it.json && it.json.lead_id;\n    if (id) known.add(String(id).trim());\n  }\n}\n\nconst candidates = $('Normalize').all()\n  .map(i => i.json)\n  .filter(j => !j.__empty);\n\nconst fresh = candidates.filter(c => !known.has(c.lead_id));\n\nreturn fresh.map(c => ({ json: c }));"
+      }
+    },
+    {
+      "id": "split",
+      "name": "Has Website?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        700,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.has_website }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "shapeWeb",
+      "name": "Shape Leads Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        920,
+        -120
+      ],
+      "parameters": {
+        "jsCode": "// Emit exactly the Leads header order. Columns not yet known at\n// discovery time are written empty rather than omitted, so the row\n// shape always matches the sheet.\nreturn $input.all().map(({ json: j }) => ({ json: {\n  lead_id: j.lead_id,\n  company_name: j.company_name,\n  website: j.website,\n  normalized_domain: j.normalized_domain,\n  email: '',\n  email_valid: '',\n  phone_e164: j.phone_e164,\n  whatsapp_ready: j.whatsapp_ready,\n  city: j.city,\n  country: j.country,\n  region: j.region,\n  industry: j.category,\n  service_fit: '',\n  score: '',\n  score_reasons: '',\n  tech_detected: '',\n  hiring_signal: '',\n  source: j.source,\n  date_found: j.discovered_at,\n  last_seen: j.discovered_at,\n  contact_status: '',\n  ai_summary: '',\n  notes: j.address,\n} }));"
+      }
+    },
+    {
+      "id": "shapeNoWeb",
+      "name": "Shape Leads_NoWeb Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        920,
+        120
+      ],
+      "parameters": {
+        "jsCode": "return $input.all().map(({ json: j }) => ({ json: {\n  lead_id: j.lead_id,\n  company_name: j.company_name,\n  phone_e164: j.phone_e164,\n  whatsapp_ready: j.whatsapp_ready,\n  address: j.address,\n  city: j.city,\n  country: j.country,\n  region: j.region,\n  category: j.category,\n  score: '',\n  score_reasons: '',\n  source: j.source,\n  date_found: j.discovered_at,\n  last_seen: j.discovered_at,\n  contact_status: '',\n  notes: '',\n} }));"
+      }
+    },
+    {
+      "id": "appendWeb",
+      "name": "Append Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1140,
+        -120
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "appendNoWeb",
+      "name": "Append Leads_NoWeb",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1140,
+        120
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads_NoWeb"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "mirrorFail",
+      "name": "All Mirrors Failed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        40,
+        400
+      ],
+      "parameters": {
+        "jsCode": "// Every mirror refused. Without this the run would end silently and\n// look identical to \"there were no new leads\" — the failure mode that\n// lets a dead pipeline go unnoticed for a week.\nconst cfg = $('Config').first().json;\nconst err = $input.first().json;\n\nreturn [{ json: {\n  run_id: cfg.run_id,\n  workflow: 'wf1-discovery-overpass',\n  started_at: cfg.started_at,\n  finished_at: new Date().toISOString(),\n  candidates_found: '0',\n  new_leads: '0',\n  errors: '3',\n  notes: `ALL OVERPASS MIRRORS FAILED for ${cfg.source_query}. Last error: ` +\n    String(err && (err.error || err.message) || 'unknown').slice(0, 300),\n} }];"
+      }
+    },
+    {
+      "id": "appendFailLog",
+      "name": "Log Failure",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        260,
+        400
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "_runlog"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "alwaysOutputData": true
+    }
+  ],
+  "connections": {
+    "Schedule 5am PKT": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Overpass 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Overpass 1": {
+      "main": [
+        [
+          {
+            "node": "Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Overpass 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Overpass 2": {
+      "main": [
+        [
+          {
+            "node": "Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Overpass 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Overpass 3": {
+      "main": [
+        [
+          {
+            "node": "Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "All Mirrors Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "All Mirrors Failed": {
+      "main": [
+        [
+          {
+            "node": "Log Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize": {
+      "main": [
+        [
+          {
+            "node": "Read Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Leads": {
+      "main": [
+        [
+          {
+            "node": "Read Leads_NoWeb",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Leads_NoWeb": {
+      "main": [
+        [
+          {
+            "node": "Drop Already Known",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Drop Already Known": {
+      "main": [
+        [
+          {
+            "node": "Has Website?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Website?": {
+      "main": [
+        [
+          {
+            "node": "Shape Leads Row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Shape Leads_NoWeb Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shape Leads Row": {
+      "main": [
+        [
+          {
+            "node": "Append Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shape Leads_NoWeb Row": {
+      "main": [
+        [
+          {
+            "node": "Append Leads_NoWeb",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Karachi",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "availableInMCP": true
+  }
+}

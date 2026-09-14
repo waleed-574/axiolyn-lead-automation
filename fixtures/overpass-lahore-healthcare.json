@@ -1,0 +1,5245 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-05-31T22:37:44Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 271076822,
+  "lat": 31.4745296,
+  "lon": 74.3941378,
+  "tags": {
+    "amenity": "dentist"
+  }
+},
+{
+  "type": "node",
+  "id": 271105745,
+  "lat": 31.4767342,
+  "lon": 74.3714984,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "St 29 Sec W Ph 3",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "DHA Medical Center Phase III"
+  }
+},
+{
+  "type": "node",
+  "id": 271284373,
+  "lat": 31.4855923,
+  "lon": 74.3946903,
+  "tags": {
+    "amenity": "clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 526681507,
+  "lat": 31.5024790,
+  "lon": 74.3116217,
+  "tags": {
+    "amenity": "hospital",
+    "name": "PU Health Center"
+  }
+},
+{
+  "type": "node",
+  "id": 563684371,
+  "lat": 31.5086817,
+  "lon": 74.3404910,
+  "tags": {
+    "addr:city": "لاہور",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "متحده مسیحي روغتون.",
+    "name:en": "United Christian Hospital",
+    "name:es": "Hospital Cristiano Unido",
+    "name:ur": "یونائیٹڈ کرسچن ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 674141730,
+  "lat": 31.4967802,
+  "lon": 74.2631810,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "name": "Social Security Hospital",
+    "wikidata": "Q7260296",
+    "wikipedia": "ur:پنجاب سوشل سیکورٹی ہسپتال، لاہور"
+  }
+},
+{
+  "type": "node",
+  "id": 1357553184,
+  "lat": 31.4697778,
+  "lon": 74.2991107,
+  "tags": {
+    "amenity": "pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 1357553198,
+  "lat": 31.4698510,
+  "lon": 74.2992722,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khayaban-e-Firdousi",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "name": "Saadan Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 1357561220,
+  "lat": 31.4678948,
+  "lon": 74.3055729,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "Block A Phase 1 Johar Town",
+    "addr:postcode": "54770",
+    "addr:street": "Maulana Shaukat Ali Road",
+    "amenity": "hospital",
+    "contact:facebook": "https://www.facebook.com/Urologist.pk/",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "urology",
+    "image": "https://lh3.googleusercontent.com/p/AF1QipMBrEL9QKcP_B1Is0ZpaHbcVPsHr8KZ_AYg82Kw=s680-w680-h510-rw",
+    "mobile": "0329 2133999",
+    "name": "Dr Muhammad Arsalan Butt - Iqra Medical Complex Johar Town",
+    "official_name": "Dr Muhammad Arsalan Butt - Best Urologist in Lahore | Kidney stone and prostate Surgeon | Male infertility specialist",
+    "opening_hours": "24/7",
+    "operator": "Dr Muhammad Arsalan Butt",
+    "operator:type": "public",
+    "website": "https://share.google/yYEdGcFIygiQxEg9y"
+  }
+},
+{
+  "type": "node",
+  "id": 1366525560,
+  "lat": 31.5406655,
+  "lon": 74.3725825,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Combined Military Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 1534280398,
+  "lat": 31.5220003,
+  "lon": 74.2904225,
+  "tags": {
+    "amenity": "doctors",
+    "description": "Medical care doctor"
+  }
+},
+{
+  "type": "node",
+  "id": 1715932815,
+  "lat": 31.4675258,
+  "lon": 74.3165177,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Fazal Din Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 1749449952,
+  "lat": 31.5237594,
+  "lon": 74.3464109,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Guardian"
+  }
+},
+{
+  "type": "node",
+  "id": 1749449953,
+  "lat": 31.5237793,
+  "lon": 74.3465510,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Fazal Din Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 1750454167,
+  "lat": 31.5186253,
+  "lon": 74.3485791,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "51 D1",
+    "addr:postcode": "54660",
+    "amenity": "dentist",
+    "healthcare": "dentist",
+    "healthcare:speciality": "orthodontics;general;dentist;surgery",
+    "name": "Dr. Qazi and Associates",
+    "opening_hours": "Mo-Fr 09:00-18:00"
+  }
+},
+{
+  "type": "node",
+  "id": 2405855921,
+  "lat": 31.5324402,
+  "lon": 74.4376410,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Zarrar Shaheed Trust hospital",
+    "name:ur": "ضرار شہید ٹرسٹ ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 2431251332,
+  "lat": 31.5624324,
+  "lon": 74.4330102,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Zahid Health Home"
+  }
+},
+{
+  "type": "node",
+  "id": 2448144940,
+  "lat": 31.5408282,
+  "lon": 74.3138838,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housename": "21 Shama Road",
+    "addr:street": "Shama Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "name": "حمزه روغتون",
+    "phone": "+924237501597"
+  }
+},
+{
+  "type": "node",
+  "id": 2576284993,
+  "lat": 31.4696090,
+  "lon": 74.2731382,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "addr:street": "Johar Town",
+    "amenity": "pharmacy",
+    "name": "Servaid",
+    "operator": "Servaid Pharmacy",
+    "phone": "042-35311359",
+    "website": "https://www.servaid.com.pk/"
+  }
+},
+{
+  "type": "node",
+  "id": 2576286068,
+  "lat": 31.4696361,
+  "lon": 74.2732062,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "addr:street": "Johar Town",
+    "amenity": "pharmacy",
+    "name": "Green Pharmacy",
+    "operator": "Green Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 2953146415,
+  "lat": 31.5629938,
+  "lon": 74.3166846,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Fazal Din & Sons"
+  }
+},
+{
+  "type": "node",
+  "id": 3199397501,
+  "lat": 31.4445291,
+  "lon": 74.2127518,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Akhtar Saeed Trust Teaching Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 3228646369,
+  "lat": 31.5001040,
+  "lon": 74.3949245,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Bedian Road",
+    "amenity": "hospital",
+    "name": "Fauji Foundation Hospital",
+    "wikidata": "Q5438089",
+    "wikipedia": "en:Fauji Foundation Hospitals"
+  }
+},
+{
+  "type": "node",
+  "id": 3237660889,
+  "lat": 31.4756654,
+  "lon": 74.3375093,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ittefaq Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 3356330684,
+  "lat": 31.5064399,
+  "lon": 74.3150274,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Naseer Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 3940035722,
+  "lat": 31.5926873,
+  "lon": 74.4997202,
+  "tags": {
+    "amenity": "hospital",
+    "emergency": "no",
+    "name": "Basical Health Unit, Dograi Kalan, Lahore",
+    "operator": "Public"
+  }
+},
+{
+  "type": "node",
+  "id": 4107300389,
+  "lat": 31.5407310,
+  "lon": 74.3300801,
+  "tags": {
+    "addr:street": "Near Shadman Market, Behind Bank Alfalah, lahore",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Advanced Medical Centre",
+    "name:ur": "ایڈوانسڈ میڈیکل سینٹر"
+  }
+},
+{
+  "type": "node",
+  "id": 4122590191,
+  "lat": 31.5552453,
+  "lon": 74.3219040,
+  "tags": {
+    "amenity": "hospital",
+    "name": "سرجیکل یونٹ 1 HO کمرہ"
+  }
+},
+{
+  "type": "node",
+  "id": 4151573895,
+  "lat": 31.5124792,
+  "lon": 74.3284708,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Hameed Latif "
+  }
+},
+{
+  "type": "node",
+  "id": 4170132589,
+  "lat": 31.5649365,
+  "lon": 74.3808544,
+  "tags": {
+    "amenity": "doctors",
+    "healthcare": "doctor",
+    "name": "Doctor"
+  }
+},
+{
+  "type": "node",
+  "id": 4233658689,
+  "lat": 31.5469203,
+  "lon": 74.3048326,
+  "tags": {
+    "amenity": "doctors",
+    "name": "Dr Imran Wahees."
+  }
+},
+{
+  "type": "node",
+  "id": 4238874490,
+  "lat": 31.5258769,
+  "lon": 74.3204335,
+  "tags": {
+    "addr:street": "Rehmanpura",
+    "amenity": "clinic",
+    "name": "ادریس پولی کلینیک"
+  }
+},
+{
+  "type": "node",
+  "id": 4238888891,
+  "lat": 31.5247637,
+  "lon": 74.3180832,
+  "tags": {
+    "addr:street": "Rehmanpura",
+    "amenity": "pharmacy",
+    "name": "الفتح فارمیسی"
+  }
+},
+{
+  "type": "node",
+  "id": 4238889189,
+  "lat": 31.5394654,
+  "lon": 74.3197705,
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Naz Hospital",
+    "name:ur": "ناز ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 4252687315,
+  "lat": 31.4687200,
+  "lon": 74.2836342,
+  "tags": {
+    "amenity": "clinic",
+    "name": "Abdul rahman home",
+    "name:ur": "عبدالرحمن گھر"
+  }
+},
+{
+  "type": "node",
+  "id": 4295663436,
+  "lat": 31.5193979,
+  "lon": 74.3196792,
+  "tags": {
+    "addr:street": "Wahdat Road",
+    "amenity": "pharmacy",
+    "name": "Mushtaq Medical Store"
+  }
+},
+{
+  "type": "node",
+  "id": 4295683022,
+  "lat": 31.5237787,
+  "lon": 74.3176300,
+  "tags": {
+    "addr:street": "Rehmanpura",
+    "amenity": "hospital",
+    "name": "Nobel Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4327628393,
+  "lat": 31.5664496,
+  "lon": 74.3866789,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Government Dispenser"
+  }
+},
+{
+  "type": "node",
+  "id": 4374615492,
+  "lat": 31.4848250,
+  "lon": 74.3060769,
+  "tags": {
+    "addr:housenumber": "4 M, Model Town Extension",
+    "addr:street": "Abdul Hassan Isfahani Road",
+    "amenity": "clinic",
+    "email": "info@wilcare.org",
+    "name": "Wilcare Clinic",
+    "opening_hours": "Mo-Sa 14:00-19:00",
+    "phone": "042111945227",
+    "website": "https://www.wilcare.org/"
+  }
+},
+{
+  "type": "node",
+  "id": 4377018919,
+  "lat": 31.4738862,
+  "lon": 74.2590607,
+  "tags": {
+    "addr:street": "Expo Centre Road",
+    "amenity": "clinic",
+    "email": "javedmirza94@hotmail.com",
+    "name:en": "Lahore Chiropractor Clinic",
+    "phone": "03324134440",
+    "website": "https://chiropractor.pk/"
+  }
+},
+{
+  "type": "node",
+  "id": 4381296603,
+  "lat": 31.5238238,
+  "lon": 74.3228094,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "name": "Wapda Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4387255592,
+  "lat": 31.5345920,
+  "lon": 74.3284011,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Alnoor Clinical Laboratory",
+    "name:en": "Alnoor Clinical Laboratory",
+    "name:ur": "النور کلینیکل لیبارٹری"
+  }
+},
+{
+  "type": "node",
+  "id": 4387273191,
+  "lat": 31.4653896,
+  "lon": 74.2357728,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Mohlanwal Road",
+    "amenity": "hospital",
+    "name": "Farooq Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4387287290,
+  "lat": 31.5427407,
+  "lon": 74.3270585,
+  "tags": {
+    "amenity": "doctors",
+    "name": "Chohan Clinic",
+    "name:en": "Chohan Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 4399541791,
+  "lat": 31.5003756,
+  "lon": 74.3192307,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Main Boulevard Garden Town",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "name": "Rasheed Hospital",
+    "opening_hours": "24/7"
+  }
+},
+{
+  "type": "node",
+  "id": 4402012889,
+  "lat": 31.5618552,
+  "lon": 74.2964999,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "042-37312862",
+    "addr:street": "Sanda Rd",
+    "amenity": "hospital",
+    "name": "Haq Hospital",
+    "name:en": "Haq Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4402013789,
+  "lat": 31.5616506,
+  "lon": 74.2993709,
+  "tags": {
+    "addr:housenumber": "42-37312862",
+    "amenity": "hospital",
+    "name": "Haq Hospital",
+    "name:en": "haq hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4405409100,
+  "lat": 31.5629568,
+  "lon": 74.2866201,
+  "tags": {
+    "addr:street": "Zahoor Din Rd",
+    "amenity": "clinic",
+    "name": "Dr Khalil's clinic",
+    "name:en": "Dr Khalil's clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 4406321890,
+  "lat": 31.5618699,
+  "lon": 74.3021605,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Sanda Rd",
+    "amenity": "hospital",
+    "name": "غني روغتون"
+  }
+},
+{
+  "type": "node",
+  "id": 4406333889,
+  "lat": 31.5126534,
+  "lon": 74.2997368,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Farouque Hospital",
+    "name:en": "Farouque Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4407652589,
+  "lat": 31.5534464,
+  "lon": 74.3057503,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Mazan Churbghi Rd",
+    "amenity": "hospital",
+    "name": "Suraya Azeem Hospital",
+    "name:ur": "ثریا عظیم ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 4408920493,
+  "lat": 31.5230449,
+  "lon": 74.2847961,
+  "tags": {
+    "addr:street": "Main Boulevard Allama Iqbal Town",
+    "amenity": "pharmacy",
+    "name": "PUNJAB PHARMACY COUNCIL",
+    "name:en": "PUNJAB PHARMACY COUNCIL",
+    "opening_hours": "Mo-Fr 09:00-16:00"
+  }
+},
+{
+  "type": "node",
+  "id": 4416293591,
+  "lat": 31.6220865,
+  "lon": 74.2816312,
+  "tags": {
+    "amenity": "clinic",
+    "name": "moon medical store",
+    "name:en": "moon medical store"
+  }
+},
+{
+  "type": "node",
+  "id": 4421288390,
+  "lat": 31.6243412,
+  "lon": 74.2802945,
+  "tags": {
+    "addr:street": "Jia Musa Road",
+    "amenity": "hospital",
+    "name": "Ali Hospital",
+    "name:en": "Ali Hospital",
+    "opening_hours": "24/7",
+    "phone": "04237931154"
+  }
+},
+{
+  "type": "node",
+  "id": 4427363549,
+  "lat": 31.3871208,
+  "lon": 74.1899996,
+  "tags": {
+    "amenity": "pharmacy",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "name": "Fazal Din Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4427527439,
+  "lat": 31.3832011,
+  "lon": 74.1686709,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Punjab Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4438658189,
+  "lat": 31.5833853,
+  "lon": 74.4036333,
+  "tags": {
+    "amenity": "clinic",
+    "name": "الشاد طبي مرکز",
+    "opening_hours": "Mo-Su 18:00-21:00"
+  }
+},
+{
+  "type": "node",
+  "id": 4469615089,
+  "lat": 31.4378972,
+  "lon": 74.2880913,
+  "tags": {
+    "addr:street": "Satluj Avenue",
+    "amenity": "clinic",
+    "name": "ڈاکٹر شہزاد انور، ماہر ایکیوپنچر اور درد کے انتظام کے مشیر",
+    "opening_hours": "Mo-Sa 10:00-15:30, 18:00-21:00",
+    "phone": "+923458477000"
+  }
+},
+{
+  "type": "node",
+  "id": 4469615189,
+  "lat": 31.4999352,
+  "lon": 74.3190514,
+  "tags": {
+    "addr:street": "Aibak Block",
+    "amenity": "clinic",
+    "name": "Dr. Nighat Tahira Consultant Acupuncturist",
+    "opening_hours": "Sa-Th 10:30-16:00",
+    "phone": "+923224269221"
+  }
+},
+{
+  "type": "node",
+  "id": 4490199294,
+  "lat": 31.4557535,
+  "lon": 74.3765571,
+  "tags": {
+    "addr:street": "Kamahan Road",
+    "amenity": "clinic",
+    "name": "Hijama Medication & Cupping Therapy",
+    "opening_hours": "Mo-Su 10:00-21:00",
+    "phone": "+923350705802"
+  }
+},
+{
+  "type": "node",
+  "id": 4506559191,
+  "lat": 31.4568298,
+  "lon": 74.3206252,
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Rahmatullah Eye Hospital",
+    "name:en": "Rahmatullah Eye Hospital",
+    "name:ur": "رحمت اللہ آئی ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 4508861251,
+  "lat": 31.5533280,
+  "lon": 74.3806539,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:country": "PK",
+    "addr:street": "Tufail Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Good Hope Clinic",
+    "name:ur": "گڈ ہوپ کلینک"
+  }
+},
+{
+  "type": "node",
+  "id": 4517354900,
+  "lat": 31.5651286,
+  "lon": 74.3809075,
+  "tags": {
+    "addr:street": "Shalimar Link Rd",
+    "amenity": "pharmacy",
+    "name": "Chaudhary Medical Store",
+    "name:en": "Chaudhary Medical Store",
+    "opening_hours": "Mo-Su 10:00-00:00"
+  }
+},
+{
+  "type": "node",
+  "id": 4552343394,
+  "lat": 31.5726833,
+  "lon": 74.3811572,
+  "tags": {
+    "addr:street": "Shalimar Link Rd",
+    "amenity": "hospital",
+    "name": "ali hospital shalimar road",
+    "name:en": "Mustashifa Ali Hospital",
+    "opening_hours": "24/7"
+  }
+},
+{
+  "type": "node",
+  "id": 4577468092,
+  "lat": 31.4998920,
+  "lon": 74.3768180,
+  "tags": {
+    "amenity": "dentist"
+  }
+},
+{
+  "type": "node",
+  "id": 4584231892,
+  "lat": 31.5305112,
+  "lon": 74.3119655,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Medic Pharmacy",
+    "name:en": "Medic Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4584243791,
+  "lat": 31.5523835,
+  "lon": 74.3193100,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Nadeem Medical store",
+    "name:en": "Nadeem Medical store"
+  }
+},
+{
+  "type": "node",
+  "id": 4588859389,
+  "lat": 31.5670516,
+  "lon": 74.3810717,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shalimar Link Rd",
+    "amenity": "hospital",
+    "internet_access": "wlan",
+    "name": "Al Ehsan Eye Hospital",
+    "opening_hours": "24/7",
+    "phone": "04236830303"
+  }
+},
+{
+  "type": "node",
+  "id": 4648941790,
+  "lat": 31.5063667,
+  "lon": 74.3503885,
+  "tags": {
+    "addr:housenumber": "83",
+    "addr:postcode": "54660",
+    "addr:street": "MM Alam Road",
+    "amenity": "clinic",
+    "email": "info@HearingClinic.com.pk",
+    "internet_access": "wlan",
+    "name": "Hearing Clinic",
+    "opening_hours": "Mo-Su 10:00-20:00",
+    "operator": "RANA MASOOD",
+    "phone": "+923214190400",
+    "website": "https://hearingclinic.com.pk/"
+  }
+},
+{
+  "type": "node",
+  "id": 4666716091,
+  "lat": 31.5360880,
+  "lon": 74.2906133,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "name": "Hussain Memorial Hospital",
+    "opening_hours": "24/7",
+    "phone": "(042) 37505082"
+  }
+},
+{
+  "type": "node",
+  "id": 4670905889,
+  "lat": 31.5218402,
+  "lon": 74.2691734,
+  "tags": {
+    "addr:postcode": "54500",
+    "addr:street": "To From Moterway Exit",
+    "amenity": "pharmacy",
+    "name": "Ali Pharmacy",
+    "opening_hours": "24/7",
+    "phone": "03214645399"
+  }
+},
+{
+  "type": "node",
+  "id": 4691717697,
+  "lat": 31.5745532,
+  "lon": 74.4259670,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Fazal children & Gynaecologist clinic",
+    "name:ur": "فضل چلڈرن اینڈ گائناکالوجسٹ کلینک",
+    "opening_hours": "Mo-Su 18:00-01:00"
+  }
+},
+{
+  "type": "node",
+  "id": 4724744993,
+  "lat": 31.5659087,
+  "lon": 74.3897909,
+  "tags": {
+    "addr:housenumber": "house 7",
+    "addr:street": "Lal Pul",
+    "amenity": "pharmacy",
+    "email": "faisal.lattif93@gmail.com",
+    "name": "wheelchair maker",
+    "opening_hours": "24/7",
+    "operator": "Faisal Latif whealchair maker",
+    "phone": "03009405477"
+  }
+},
+{
+  "type": "node",
+  "id": 4728023191,
+  "lat": 31.4695222,
+  "lon": 74.2983019,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khayaban-e-Firdousi",
+    "amenity": "hospital",
+    "name": "لطیف روغتون، جوهر ټاون"
+  }
+},
+{
+  "type": "node",
+  "id": 4763503521,
+  "lat": 31.4557000,
+  "lon": 74.4621886,
+  "tags": {
+    "amenity": "hospital",
+    "name": "PKLI HOSPITAL"
+  }
+},
+{
+  "type": "node",
+  "id": 4773446736,
+  "lat": 31.4617216,
+  "lon": 74.3099314,
+  "tags": {
+    "addr:housenumber": "7/B1",
+    "addr:postcode": "54000",
+    "addr:street": "Al Madina Road Township",
+    "amenity": "hospital",
+    "email": "ahadkhawaja007@outlook.com",
+    "internet_access": "wlan",
+    "name": "ڈاکٹر خواجہ احد ہسپتال",
+    "opening_hours": "Mo-Fr 10:00-19:40",
+    "phone": "923225660863"
+  }
+},
+{
+  "type": "node",
+  "id": 4909438521,
+  "lat": 31.4542043,
+  "lon": 74.2138256,
+  "tags": {
+    "addr:street": "Main Boulevard",
+    "amenity": "doctors",
+    "name": "Homeopathic Clinic",
+    "name:en": "Homeopathic Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219465,
+  "lat": 31.6416078,
+  "lon": 74.2859132,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:postcode": "54000",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "healthcare:speciality": "paediatrics",
+    "name": "Amna Memorial Children Hospital",
+    "opening_hours": "Mo-Su 09:00-21:00",
+    "operator": "Dr. M. Kamran Azam",
+    "operator:type": "private",
+    "website": "https://idlcare.com/dr/kamranazam/"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219491,
+  "lat": 31.6303345,
+  "lon": 74.2874878,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "hospital",
+    "name": "Bajwa Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219494,
+  "lat": 31.6281859,
+  "lon": 74.2879992,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "pharmacy",
+    "name": "Iqbal Medical Store"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219498,
+  "lat": 31.6270076,
+  "lon": 74.2882257,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "pharmacy",
+    "name": "Pakistan Medical Store"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219502,
+  "lat": 31.6246632,
+  "lon": 74.2886379,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "hospital",
+    "name": "Secretariat Punjab Social Security Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219624,
+  "lat": 31.6196786,
+  "lon": 74.2897103,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "pharmacy",
+    "name": "Pharmagen Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219626,
+  "lat": 31.6180451,
+  "lon": 74.2894307,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Jaranwala - Lahore Road",
+    "amenity": "pharmacy",
+    "name": "Usman Meical Store"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219636,
+  "lat": 31.6157847,
+  "lon": 74.2904677,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "pharmacy",
+    "name": "Clinix Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219640,
+  "lat": 31.6144947,
+  "lon": 74.2906305,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "pharmacy",
+    "name": "Tayyaba Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4910585745,
+  "lat": 31.6259547,
+  "lon": 74.2962832,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Govt. Maternity Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4910585768,
+  "lat": 31.6176665,
+  "lon": 74.2546268,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Lahore Sheikhupura Road",
+    "amenity": "hospital",
+    "name": "بلال کیئر ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 4910585783,
+  "lat": 31.6122040,
+  "lon": 74.2617907,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Jaranwala - Lahore Road",
+    "amenity": "hospital",
+    "name": "Saira Meraj Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4910585806,
+  "lat": 31.6175673,
+  "lon": 74.2831509,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Jia Musa Road",
+    "amenity": "pharmacy",
+    "name": "Ravi Medical Store"
+  }
+},
+{
+  "type": "node",
+  "id": 4912291845,
+  "lat": 31.5963249,
+  "lon": 74.3003191,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "hospital",
+    "name": "Alle Fatima Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4912291864,
+  "lat": 31.5886076,
+  "lon": 74.3063274,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Data Darbar Road",
+    "amenity": "pharmacy",
+    "name": "Dawakhana Hakeem Suleman"
+  }
+},
+{
+  "type": "node",
+  "id": 4912291865,
+  "lat": 31.5881351,
+  "lon": 74.3063763,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Data Darbar Road",
+    "amenity": "pharmacy",
+    "name": "New Mahmood Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4912291866,
+  "lat": 31.5880105,
+  "lon": 74.3063885,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Data Darbar Road",
+    "amenity": "pharmacy",
+    "name": "Clinix"
+  }
+},
+{
+  "type": "node",
+  "id": 4912291870,
+  "lat": 31.5875447,
+  "lon": 74.3058519,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Data Darbar Road",
+    "amenity": "hospital",
+    "name": "Zakariya Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4912291879,
+  "lat": 31.5855959,
+  "lon": 74.3065783,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Data Darbar Road",
+    "amenity": "pharmacy",
+    "name": "PAK Dawakhana"
+  }
+},
+{
+  "type": "node",
+  "id": 4912291881,
+  "lat": 31.5852358,
+  "lon": 74.3065643,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Data Darbar Road",
+    "amenity": "pharmacy",
+    "name": "Matab ul Imran"
+  }
+},
+{
+  "type": "node",
+  "id": 4912575641,
+  "lat": 31.5985625,
+  "lon": 74.3159795,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Badami Bagh Flyover",
+    "amenity": "clinic",
+    "name": "ڈاکٹر رفیع کلینکs"
+  }
+},
+{
+  "type": "node",
+  "id": 4912575644,
+  "lat": 31.5978128,
+  "lon": 74.3105061,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ahmed Ali Road",
+    "amenity": "hospital",
+    "name": "Dr.A.Q Khan Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4912575660,
+  "lat": 31.5972442,
+  "lon": 74.3067106,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ravi Rd",
+    "amenity": "clinic",
+    "name": "Al-Sami Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 4914789561,
+  "lat": 31.5733040,
+  "lon": 74.2991434,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Sheikh Abdul Qadir Jillani Road",
+    "amenity": "pharmacy",
+    "name": "Green + Pharmacie"
+  }
+},
+{
+  "type": "node",
+  "id": 4916250316,
+  "lat": 31.4821708,
+  "lon": 74.3302638,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Circular Road",
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Aziz Son's Pharma Plus"
+  }
+},
+{
+  "type": "node",
+  "id": 4916250634,
+  "lat": 31.4888534,
+  "lon": 74.3264400,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Circular Road",
+    "amenity": "pharmacy",
+    "atm": "yes",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Fazal Din Pharma Plus"
+  }
+},
+{
+  "type": "node",
+  "id": 4916640114,
+  "lat": 31.5006711,
+  "lon": 74.3200430,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Main Boulevard Garden Town",
+    "amenity": "pharmacy",
+    "name": "D Watson Chemist"
+  }
+},
+{
+  "type": "node",
+  "id": 4916641136,
+  "lat": 31.4945741,
+  "lon": 74.3122363,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Usmani Road",
+    "amenity": "clinic",
+    "name": "Sarwat Anwer Medical Complex"
+  }
+},
+{
+  "type": "node",
+  "id": 4916641139,
+  "lat": 31.4868873,
+  "lon": 74.3050323,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Usmani Road",
+    "amenity": "clinic",
+    "name": "Kalim Medical Center"
+  }
+},
+{
+  "type": "node",
+  "id": 4916641149,
+  "lat": 31.4837301,
+  "lon": 74.2993781,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Usmani Road",
+    "amenity": "hospital",
+    "name": "ٹائمز ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 4916641152,
+  "lat": 31.4832308,
+  "lon": 74.2984538,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Usmani Road",
+    "amenity": "pharmacy",
+    "name": "Fazal Din"
+  }
+},
+{
+  "type": "node",
+  "id": 4916641153,
+  "lat": 31.4828210,
+  "lon": 74.2977205,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Usmani Road",
+    "amenity": "pharmacy",
+    "name": "Khawaja Brothers Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4916641154,
+  "lat": 31.4830101,
+  "lon": 74.2980379,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Usmani Road",
+    "amenity": "pharmacy",
+    "name": "Clinix Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4916641155,
+  "lat": 31.4822429,
+  "lon": 74.2979608,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Maulana Shaukat Ali Road",
+    "amenity": "hospital",
+    "name": "بخاری لیبز الرجی سنٹر"
+  }
+},
+{
+  "type": "node",
+  "id": 4916785691,
+  "lat": 31.4771639,
+  "lon": 74.3013996,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Maulana Shaukat Ali Road",
+    "amenity": "clinic",
+    "name": "First Medical"
+  }
+},
+{
+  "type": "node",
+  "id": 4916785709,
+  "lat": 31.4748175,
+  "lon": 74.3016359,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Maulana Shaukat Ali Road",
+    "amenity": "hospital",
+    "name": "احسان ممتا ز ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 4916785710,
+  "lat": 31.4753196,
+  "lon": 74.3020827,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Maulana Shaukat Ali Road",
+    "amenity": "pharmacy",
+    "name": "Al-Nasar Lab"
+  }
+},
+{
+  "type": "node",
+  "id": 4916785718,
+  "lat": 31.4728234,
+  "lon": 74.3028675,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Maulana Shaukat Ali Road",
+    "amenity": "hospital",
+    "name": "Clapp Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4916786439,
+  "lat": 31.4680036,
+  "lon": 74.3074584,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Abdul Hassan Isfahani Road",
+    "amenity": "pharmacy",
+    "name": "Clinix"
+  }
+},
+{
+  "type": "node",
+  "id": 4920146640,
+  "lat": 31.4911959,
+  "lon": 74.3373602,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Service Road",
+    "amenity": "hospital",
+    "name": "Al-Rehman Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4920146648,
+  "lat": 31.4828985,
+  "lon": 74.3408686,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Service Road",
+    "amenity": "pharmacy",
+    "name": "AAA Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4922303321,
+  "lat": 31.5282929,
+  "lon": 74.2916679,
+  "tags": {
+    "amenity": "doctors",
+    "name": "dr. waseem"
+  }
+},
+{
+  "type": "node",
+  "id": 4945573322,
+  "lat": 31.5516784,
+  "lon": 74.3625670,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Allama Iqbal Road",
+    "amenity": "hospital",
+    "name": "بلوچ اسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 4945573323,
+  "lat": 31.5516656,
+  "lon": 74.3626341,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Bismillah Pharmacy",
+    "name:en": "Bismillah Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4945573324,
+  "lat": 31.5516602,
+  "lon": 74.3626680,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Rehmat Homeopathic Pharmacy",
+    "name:en": "Rehmat Homeopathic Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4945573325,
+  "lat": 31.5516528,
+  "lon": 74.3627197,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Bhai Bhai Medical Store",
+    "name:en": "Bhai Bhai Medical Store"
+  }
+},
+{
+  "type": "node",
+  "id": 4945580523,
+  "lat": 31.5519340,
+  "lon": 74.3627717,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Hameed Medical Pharmacy",
+    "name:en": "Hameed Medical Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 4963317421,
+  "lat": 31.5610030,
+  "lon": 74.3126194,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Farid Court Road",
+    "amenity": "hospital",
+    "name": "Family Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 4974663321,
+  "lat": 31.5181442,
+  "lon": 74.2859262,
+  "tags": {
+    "amenity": "hospital",
+    "name": "بجوا روغتون",
+    "name:en": "Bajwa Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5016859021,
+  "lat": 31.4762453,
+  "lon": 74.2441260,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "name": "ایل آر بی ٹی آئی ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5016859022,
+  "lat": 31.4720389,
+  "lon": 74.2610578,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Expo Centre Road",
+    "amenity": "hospital",
+    "name": "Mughal eye hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5032063027,
+  "lat": 31.5837063,
+  "lon": 74.4026091,
+  "tags": {
+    "amenity": "clinic",
+    "name": "Naseem Bashir hospital",
+    "opening_hours": "Mo-Sa 20:00-23:00; Su 14:00-17:00",
+    "phone": "04236533764"
+  }
+},
+{
+  "type": "node",
+  "id": 5082508321,
+  "lat": 31.4652826,
+  "lon": 74.2137664,
+  "tags": {
+    "addr:housenumber": "03",
+    "addr:street": "21",
+    "amenity": "clinic",
+    "internet_access": "wlan",
+    "name": "Al shifa medical centre",
+    "name:en": "Al shifa medical centre",
+    "opening_hours": "Mo-Sa 10:00-00:00; Su 19:00-23:00",
+    "phone": "+923334467610"
+  }
+},
+{
+  "type": "node",
+  "id": 5128786721,
+  "lat": 31.4979244,
+  "lon": 74.3235052,
+  "tags": {
+    "amenity": "doctors",
+    "name": "Australian Fertility Centre"
+  }
+},
+{
+  "type": "node",
+  "id": 5142485922,
+  "lat": 31.4937471,
+  "lon": 74.4176700,
+  "tags": {
+    "addr:street": "Airport Ghazi Rd",
+    "amenity": "clinic",
+    "name": "Dr Amir Homeopathic Clinic",
+    "name:ur": "ڈاکٹر عامر ہومیوپیتھک کلینک",
+    "operator": "Dr Amir"
+  }
+},
+{
+  "type": "node",
+  "id": 5163148223,
+  "lat": 31.4585742,
+  "lon": 74.2764677,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Main Boulevard",
+    "amenity": "hospital",
+    "name": "Zhong Ba Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5213730433,
+  "lat": 31.4361716,
+  "lon": 74.3557200,
+  "tags": {
+    "addr:housenumber": "47-A",
+    "addr:postcode": "04200",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "email": "ziahospital@gmail.com",
+    "name": "Zia Hospital",
+    "opening_hours": "24/7",
+    "phone": "03018447906",
+    "website": "https://www.ziahospital.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5251896790,
+  "lat": 31.4836257,
+  "lon": 74.4075548,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:place": "DHA Phase 1",
+    "addr:street": "Ghazi Road",
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Clinix Pharmacy (Defence Branch)"
+  }
+},
+{
+  "type": "node",
+  "id": 5251896791,
+  "lat": 31.4841282,
+  "lon": 74.4080140,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:place": "DHA Phase 1",
+    "addr:street": "Ghazi Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Defence Skin, Laser & Cosmetology Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 5251896802,
+  "lat": 31.4848539,
+  "lon": 74.4088198,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ghazi Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Al-Khair Homeopathic Clinic & Medical Store",
+    "name:ur": "الخیر ہومیوپیتھک کلینک اینڈ میڈیکل سٹور"
+  }
+},
+{
+  "type": "node",
+  "id": 5251896811,
+  "lat": 31.4860574,
+  "lon": 74.4143682,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Bedian Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Farzana Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 5253925861,
+  "lat": 31.5172060,
+  "lon": 74.2933029,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Main Boulevard Allama Iqbal Town",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Al Shafi Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5253925862,
+  "lat": 31.5350331,
+  "lon": 74.3430323,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ammar Medical Complex",
+    "name:ur": "عمار میڈیکل کمپلیکس"
+  }
+},
+{
+  "type": "node",
+  "id": 5253925863,
+  "lat": 31.5018965,
+  "lon": 74.3626328,
+  "tags": {
+    "addr:street": "Ali Zeb Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Cavalry Hospital Lahore",
+    "name:ur": "کیولری ہسپتال لاہور"
+  }
+},
+{
+  "type": "node",
+  "id": 5253925864,
+  "lat": 31.4879716,
+  "lon": 74.3261076,
+  "tags": {
+    "addr:street": "Circular Road",
+    "amenity": "dentist",
+    "healthcare": "dentist",
+    "name": "Dental Hub"
+  }
+},
+{
+  "type": "node",
+  "id": 5253925865,
+  "lat": 31.5356200,
+  "lon": 74.3279812,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shadman Market Boulevard",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Fatima Memorial Hospital",
+    "wikidata": "Q5437860",
+    "wikipedia": "ur:فاطمہ میموریل ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181752,
+  "lat": 31.5117148,
+  "lon": 74.3058327,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Wahdat Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Salma Sarfraz Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181756,
+  "lat": 31.4825003,
+  "lon": 74.3422146,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ghulab Devi Chest Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181759,
+  "lat": 31.5376013,
+  "lon": 74.3373639,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "مید سېټي روغتون"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181760,
+  "lat": 31.5370847,
+  "lon": 74.3380559,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Omar Hospital",
+    "name:ur": "عمر ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181761,
+  "lat": 31.5365909,
+  "lon": 74.3389089,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "O M C Hospital",
+    "name:ur": "او ایم سی ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181762,
+  "lat": 31.5344082,
+  "lon": 74.3448097,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Punjab Medical Center"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181763,
+  "lat": 31.5334498,
+  "lon": 74.3436510,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Zafar Ali Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Akram Complex Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5254181765,
+  "lat": 31.5153125,
+  "lon": 74.3456471,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Sir Syed Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Hijaz Hospital Lahore"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279603,
+  "lat": 31.5118667,
+  "lon": 74.3275649,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Hameed Latif Hospital",
+    "name:ur": "حمید لطیف ہسپتال آنکھوں کا ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279604,
+  "lat": 31.5131929,
+  "lon": 74.3276328,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Medicare Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279607,
+  "lat": 31.5380944,
+  "lon": 74.3512745,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Zafar Ali Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Surgimed Hospital Lahore",
+    "wikidata": "Q7646232",
+    "wikipedia": "en:Surgimed Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279609,
+  "lat": 31.5421941,
+  "lon": 74.3314304,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Lahore Medical Complex",
+    "name:ur": "لاہور میڈیکل کمپلیکس"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279610,
+  "lat": 31.5424821,
+  "lon": 74.3329753,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Diabetic's Institute of Pakistan",
+    "name:ur": "ذیابیطس انسٹی ٹیوٹ آف پاکستان"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279611,
+  "lat": 31.5422444,
+  "lon": 74.3336647,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Race View Maternity Hospital",
+    "name:ur": "ریس ویو میٹرنٹی ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279613,
+  "lat": 31.5041237,
+  "lon": 74.3295275,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Main Boulevard Garden Town",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "زینب میموریل ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279614,
+  "lat": 31.5771606,
+  "lon": 74.3808563,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shalimar Link Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "زاہدہ ویلفیئر ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279615,
+  "lat": 31.5777685,
+  "lon": 74.3813928,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shalimar Link Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Arif Children Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255279616,
+  "lat": 31.5769504,
+  "lon": 74.3813123,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shalimar Link Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Shehnaz Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255424738,
+  "lat": 31.4886992,
+  "lon": 74.3802433,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khyaban e Jinnah",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Rasheed Hospital",
+    "name:ur": "Rasheed Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255424740,
+  "lat": 31.5391648,
+  "lon": 74.3711747,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shami Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "CMH Lahore",
+    "wikidata": "Q55639462",
+    "wikipedia": "ur:کمبائنڈ ملٹری ہسپتال، لاہور"
+  }
+},
+{
+  "type": "node",
+  "id": 5255424742,
+  "lat": 31.4974458,
+  "lon": 74.2634500,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "healthcare:speciality": "cardiology",
+    "name": "Cardiology Department"
+  }
+},
+{
+  "type": "node",
+  "id": 5255424743,
+  "lat": 31.4741883,
+  "lon": 74.3064220,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Faisal Town",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Khairun Nisa Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255424745,
+  "lat": 31.4937360,
+  "lon": 74.3754105,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khyaban e Jinnah",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Prime Care Hospital",
+    "name:ur": "پرائم کیئر ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461641,
+  "lat": 31.5371209,
+  "lon": 74.2905023,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Lahore Psychiatric Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461642,
+  "lat": 31.5585998,
+  "lon": 74.3174214,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Temple Rd",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Kazi Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461643,
+  "lat": 31.5582981,
+  "lon": 74.3172230,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Temple Rd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ramzan Ali Syed Memorial Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461644,
+  "lat": 31.5566737,
+  "lon": 74.3164425,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Temple Rd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Bismillah Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461648,
+  "lat": 31.5807937,
+  "lon": 74.2997071,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Bilal Ganj",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "TB Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461649,
+  "lat": 31.5484926,
+  "lon": 74.3159814,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Chinese Heart & General Hospital (CHGH)"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461650,
+  "lat": 31.4812146,
+  "lon": 74.3122320,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Model Town",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Saira Memorial Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255461651,
+  "lat": 31.4809113,
+  "lon": 74.3107957,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Model Town",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "National Medical Centre"
+  }
+},
+{
+  "type": "node",
+  "id": 5255465170,
+  "lat": 31.4337652,
+  "lon": 74.4676830,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Rohi Nala Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Avicenna Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255562361,
+  "lat": 31.5467613,
+  "lon": 74.3821858,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Dehli Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Cantonment General Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255562362,
+  "lat": 31.4693274,
+  "lon": 74.2993999,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khayaban-e-Firdousi",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Niazi Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255562363,
+  "lat": 31.5855462,
+  "lon": 74.3378224,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Akbar Rd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Hameed Latif Hospital Misri Shah Branch"
+  }
+},
+{
+  "type": "node",
+  "id": 5255562364,
+  "lat": 31.5854742,
+  "lon": 74.3361973,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Akbar Rd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Tariq Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255562365,
+  "lat": 31.5869836,
+  "lon": 74.3370342,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Aziz Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "قومی ہسپتال اور میڈیکل سینٹر"
+  }
+},
+{
+  "type": "node",
+  "id": 5255578919,
+  "lat": 31.4666168,
+  "lon": 74.2942164,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khyaban e Fardosi",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "جمیله فریدی روغتون"
+  }
+},
+{
+  "type": "node",
+  "id": 5255578920,
+  "lat": 31.5228586,
+  "lon": 74.2759464,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Khushnood Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255643554,
+  "lat": 31.4441762,
+  "lon": 74.2778190,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "PIA Main Blvd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Liaqat Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255673574,
+  "lat": 31.5183213,
+  "lon": 74.3404069,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ghalib Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Amanat Eye Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255673575,
+  "lat": 31.5179704,
+  "lon": 74.2925226,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Main Boulevard Allama Iqbal Town",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Al Razi Healthcare"
+  }
+},
+{
+  "type": "node",
+  "id": 5255673576,
+  "lat": 31.5021767,
+  "lon": 74.3448274,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ali Zaib Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Bari Clinic & Hospital",
+    "name:ur": "باری کلینک اینڈ ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5255673577,
+  "lat": 31.5014054,
+  "lon": 74.3425527,
+  "tags": {
+    "addr:city": "لاہور",
+    "addr:street": "علی زیب روڈ",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "IOM Health Assessment Centre"
+  }
+},
+{
+  "type": "node",
+  "id": 5255673578,
+  "lat": 31.5853214,
+  "lon": 74.3874590,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Hina Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255745909,
+  "lat": 31.5880659,
+  "lon": 74.4027969,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Madina Eye Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5255745910,
+  "lat": 31.5410158,
+  "lon": 74.3024188,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Samanabad Main Blvd",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Samanabad Hospital",
+    "opening_hours": "24/7"
+  }
+},
+{
+  "type": "node",
+  "id": 5259593880,
+  "lat": 31.5845909,
+  "lon": 74.3269866,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Yakki Gate Bazaar",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Mian Muhammad Nawaz Sharif Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654960,
+  "lat": 31.5821198,
+  "lon": 74.3767228,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Grand Trunk Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Mussarat Razzaq Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654961,
+  "lat": 31.4082029,
+  "lon": 74.2602678,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Sunrise Road",
+    "amenity": "hospital",
+    "check_date": "2025-04-08",
+    "healthcare": "hospital",
+    "name": "Hameeda Memorial Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654963,
+  "lat": 31.5168576,
+  "lon": 74.2937325,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Main Boulevard Allama Iqbal Town",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Singapore Medical Centre"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654964,
+  "lat": 31.5019344,
+  "lon": 74.3630703,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ali Zeb Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Cavalry Hospital Lahore",
+    "name:ur": "کیولری ہسپتال لاہور"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654965,
+  "lat": 31.5018223,
+  "lon": 74.3631454,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ali Zeb Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Chughtais Lahore Lab",
+    "name:ur": "چغتائیس لاہور لیب"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654966,
+  "lat": 31.5018200,
+  "lon": 74.3632983,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ali Zeb Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Shaukat Khanum Lab",
+    "name:ur": "شوکت خانم لیب"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654967,
+  "lat": 31.5018189,
+  "lon": 74.3634646,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ali Zeb Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Lahore Health Care",
+    "name:ur": "لاہور ہیلتھ کیئر"
+  }
+},
+{
+  "type": "node",
+  "id": 5259654969,
+  "lat": 31.4800200,
+  "lon": 74.4229598,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Bedian Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Geo Hospital",
+    "name:ur": "جیو ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747059,
+  "lat": 31.5087782,
+  "lon": 74.3458034,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Noor Jahan Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Fazal Cardiac Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747061,
+  "lat": 31.5351972,
+  "lon": 74.3348009,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Lnk Cannal rd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "د پنجاب ذهني روغتیا انسټیټیوټ"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747062,
+  "lat": 31.5229354,
+  "lon": 74.3443990,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Hali Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Hospital Hudson Silva Lions Eye Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747063,
+  "lat": 31.4949556,
+  "lon": 74.3928245,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Nishat Colony Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Ayesha Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747064,
+  "lat": 31.5717422,
+  "lon": 74.3811123,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shalimar Link Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ali Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747065,
+  "lat": 31.4764633,
+  "lon": 74.2441672,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "پرل انٹرنیشنل ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747066,
+  "lat": 31.4498082,
+  "lon": 74.3076034,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Chaudhry Rehmat Ali Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Chaudhry Rehmat Ali Memorial Hospital",
+    "name:ur": "چوہدری رحمت علی میموریل ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747067,
+  "lat": 31.5710909,
+  "lon": 74.2981105,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Abdali Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Muhammadi Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747068,
+  "lat": 31.5028083,
+  "lon": 74.2682073,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Gondal Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747069,
+  "lat": 31.5024515,
+  "lon": 74.2679873,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Multan Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Hussain Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 5259747070,
+  "lat": 31.5038003,
+  "lon": 74.2653791,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Awan Town Main Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Al Noor Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259837117,
+  "lat": 31.5537125,
+  "lon": 74.2981412,
+  "tags": {
+    "addr:city": "Lahore",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ishaq Haroon Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259837118,
+  "lat": 31.4467396,
+  "lon": 74.2693053,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khyaban-e-Jinnah",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Roshaan Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259837119,
+  "lat": 31.5542357,
+  "lon": 74.3573130,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Allama Iqbal Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Defence National Hospital",
+    "name:ur": "ڈیفنس نیشنل ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259837120,
+  "lat": 31.6155923,
+  "lon": 74.2724153,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jaranwala - Lahore Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "کلسوم سرجیکل ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259838821,
+  "lat": 31.6149870,
+  "lon": 74.2695614,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jaranwala - Lahore Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "PrimeCare Medical Complex"
+  }
+},
+{
+  "type": "node",
+  "id": 5259838822,
+  "lat": 31.5619056,
+  "lon": 74.3028718,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Sanda Rd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Rahim Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259838823,
+  "lat": 31.5619307,
+  "lon": 74.3006778,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Sanda Rd",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Haq Orthopedic Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259838825,
+  "lat": 31.5337593,
+  "lon": 74.3284349,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shadman Market Boulevard",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "شادمان جنرل ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259838826,
+  "lat": 31.5353527,
+  "lon": 74.3286172,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shadman Market Boulevard",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Amina Medical Complex"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958801,
+  "lat": 31.5607429,
+  "lon": 74.3894088,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "UBD Canal Bank Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ghaziabad Government Hospital Lahore"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958802,
+  "lat": 31.4426592,
+  "lon": 74.2957946,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "College Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Wazir Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958804,
+  "lat": 31.5570942,
+  "lon": 74.3236314,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Mall Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Rasheed Hospital",
+    "name:ur": "رشید ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958805,
+  "lat": 31.4556252,
+  "lon": 74.3659617,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Kamahan Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Makhdoom Memorial Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958806,
+  "lat": 31.4941177,
+  "lon": 74.3118532,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Usmani Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Lahore Speciality Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958807,
+  "lat": 31.5624332,
+  "lon": 74.3444831,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:place": "Garhi Shahu",
+    "addr:street": "Durand Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Mother Care Center"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958810,
+  "lat": 31.4943625,
+  "lon": 74.2792822,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Wahdat Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "ممتاز بختاور ہسپتال",
+    "name:en": "Mumtaz Bakhtawar Memorial Hospital",
+    "name:ur": "ممتاز بختاور ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 5259958811,
+  "lat": 31.5181040,
+  "lon": 74.3854299,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Munir Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "PAF Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103781,
+  "lat": 31.5513583,
+  "lon": 74.3609663,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Allama Iqbal Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Ariba Gynae Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103785,
+  "lat": 31.5521674,
+  "lon": 74.3624388,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Allama Iqbal Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Rashida Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103786,
+  "lat": 31.5525948,
+  "lon": 74.3618648,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Allama Iqbal Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "حمزہ میڈیکل کمپلیکس"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103787,
+  "lat": 31.4620272,
+  "lon": 74.2448532,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Raiwind Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Al Shifa Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103789,
+  "lat": 31.4248962,
+  "lon": 74.3378297,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Link Defence Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Mufaza Tul Hayat Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103790,
+  "lat": 31.4245439,
+  "lon": 74.3572983,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Noor Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103791,
+  "lat": 31.5289089,
+  "lon": 74.3225540,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Pakistan Society for Rehabilitation of The Disabled",
+    "name:ur": "پاکستان سوسائٹی برائے بحالی معذور افراد"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103793,
+  "lat": 31.5592440,
+  "lon": 74.3125849,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Begum Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Badar Medical Complex"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103794,
+  "lat": 31.5868674,
+  "lon": 74.3468450,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Iqbal Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "City Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5260103795,
+  "lat": 31.5667290,
+  "lon": 74.2909238,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Abdali Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Faran Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5260182540,
+  "lat": 31.5898990,
+  "lon": 74.3287333,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Mehboob Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Rabia Welfare Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5267410879,
+  "lat": 31.5480963,
+  "lon": 74.3571074,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "UBD Canal Bank Road",
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Mall of Health Pharmacy",
+    "opening_hours": "Mo-Su 10:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 5267413985,
+  "lat": 31.5484343,
+  "lon": 74.3571591,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "UBD Canal Bank Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Mian Meer Welfair Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5273489542,
+  "lat": 31.4875079,
+  "lon": 74.3808228,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khyaban e Jinnah",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Shaukat Khanum Laboratory",
+    "name:ur": "شوکت خانم لیبارٹری"
+  }
+},
+{
+  "type": "node",
+  "id": 5273631734,
+  "lat": 31.5698719,
+  "lon": 74.3384901,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Allama Iqbal Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "کېرنس رېلوې روغتون"
+  }
+},
+{
+  "type": "node",
+  "id": 5273680544,
+  "lat": 31.4728929,
+  "lon": 74.2534801,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "UBD Canal Bank Road",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Hafeez Eye Centre"
+  }
+},
+{
+  "type": "node",
+  "id": 5276934827,
+  "lat": 31.5350141,
+  "lon": 74.3399776,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Mian Medical Complex",
+    "name:ur": "میاں میڈیکل کمپلیکس"
+  }
+},
+{
+  "type": "node",
+  "id": 5276934828,
+  "lat": 31.5364886,
+  "lon": 74.3390281,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Rana Laser Ent Centre",
+    "name:ur": "رانا لیزر این ٹی سنٹر"
+  }
+},
+{
+  "type": "node",
+  "id": 5331450184,
+  "lat": 31.5419574,
+  "lon": 74.3330562,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:country": "PK",
+    "addr:state": "Punjab",
+    "addr:street": "Jail Road",
+    "amenity": "pharmacy",
+    "name": "RANA Pharmacy",
+    "phone": "0300-4656426"
+  }
+},
+{
+  "type": "node",
+  "id": 5334281221,
+  "lat": 31.4748636,
+  "lon": 74.3030329,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Al-Nasar",
+    "name:en": "Al-Nasar",
+    "name:ur": "الناصر"
+  }
+},
+{
+  "type": "node",
+  "id": 5489470742,
+  "lat": 31.5283258,
+  "lon": 74.3250862,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:country": "PK",
+    "amenity": "pharmacy",
+    "name": "Abid Medical Store"
+  }
+},
+{
+  "type": "node",
+  "id": 5510293622,
+  "lat": 31.3778752,
+  "lon": 74.1746849,
+  "tags": {
+    "addr:street": "Johar Avenue",
+    "amenity": "pharmacy",
+    "name": "Hi-Care Pharmacy",
+    "operator": "Brig (R) Saeed"
+  }
+},
+{
+  "type": "node",
+  "id": 5510293626,
+  "lat": 31.3758245,
+  "lon": 74.1707818,
+  "tags": {
+    "addr:street": "Liaqat Ali Khan Avenue",
+    "amenity": "hospital",
+    "name": "Animal Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5510293822,
+  "lat": 31.3801195,
+  "lon": 74.1695864,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Life Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 5510293924,
+  "lat": 31.4440382,
+  "lon": 74.2779011,
+  "tags": {
+    "addr:street": "PIA Main Blvd",
+    "amenity": "pharmacy",
+    "name": "Moon Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 5566707624,
+  "lat": 31.4915505,
+  "lon": 74.3306198,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "8-B Model Town",
+    "addr:postcode": "54700",
+    "addr:street": "Model Town Circular Road",
+    "amenity": "dentist",
+    "email": "sherwanidentalassociates@gmail.com",
+    "healthcare:speciality": "dentist;dentistry;orthodontics;implantology;dental_oral_maxillo_facial_surgery;maxillofacial_surgery;cosmetic_dentistry;cosmetic_surgery;oral_surgery;dentiste;dental_surgery;denturist;dental;cosmetic;skin;maxillo_facial_surgery;dermatologist",
+    "internet_access": "wlan",
+    "name": "Sherwani Dental Associates",
+    "opening_hours": "Mo-Sa 16:00-21:00",
+    "operator": "Dr. Shariq Ali Khan Sherwani",
+    "phone": "03454804117",
+    "website": "https://www.facebook.com/sherwanidental"
+  }
+},
+{
+  "type": "node",
+  "id": 5628170922,
+  "lat": 31.4422069,
+  "lon": 74.2767025,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Punjab Pharmacy",
+    "opening_hours": "Mo-Su 09:00-23:00"
+  }
+},
+{
+  "type": "node",
+  "id": 5684856922,
+  "lat": 31.5615672,
+  "lon": 74.2997606,
+  "tags": {
+    "addr:city": "لاہور",
+    "addr:housenumber": "11-ا",
+    "addr:street": "Sanda Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "healthcare:speciality": "ophthalmology",
+    "name": "National Eye Centre",
+    "name:en": "National Eye Centre",
+    "phone": "+924237171681"
+  }
+},
+{
+  "type": "node",
+  "id": 5741578395,
+  "lat": 31.5031896,
+  "lon": 74.3239239,
+  "tags": {
+    "amenity": "clinic",
+    "name": "Dr. Zahid Hussain"
+  }
+},
+{
+  "type": "node",
+  "id": 5741578396,
+  "lat": 31.4993556,
+  "lon": 74.3203382,
+  "tags": {
+    "amenity": "clinic",
+    "name": "Dr. Altaf Cheema"
+  }
+},
+{
+  "type": "node",
+  "id": 5741652521,
+  "lat": 31.5102994,
+  "lon": 74.3280872,
+  "tags": {
+    "amenity": "clinic",
+    "name": "ډاکټر آصف رانا"
+  }
+},
+{
+  "type": "node",
+  "id": 5803609953,
+  "lat": 31.4643432,
+  "lon": 74.2748524,
+  "tags": {
+    "amenity": "pharmacy",
+    "name": "Fazal Din Dispensing Pharmacy",
+    "name:en": "Fazal Din Dispensing Pharmacy",
+    "opening_hours": "Mo-Sa 10:00-18:00"
+  }
+},
+{
+  "type": "node",
+  "id": 5965062506,
+  "lat": 31.4357394,
+  "lon": 74.2156973,
+  "tags": {
+    "amenity": "pharmacy",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Dukes & Dukes Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 5965062507,
+  "lat": 31.4351581,
+  "lon": 74.2155364,
+  "tags": {
+    "amenity": "pharmacy",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Rite Aid"
+  }
+},
+{
+  "type": "node",
+  "id": 6087117985,
+  "lat": 31.5125979,
+  "lon": 74.3173865,
+  "tags": {
+    "addr:housenumber": "155-B Block",
+    "addr:street": "Muslim Town",
+    "amenity": "clinic",
+    "name": "Dr. Mehmood Ali Malik",
+    "opening_hours": "Sa 10:00-13:00",
+    "phone": "03454237136"
+  }
+},
+{
+  "type": "node",
+  "id": 6127533767,
+  "lat": 31.5925500,
+  "lon": 74.3792920,
+  "tags": {
+    "addr:city": "Rehman Park Madina Colony Baghbanpura Lahore",
+    "addr:street": "Basharat Road",
+    "amenity": "pharmacy",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Naseem Pharmacy",
+    "opening_hours": "Mo-Sa 09:00-20:00",
+    "operator": "Muhammad Azeem"
+  }
+},
+{
+  "type": "node",
+  "id": 6190484086,
+  "lat": 31.6196714,
+  "lon": 74.2783261,
+  "tags": {
+    "addr:street": "Pindi Das Road",
+    "amenity": "doctors",
+    "name": "Raheem medical hal",
+    "opening_hours": "Mo-Su 05:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 6282770086,
+  "lat": 31.6196706,
+  "lon": 74.2785056,
+  "tags": {
+    "addr:postcode": "54000",
+    "addr:street": "Pindi Das Road",
+    "amenity": "doctors",
+    "internet_access": "wlan",
+    "name": "Raheem medical store",
+    "opening_hours": "24/7",
+    "phone": "03004232103"
+  }
+},
+{
+  "type": "node",
+  "id": 6379726932,
+  "lat": 31.5545166,
+  "lon": 74.2992248,
+  "tags": {
+    "addr:housenumber": "15",
+    "addr:street": "Shamnagar Road",
+    "amenity": "dentist",
+    "contact:facebook": "https://www.facebook.com/bydentaloffices/",
+    "name": "Fawaz Dental Surgery"
+  }
+},
+{
+  "type": "node",
+  "id": 6542145885,
+  "lat": 31.4916105,
+  "lon": 74.3304986,
+  "tags": {
+    "addr:housenumber": "House # 8-B",
+    "addr:postcode": "54700",
+    "addr:street": "Block B Circular",
+    "amenity": "dentist",
+    "email": "sherwanidentalassociates@gmail.com",
+    "internet_access": "wlan",
+    "name": "Sherwani Dental Associates",
+    "opening_hours": "Mo-Sa 16:00-21:00",
+    "phone": "+923454804117",
+    "website": "https://sherwanidental.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 7077431285,
+  "lat": 31.4745626,
+  "lon": 74.2859699,
+  "tags": {
+    "amenity": "doctors",
+    "name": "Mamu gher"
+  }
+},
+{
+  "type": "node",
+  "id": 7165556234,
+  "lat": 31.4715382,
+  "lon": 74.2694031,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "797-J,k,H.Block",
+    "addr:postcode": "54782",
+    "addr:street": "Fatimiyyah Road",
+    "amenity": "hospital",
+    "description": "Best dentists in Lahore are working together under the umbrella of Dental Experts. It is a platform where specialized dentists collaborate to treat and cure all type of dental issues faced by patients.",
+    "healthcare": "hospital",
+    "healthcare:speciality": "dentist",
+    "name": "Dental Experts Johar Town Lahore",
+    "operator": "Dr. Sajjad Saeed Siddiqui",
+    "operator:type": "private",
+    "phone": "923009495903",
+    "website": "https://dentalexperts.pk"
+  }
+},
+{
+  "type": "node",
+  "id": 7222242426,
+  "lat": 31.4890915,
+  "lon": 74.3261629,
+  "tags": {
+    "amenity": "pharmacy",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Servaid Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 7244237490,
+  "lat": 31.6043078,
+  "lon": 74.3425877,
+  "tags": {
+    "addr:street": "Aamir Road",
+    "amenity": "clinic",
+    "name": "Dr. Sindhu Ear, Nose specialist",
+    "opening_hours": "Mo-Sa 19:30-23:00",
+    "operator": "Dr. A.H Sandhu",
+    "phone": "03044625207"
+  }
+},
+{
+  "type": "node",
+  "id": 7244238288,
+  "lat": 31.5788726,
+  "lon": 74.3140407,
+  "tags": {
+    "addr:street": "Lohari Gate Bazaar",
+    "amenity": "hospital",
+    "name": "Malik Jalal Din Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 7252307858,
+  "lat": 31.4888577,
+  "lon": 74.3287651,
+  "tags": {
+    "amenity": "pharmacy",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Shifa Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 7307115688,
+  "lat": 31.4887231,
+  "lon": 74.3262445,
+  "tags": {
+    "amenity": "pharmacy",
+    "dispensing": "yes",
+    "healthcare": "pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 7618345201,
+  "lat": 31.4995263,
+  "lon": 74.3666831,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "Shop 9",
+    "addr:street": "Mini Market , Cavalry Ground, Opp to khlaid Masjid",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Al Mairah Dental and Cosmetics Clinic",
+    "name:ur": "المیرہ ڈینٹل اینڈ کاسمیٹکس کلینک",
+    "operator": "AMDC",
+    "operator:type": "private,_clinic,_Dentist,_skincare,_cosmetics"
+  }
+},
+{
+  "type": "node",
+  "id": 7652817385,
+  "lat": 31.4894273,
+  "lon": 74.2675562,
+  "tags": {
+    "amenity": "clinic",
+    "name": "Dr. Shahid Iqbal"
+  }
+},
+{
+  "type": "node",
+  "id": 7796821385,
+  "lat": 31.5832978,
+  "lon": 74.3463592,
+  "tags": {
+    "amenity": "doctors",
+    "name": "Dr. Ehsan ul Haq (Orthopedic S",
+    "name:en": "Dr. Ehsan ul Haq (Orthopedic Specialist)",
+    "phone": "03174949484"
+  }
+},
+{
+  "type": "node",
+  "id": 8018745638,
+  "lat": 31.4621823,
+  "lon": 74.2747392,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "599, Q Block",
+    "addr:postcode": "54000",
+    "addr:street": "Johar Town Main Boulevard",
+    "amenity": "dentist",
+    "healthcare": "dentist",
+    "healthcare:speciality": "endodontics;implantology;cosmetic",
+    "name": "Smile Hub Clinics",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "phone": "+923204411688"
+  }
+},
+{
+  "type": "node",
+  "id": 8058453485,
+  "lat": 31.4854440,
+  "lon": 74.4121793,
+  "tags": {
+    "amenity": "doctors",
+    "name": "Shahzad Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 8058453585,
+  "lat": 31.4854381,
+  "lon": 74.4121711,
+  "tags": {
+    "addr:street": "Street no 2 Bedian Road",
+    "amenity": "doctors",
+    "name": "Shahzad Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 8205628886,
+  "lat": 31.4737330,
+  "lon": 74.2956775,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "9",
+    "addr:postcode": "54000",
+    "addr:street": "Saadat Street Near Jutt Chowk near BOR Society Johar Town Lahore",
+    "amenity": "hospital",
+    "email": "zahid332.mz@gmail.com",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "gynaecology;surgery;general",
+    "image": "https://shazia-zahid-medical-centre.business.site/",
+    "name": "Shazia Zahid Medical Centre",
+    "name:ur": "شازیہ زاھد میڈیکل سینٹر",
+    "operator": "Dr. Zahid",
+    "operator:type": "private",
+    "phone": "03208458445",
+    "start_date": "2020",
+    "website": "https://shazia-zahid-medical-centre.business.site/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8252241917,
+  "lat": 31.5485408,
+  "lon": 74.3047584,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Dr Sadaqat Balouch",
+    "name:en": "Dr Sadaqat Balouch (Withdrawls Specialist)"
+  }
+},
+{
+  "type": "node",
+  "id": 8252242017,
+  "lat": 31.5485441,
+  "lon": 74.3047362,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Dr Sadaqat Balouch (Withdrawal Specialist)"
+  }
+},
+{
+  "type": "node",
+  "id": 8597534130,
+  "lat": 31.4027301,
+  "lon": 74.2325973,
+  "tags": {
+    "addr:city": "lahore",
+    "addr:housenumber": "1km",
+    "addr:postcode": "54000",
+    "addr:street": "defence road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "physiotherapy;general;ophthalmology;paediatrics;orthopaedics;dermatology;psychiatry;urology;covid19;cardiology;neurology",
+    "name": "University of Lahore Teaching Hospital",
+    "operator": "University of Lahore",
+    "operator:type": "private_non_profit"
+  }
+},
+{
+  "type": "node",
+  "id": 8917032217,
+  "lat": 31.4890079,
+  "lon": 74.3859040,
+  "tags": {
+    "addr:street": "St 10 Sec A Ph 1",
+    "amenity": "clinic",
+    "internet_access": "wlan",
+    "name": "qazi clinic",
+    "name:ur": "قاضی کلینک"
+  }
+},
+{
+  "type": "node",
+  "id": 8927949517,
+  "lat": 31.4519654,
+  "lon": 74.2678336,
+  "tags": {
+    "addr:housenumber": "54B",
+    "amenity": "hospital",
+    "name": "Sakina hospital johar town"
+  }
+},
+{
+  "type": "node",
+  "id": 9383530553,
+  "lat": 31.4710831,
+  "lon": 74.2986453,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "403",
+    "addr:postcode": "54782",
+    "addr:street": "Block-E, Johar Town",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Zeerak Matab (Herbal & Hijama)",
+    "operator:type": "none"
+  }
+},
+{
+  "type": "node",
+  "id": 10124921017,
+  "lat": 31.4904806,
+  "lon": 74.2794077,
+  "tags": {
+    "amenity": "doctors"
+  }
+},
+{
+  "type": "node",
+  "id": 10722536105,
+  "lat": 31.6077283,
+  "lon": 74.2509833,
+  "tags": {
+    "addr:street": "Jhelum",
+    "amenity": "doctors",
+    "email": "mumer1135@gmail.com",
+    "name": "Doctor",
+    "phone": "03447377663"
+  }
+},
+{
+  "type": "node",
+  "id": 10734314530,
+  "lat": 31.4835473,
+  "lon": 74.2991692,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "149-A (HBFC)",
+    "addr:postcode": "54000",
+    "addr:street": "Faisal Town, Opposite Allama Iqbal Medical College & Jinnah Hospital",
+    "amenity": "hospital",
+    "description": "We do our best at The Dental Suite to put you and your dental needs first. Our dentist know that dentistry can be stressful for our patients due to all the noisy instruments, water in your mouth, and of course, the fear of pain. The Dental Suite have perf",
+    "email": "thedentalsuiteofficial@gmail.com",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "dentist;general;orthodontics;periodontics_(gum_disease);endodontics_(root_canal_treatment);implant_dentist;cosmetic_dentist;aesthetic_dentist;dental_oral_maxillo_facial_surgery;dental;dental_clinic",
+    "name": "The Dental Suite by Dr. Mujtaba Anwar",
+    "operator": "Dr. Mujtaba Anwar",
+    "operator:type": "private"
+  }
+},
+{
+  "type": "node",
+  "id": 10816641505,
+  "lat": 31.5382616,
+  "lon": 74.3058757,
+  "tags": {
+    "addr:street": "Ghazali Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Asghar Hospital",
+    "name:ur": "اصغر ہسپتال"
+  }
+},
+{
+  "type": "node",
+  "id": 11018101305,
+  "lat": 31.4420757,
+  "lon": 74.2970778,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Noor Clinic",
+    "name:ur": "نور کلینک",
+    "operator": "Dr. Khalid"
+  }
+},
+{
+  "type": "node",
+  "id": 11171415971,
+  "lat": 31.5003469,
+  "lon": 74.3618904,
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 11515510569,
+  "lat": 31.4557216,
+  "lon": 74.3698219,
+  "tags": {
+    "addr:housenumber": "426",
+    "addr:postcode": "54792",
+    "addr:street": "D Block Road",
+    "amenity": "dentist",
+    "email": "honestfriend23@gmail.com",
+    "internet_access": "wlan",
+    "name": "Dentist",
+    "phone": "+923008862350"
+  }
+},
+{
+  "type": "node",
+  "id": 11738657722,
+  "lat": 31.3572962,
+  "lon": 74.1816109,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "د طارق لطیف طبي مرکز."
+  }
+},
+{
+  "type": "node",
+  "id": 11738658137,
+  "lat": 31.3611573,
+  "lon": 74.1860810,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Pills Mart"
+  }
+},
+{
+  "type": "node",
+  "id": 11738658138,
+  "lat": 31.3619977,
+  "lon": 74.1860546,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Askari Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 11738700540,
+  "lat": 31.3869018,
+  "lon": 74.1905118,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Alnoor Poly Clinic"
+  }
+},
+{
+  "type": "node",
+  "id": 11738700541,
+  "lat": 31.3871292,
+  "lon": 74.1905642,
+  "tags": {
+    "amenity": "pharmacy",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "name": "Servaid Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 11738730395,
+  "lat": 31.4015706,
+  "lon": 74.1604613,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Al-Qazi Pharmacy"
+  }
+},
+{
+  "type": "node",
+  "id": 11741758622,
+  "lat": 31.3882565,
+  "lon": 74.1822065,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Health Plus Speciality Clinics",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11743300717,
+  "lat": 31.3753303,
+  "lon": 74.1867529,
+  "tags": {
+    "addr:street": "Bahria Town Main Boulevard",
+    "amenity": "dentist",
+    "healthcare": "dentist",
+    "name": "A&A Dental Clinic",
+    "survey:date": "2024-03-19"
+  }
+},
+{
+  "type": "node",
+  "id": 11743300726,
+  "lat": 31.3754528,
+  "lon": 74.1867270,
+  "tags": {
+    "addr:street": "Bahria Town Main Boulevard",
+    "amenity": "doctors",
+    "healthcare": "doctor",
+    "healthcare:speciality": "gynaecology",
+    "name": "Ferti Med IVF & Gynae Center",
+    "survey:date": "2024-03-19"
+  }
+},
+{
+  "type": "node",
+  "id": 11743300749,
+  "lat": 31.3767616,
+  "lon": 74.1866789,
+  "tags": {
+    "addr:street": "Bahria Town Main Boulevard",
+    "amenity": "dentist",
+    "healthcare": "dentist",
+    "name": "S&I Dental Consultants",
+    "survey:date": "2024-03-19"
+  }
+},
+{
+  "type": "node",
+  "id": 11752403251,
+  "lat": 31.3700695,
+  "lon": 74.1857911,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "First Pharmacy",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752403257,
+  "lat": 31.3701195,
+  "lon": 74.1857930,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Drug Shop",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752462778,
+  "lat": 31.3697007,
+  "lon": 74.1875004,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Ali Medical Center",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752462788,
+  "lat": 31.3767975,
+  "lon": 74.1856094,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Punjab Pharmacy",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752462792,
+  "lat": 31.3765991,
+  "lon": 74.1856212,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Fazal Din's Pharmacy Plus",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752462793,
+  "lat": 31.3765724,
+  "lon": 74.1855870,
+  "tags": {
+    "amenity": "doctors",
+    "healthcare": "doctor",
+    "healthcare:speciality": "dermatology",
+    "name": "The Skin Expo",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752485553,
+  "lat": 31.3706479,
+  "lon": 74.1868323,
+  "tags": {
+    "amenity": "doctors",
+    "healthcare": "doctor",
+    "healthcare:speciality": "dermatology",
+    "name": "DMA Skin Clinic",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752485566,
+  "lat": 31.3767210,
+  "lon": 74.1865096,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Clinix",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752485567,
+  "lat": 31.3767626,
+  "lon": 74.1865160,
+  "tags": {
+    "amenity": "dentist",
+    "healthcare": "dentist",
+    "name": "Somai Dental & Aesthetics",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11752486285,
+  "lat": 31.3882502,
+  "lon": 74.1820129,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Healt Plus Pharmacy",
+    "survey:date": "2024-03-22"
+  }
+},
+{
+  "type": "node",
+  "id": 11770977916,
+  "lat": 31.3742647,
+  "lon": 74.1857713,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Green Pharmacy",
+    "survey:date": "2024-03-29"
+  }
+},
+{
+  "type": "node",
+  "id": 11770982105,
+  "lat": 31.3573147,
+  "lon": 74.1790006,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Derma and Dental Clinic",
+    "survey:date": "2024-03-29"
+  }
+},
+{
+  "type": "node",
+  "id": 11770982106,
+  "lat": 31.3626495,
+  "lon": 74.1850068,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Servaid",
+    "survey:date": "2024-03-29"
+  }
+},
+{
+  "type": "node",
+  "id": 12384983279,
+  "lat": 31.5702434,
+  "lon": 74.3779207,
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "religion": "muslim"
+  }
+},
+{
+  "type": "node",
+  "id": 12622278646,
+  "lat": 31.4421421,
+  "lon": 74.4297974,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "Shop No. 24, FF, West Shopping Complex",
+    "addr:postcode": "57400",
+    "addr:street": "Sector-C, Askari-11",
+    "amenity": "hospital",
+    "contact:facebook": "https://www.facebook.com/ZeerakMatab",
+    "healthcare": "hospital",
+    "healthcare:speciality": "naturopathy;herbalism;homeopathy;chiropractic;unani;ayurveda;traditional_chinese_medicine",
+    "name": "ذیرک مطب ہربل اور حجامہ۔"
+  }
+},
+{
+  "type": "node",
+  "id": 12645820201,
+  "lat": 31.6106380,
+  "lon": 74.2511469,
+  "tags": {
+    "addr:street": "Jaranwala - Lahore Road",
+    "amenity": "pharmacy",
+    "name": "Ahmad Din Pharmacy",
+    "opening_hours": "Mo-Su 09:00-23:00"
+  }
+},
+{
+  "type": "node",
+  "id": 13091899518,
+  "lat": 31.4546131,
+  "lon": 74.2665970,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "181-C Abdalian's Co-operative Housing Society",
+    "addr:postcode": "54782",
+    "addr:street": "Nazaria-e-Pakistan Avenue",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "healthcare:speciality": "geriatrics",
+    "name": "GeroX®",
+    "operator": "geroxclinic.com",
+    "operator:type": "private_individual"
+  }
+},
+{
+  "type": "node",
+  "id": 13151819907,
+  "lat": 31.5237126,
+  "lon": 74.3461919,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:country": "PK",
+    "addr:housenumber": "Near Main Market Round About",
+    "addr:street": "Main Market, Gulberg",
+    "amenity": "pharmacy",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "CSH Pharmacy",
+    "opening_hours": "24/7",
+    "service": "pharmacy",
+    "service_times": "24 Hour Open",
+    "website": "https://cshpharmacy.com.pk/"
+  }
+},
+{
+  "type": "node",
+  "id": 13201111543,
+  "lat": 31.4838954,
+  "lon": 74.2842268,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "healthcare:speciality": "general",
+    "name": "pimraCare Clinic by Dr.AliArshed"
+  }
+},
+{
+  "type": "node",
+  "id": 13201111544,
+  "lat": 31.4855890,
+  "lon": 74.2820986,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "healthcare:speciality": "general",
+    "name": "Tech Medical Centre"
+  }
+},
+{
+  "type": "node",
+  "id": 13417457769,
+  "lat": 31.4833964,
+  "lon": 74.2799311,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Street 15",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "S and S Skincare"
+  }
+},
+{
+  "type": "node",
+  "id": 13417617884,
+  "lat": 31.5446272,
+  "lon": 74.4197759,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "1-A/1",
+    "addr:postcode": "54000",
+    "addr:street": "Zarar Shaheed Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "HMC Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 13417622920,
+  "lat": 31.5318849,
+  "lon": 74.4538145,
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Imperial Main Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "MedEast Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 13667829101,
+  "lat": 31.3996475,
+  "lon": 74.2880946,
+  "tags": {
+    "addr:housenumber": "38C1",
+    "addr:postcode": "53100",
+    "addr:street": "Engineers Town",
+    "amenity": "pharmacy",
+    "name": "Servaid Pharmacy ETL",
+    "phone": "03704486660"
+  }
+},
+{
+  "type": "way",
+  "id": 151735321,
+  "center": {
+    "lat": 31.4554353,
+    "lon": 74.3501024
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "ghazi metro",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Lahore General Hospital",
+    "wikidata": "Q6473374",
+    "wikipedia": "ur:لاہور جنرل ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 151736920,
+  "center": {
+    "lat": 31.5711365,
+    "lon": 74.3153924
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Hospital Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "مایو روغتون",
+    "name:en": "Mayo Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 152214521,
+  "center": {
+    "lat": 31.4794521,
+    "lon": 74.2800878
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:country": "PK",
+    "addr:housenumber": "152-G/1",
+    "addr:postcode": "54590",
+    "addr:street": "UBD Canal Bank Road",
+    "amenity": "hospital",
+    "email": "info@dhmc.com.pk",
+    "emergency": "yes",
+    "internet_access": "wlan",
+    "name": "Doctors Hospital",
+    "phone": "92-42-35302701-14",
+    "website": "https://doctorshospital.com.pk/contact/"
+  }
+},
+{
+  "type": "way",
+  "id": 152215400,
+  "center": {
+    "lat": 31.5752446,
+    "lon": 74.3798169
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Shalimar Link Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "شالامار ہسپتال",
+    "name:en": "Shalimar Hospital",
+    "name:pa": "شالامار ہسپتال",
+    "source": "bing, url",
+    "url": "http://www.shalamarhospital.org.pk"
+  }
+},
+{
+  "type": "way",
+  "id": 152319376,
+  "center": {
+    "lat": 31.5393945,
+    "lon": 74.3340449
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Jail Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "سروسز ہسپتال",
+    "source": "bing, url",
+    "url": "https://sims.edu.pk/"
+  }
+},
+{
+  "type": "way",
+  "id": 164230651,
+  "center": {
+    "lat": 31.4483135,
+    "lon": 74.2718439
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khayaban-e-Firdousi",
+    "amenity": "hospital",
+    "description": "Tertiary Care Cancer Hospital",
+    "emergency": "designated",
+    "name": "Shaukat Khanum Memorial Cancer Hospital & Research Center"
+  }
+},
+{
+  "type": "way",
+  "id": 164287501,
+  "center": {
+    "lat": 31.4884790,
+    "lon": 74.3789789
+  },
+  "tags": {
+    "amenity": "clinic",
+    "building": "yes",
+    "name": "Hassan Medical Center",
+    "name:ur": "حسن میڈیکل سینٹر"
+  }
+},
+{
+  "type": "way",
+  "id": 230676451,
+  "center": {
+    "lat": 31.5091116,
+    "lon": 74.3089963
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Shaikh Zayed Medical Complex"
+  }
+},
+{
+  "type": "way",
+  "id": 231838075,
+  "center": {
+    "lat": 31.5541940,
+    "lon": 74.3219281
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Queen's Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "سر گنگا رام ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 291409469,
+  "center": {
+    "lat": 31.5883484,
+    "lon": 74.3077017
+  },
+  "tags": {
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 291409471,
+  "center": {
+    "lat": 31.5866783,
+    "lon": 74.3081557
+  },
+  "tags": {
+    "amenity": "hospital",
+    "emergency": "yes",
+    "name": "Punjab Dental Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 319648873,
+  "center": {
+    "lat": 31.5737936,
+    "lon": 74.3154919
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "H8F8+95J",
+    "addr:postcode": "54000",
+    "addr:street": "Mayo Hospital Rd, Anarkali Bazaar Lahore",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Lady Aitchison Hospital",
+    "name:ur": "لیڈی ایچی سن ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 362348370,
+  "center": {
+    "lat": 31.4469729,
+    "lon": 74.2713187
+  },
+  "tags": {
+    "amenity": "clinic",
+    "building": "yes",
+    "name": "Laboratory"
+  }
+},
+{
+  "type": "way",
+  "id": 363559899,
+  "center": {
+    "lat": 31.5238248,
+    "lon": 74.3228093
+  },
+  "tags": {
+    "amenity": "hospital",
+    "name": "WAPDA Hospital",
+    "name:ur": "واپڈا ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 363567235,
+  "center": {
+    "lat": 31.5052927,
+    "lon": 74.3304229
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Ferozepur Road",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Masood Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 363567236,
+  "center": {
+    "lat": 31.5042137,
+    "lon": 74.3294009
+  },
+  "tags": {
+    "amenity": "hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 363567266,
+  "center": {
+    "lat": 31.5083259,
+    "lon": 74.3410879
+  },
+  "tags": {
+    "addr:city": "لاہور",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "یونائیٹڈ کرسچن ہسپتال",
+    "name:en": "United Christian Hospital",
+    "name:pa": "یونائیٹڈ کرسچن ہسپتال",
+    "name:ur": "یونائیٹڈ کرسچن ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 363598892,
+  "center": {
+    "lat": 31.4799650,
+    "lon": 74.3438904
+  },
+  "tags": {
+    "amenity": "hospital",
+    "name": "Children Hospital Lahore"
+  }
+},
+{
+  "type": "way",
+  "id": 383245067,
+  "center": {
+    "lat": 31.4821456,
+    "lon": 74.3439002
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Gulab Devi Memorial Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 444999921,
+  "center": {
+    "lat": 31.3876947,
+    "lon": 74.1878186
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Bahria Town Main Boulevard",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Bahria International Hospital",
+    "source": "Bing"
+  }
+},
+{
+  "type": "way",
+  "id": 445193077,
+  "center": {
+    "lat": 31.3832125,
+    "lon": 74.1686955
+  },
+  "tags": {
+    "amenity": "pharmacy",
+    "area": "yes",
+    "name": "Punjab Pharmacy"
+  }
+},
+{
+  "type": "way",
+  "id": 500393743,
+  "center": {
+    "lat": 31.5845723,
+    "lon": 74.3272312
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Yakki Gate Bazaar",
+    "amenity": "hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 541330379,
+  "center": {
+    "lat": 31.4964558,
+    "lon": 74.4259801
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "addr:street": "Service Road",
+    "amenity": "clinic",
+    "building": "yes",
+    "healthcare": "clinic",
+    "name": "Noor Clinic",
+    "name:ur": "نور کلینک"
+  }
+},
+{
+  "type": "way",
+  "id": 542209334,
+  "center": {
+    "lat": 31.4882626,
+    "lon": 74.4130299
+  },
+  "tags": {
+    "amenity": "pharmacy",
+    "building": "yes",
+    "ele": "1",
+    "healthcare": "pharmacy",
+    "name": "Shaukat Khanum Laboratory Collection Centre"
+  }
+},
+{
+  "type": "way",
+  "id": 542209490,
+  "center": {
+    "lat": 31.4878985,
+    "lon": 74.4128255
+  },
+  "tags": {
+    "amenity": "pharmacy",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "name": "Rasheed pharmacy"
+  }
+},
+{
+  "type": "way",
+  "id": 542244027,
+  "center": {
+    "lat": 31.4857832,
+    "lon": 74.4161850
+  },
+  "tags": {
+    "amenity": "pharmacy",
+    "building": "yes",
+    "ele": "1",
+    "healthcare": "pharmacy",
+    "name": "Rafique Sons Pharmacy"
+  }
+},
+{
+  "type": "way",
+  "id": 543626260,
+  "center": {
+    "lat": 31.4860406,
+    "lon": 74.4144156
+  },
+  "tags": {
+    "amenity": "clinic",
+    "building": "yes",
+    "ele": "2",
+    "healthcare": "clinic",
+    "name": "Farzana Clinic",
+    "name:ur": "فرزانہ کلینک"
+  }
+},
+{
+  "type": "way",
+  "id": 543676557,
+  "center": {
+    "lat": 31.5019712,
+    "lon": 74.3618487
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "amenity": "dentist",
+    "building": "yes",
+    "healthcare": "dentist",
+    "name": "Cavalry Dental Clinic"
+  }
+},
+{
+  "type": "way",
+  "id": 544473116,
+  "center": {
+    "lat": 31.4858769,
+    "lon": 74.4125983
+  },
+  "tags": {
+    "amenity": "clinic",
+    "building": "yes",
+    "ele": "1",
+    "healthcare": "clinic",
+    "name": "Nazar Homeo Herbal clinic",
+    "name:ur": "نذر ہومیو ہربل کلینک"
+  }
+},
+{
+  "type": "way",
+  "id": 544982538,
+  "center": {
+    "lat": 31.4825594,
+    "lon": 74.3950593
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "level": "1",
+    "name": "Trust Medical Store"
+  }
+},
+{
+  "type": "way",
+  "id": 544984489,
+  "center": {
+    "lat": 31.4828555,
+    "lon": 74.3947938
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "level": "1",
+    "name": "Pakistan Pharmacy"
+  }
+},
+{
+  "type": "way",
+  "id": 544986021,
+  "center": {
+    "lat": 31.4778866,
+    "lon": 74.4132348
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "addr:street": "Sec V & U Outer Rd Ph 2",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "ele": "2",
+    "healthcare": "pharmacy",
+    "name": "Hafiz Medicle and General Store"
+  }
+},
+{
+  "type": "way",
+  "id": 544988445,
+  "center": {
+    "lat": 31.4826920,
+    "lon": 74.4197291
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "addr:street": "Bedian Road",
+    "amenity": "clinic",
+    "building": "yes",
+    "ele": "1",
+    "healthcare": "clinic",
+    "name": "Dr Khurshid Clinic",
+    "name:ur": "ڈاکٹر خورشید کلینک"
+  }
+},
+{
+  "type": "way",
+  "id": 544988733,
+  "center": {
+    "lat": 31.4831632,
+    "lon": 74.4202293
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "addr:street": "Bedian Road",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "drive_through": "no",
+    "healthcare": "pharmacy",
+    "name": "Anjum medical store"
+  }
+},
+{
+  "type": "way",
+  "id": 545409578,
+  "center": {
+    "lat": 31.4842832,
+    "lon": 74.3936688
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "amenity": "clinic",
+    "building": "yes",
+    "healthcare": "clinic",
+    "level": "2",
+    "name": "Jugnu Dar Ul Basarat",
+    "name:ur": "جگنو دار البصرت"
+  }
+},
+{
+  "type": "way",
+  "id": 545994886,
+  "center": {
+    "lat": 31.4847071,
+    "lon": 74.3920583
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "amenity": "dentist",
+    "building": "yes",
+    "healthcare": "dentist",
+    "level": "1",
+    "name": "Rabbani & Rabbani Dental Expressions"
+  }
+},
+{
+  "type": "way",
+  "id": 545994887,
+  "center": {
+    "lat": 31.4847245,
+    "lon": 74.3917738
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "level": "1",
+    "name": "Rana Pharmacy"
+  }
+},
+{
+  "type": "way",
+  "id": 545997042,
+  "center": {
+    "lat": 31.4615155,
+    "lon": 74.3784911
+  },
+  "tags": {
+    "amenity": "pharmacy",
+    "building": "yes",
+    "ele": "2",
+    "healthcare": "pharmacy",
+    "name": "DVM Pharma"
+  }
+},
+{
+  "type": "way",
+  "id": 545997603,
+  "center": {
+    "lat": 31.4853075,
+    "lon": 74.3913527
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "level": "1",
+    "name": "Baig Pharmacy"
+  }
+},
+{
+  "type": "way",
+  "id": 546081030,
+  "center": {
+    "lat": 31.4636461,
+    "lon": 74.3863420
+  },
+  "tags": {
+    "amenity": "clinic",
+    "building": "yes",
+    "ele": "2",
+    "healthcare": "clinic",
+    "name": "ساو آن طبي مرکز"
+  }
+},
+{
+  "type": "way",
+  "id": 606849269,
+  "center": {
+    "lat": 31.5780358,
+    "lon": 74.3018245
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "داتا دربار ہسپتال",
+    "name:en": "Data Darbar Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 607141169,
+  "center": {
+    "lat": 31.5807071,
+    "lon": 74.2997576
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Infectious Diseases Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 607798443,
+  "center": {
+    "lat": 31.5846139,
+    "lon": 74.3136377
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "سید مٹھا ہسپتال",
+    "name:en": "Saeed Mitha hospital",
+    "name:ur": "سید مٹھا ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 617274671,
+  "center": {
+    "lat": 31.5548344,
+    "lon": 74.3152148
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Mozang Teaching Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 618202774,
+  "center": {
+    "lat": 31.5567700,
+    "lon": 74.3235002
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 618635245,
+  "center": {
+    "lat": 31.5557136,
+    "lon": 74.3218857
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 683292801,
+  "center": {
+    "lat": 31.4836651,
+    "lon": 74.4075103
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:postcode": "54000",
+    "addr:street": "Ghazi Road",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Clinix Pharmacy (Defence Branch)"
+  }
+},
+{
+  "type": "way",
+  "id": 699576478,
+  "center": {
+    "lat": 31.5381669,
+    "lon": 74.4479085
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "amenity": "clinic",
+    "building": "yes",
+    "ele": "2",
+    "healthcare": "clinic",
+    "name": "Mother And Child Health Clinic",
+    "name:ur": "ماں اور بچے کی صحت کا کلینک"
+  }
+},
+{
+  "type": "way",
+  "id": 699859060,
+  "center": {
+    "lat": 31.4890813,
+    "lon": 74.3802132
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Khyaban e Jinnah",
+    "amenity": "hospital",
+    "building": "hospital",
+    "building:levels": "2",
+    "healthcare": "hospital",
+    "name": "Aadil Hospital",
+    "name:ur": "عادل ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 701006558,
+  "center": {
+    "lat": 31.5995090,
+    "lon": 74.4692524
+  },
+  "tags": {
+    "amenity": "pharmacy",
+    "building": "yes",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Lasani Pharma (PVT) Limited"
+  }
+},
+{
+  "type": "way",
+  "id": 761672831,
+  "center": {
+    "lat": 31.5944143,
+    "lon": 74.3544385
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Bhatti Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 761860753,
+  "center": {
+    "lat": 31.5738554,
+    "lon": 74.3296375
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Government Nawaz Sharif Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 761929357,
+  "center": {
+    "lat": 31.5464003,
+    "lon": 74.3836538
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Safia Hanif Trust Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 761929361,
+  "center": {
+    "lat": 31.5465030,
+    "lon": 74.3824991
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "کینٹونمنٹ بورڈ جنرل ہسپتال"
+  }
+},
+{
+  "type": "way",
+  "id": 761930868,
+  "center": {
+    "lat": 31.5416246,
+    "lon": 74.3720744
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Combined Military Hospital"
+  }
+},
+{
+  "type": "way",
+  "id": 762987125,
+  "center": {
+    "lat": 31.5763466,
+    "lon": 74.2876514
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Mian Munshi Hospital Lahore"
+  }
+},
+{
+  "type": "way",
+  "id": 795117473,
+  "center": {
+    "lat": 31.5213380,
+    "lon": 74.3505687
+  },
+  "tags": {
+    "amenity": "dentist",
+    "building": "yes",
+    "healthcare": "dentist",
+    "name": "Family Dental Solutions - Institute of Orthodontics & Dental Cosmetics."
+  }
+},
+{
+  "type": "way",
+  "id": 799764071,
+  "center": {
+    "lat": 31.5101507,
+    "lon": 74.3489271
+  },
+  "tags": {
+    "addr:city": "لاہور",
+    "amenity": "clinic",
+    "building": "yes",
+    "healthcare": "clinic",
+    "name": "الشوکات میڈیکل اینڈ کڈنی سینٹر",
+    "name:en": "Al Shaukat Medical & Kidney Centre"
+  }
+},
+{
+  "type": "way",
+  "id": 996202526,
+  "center": {
+    "lat": 31.4844525,
+    "lon": 74.2970181
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "Maulana Shaukat Ali Road",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Jinnah Hospital Lahore"
+  }
+},
+{
+  "type": "way",
+  "id": 1009490638,
+  "center": {
+    "lat": 31.5581400,
+    "lon": 74.3086301
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "بشیر میموریل ٹرسٹ ہسپتال آنکھ",
+    "name:pa": "بشیر میموریل ٹرسٹ ہسپتال اکھ",
+    "operator": "unknown"
+  }
+},
+{
+  "type": "way",
+  "id": 1012009320,
+  "center": {
+    "lat": 31.5055860,
+    "lon": 74.2692115
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Al-Mansoor Pharmacy"
+  }
+},
+{
+  "type": "way",
+  "id": 1017334278,
+  "center": {
+    "lat": 31.4710662,
+    "lon": 74.2985592
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Zeerak Matab (Herbal & Hijama"
+  }
+},
+{
+  "type": "way",
+  "id": 1234281295,
+  "center": {
+    "lat": 31.5917055,
+    "lon": 74.4588461
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:street": "گرینڈ ٹرنک روڈ",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "THQ Manawan"
+  }
+},
+{
+  "type": "way",
+  "id": 1263555396,
+  "center": {
+    "lat": 31.4016572,
+    "lon": 74.1604377
+  },
+  "tags": {
+    "amenity": "hospital",
+    "building": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "layer": "-1",
+    "name": "Citi Hospital Lahore"
+  }
+},
+{
+  "type": "way",
+  "id": 1465648409,
+  "center": {
+    "lat": 31.4608352,
+    "lon": 74.2748806
+  },
+  "tags": {
+    "addr:city": "Lahore",
+    "addr:housenumber": "64",
+    "addr:street": "Shah Alam Road",
+    "amenity": "pharmacy",
+    "building": "yes",
+    "drive_through": "no",
+    "healthcare": "pharmacy",
+    "name": "Healthwire Pharmacy R-Block",
+    "opening_hours": "Mo-Su 07:00-02:00"
+  }
+}
+
+  ]
+}

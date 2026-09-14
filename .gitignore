@@ -4,3 +4,4 @@ node_modules/
 fixtures/cache/
 credentials/*
 !credentials/README.md
+.wf1-id
