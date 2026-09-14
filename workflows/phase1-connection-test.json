@@ -1,0 +1,152 @@
+{
+  "name": "[Phase 1] Connection Test — write to _runlog",
+  "nodes": [
+    {
+      "id": "build",
+      "name": "Build Test Row",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "run_id",
+              "value": "={{ $now.toMillis() }}",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "workflow",
+              "value": "phase1-connection-test",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "started_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "finished_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "candidates_found",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "new_leads",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "a7",
+              "name": "errors",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "a8",
+              "name": "notes",
+              "value": "Phase 1 test row - n8n service account credential verified. Safe to delete.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "sheets",
+      "name": "Append to _runlog",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "_runlog"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      }
+    },
+    {
+      "id": "hook",
+      "name": "Test Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "path": "phase1-connection-test",
+        "httpMethod": "POST",
+        "responseMode": "lastNode"
+      },
+      "webhookId": "52985ab3-593c-4aa2-941e-34aaea99f8b7"
+    }
+  ],
+  "connections": {
+    "Build Test Row": {
+      "main": [
+        [
+          {
+            "node": "Append to _runlog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Webhook": {
+      "main": [
+        [
+          {
+            "node": "Build Test Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Karachi"
+  }
+}

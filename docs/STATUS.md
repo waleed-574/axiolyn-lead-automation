@@ -1,57 +1,25 @@
 # Project Status — resume here
 
-**Last updated:** 2026-09-12, end of session
-**Current phase:** Phase 0 complete. Phase 1 blocked on a manual Google Cloud step.
+**Last updated:** 2026-09-14
+**Current phase:** Phases 0 and 1 complete. Phase 2 is next and needs nothing from Waleed.
 
 ---
 
-## ⏭️ NEXT ACTION — Google Cloud setup
+## ⏭️ NEXT ACTION — Phase 2, the thin vertical slice
 
-This is the only thing blocking progress. It takes about 7 minutes and must be
-done by Waleed, using the **personal Google account** that will own the lead sheet.
+No manual setup left. Phase 2 builds WF1's first source end to end:
 
-### A. Service account (~5 min)
+1. OSM Overpass query for one vertical in one city (clinics in Lahore)
+2. Normalise results to the  schema
+3. Split web-bearing from no-website businesses
+4. Deduplicate on  against what is already in the sheet
+5. Batch-append to  and 
+**Exit criteria:** 20 real Pakistani companies in the sheet, and a second run
+that appends exactly zero rows.
 
-1. https://console.cloud.google.com — sign in with the personal Google account
-2. Top bar dropdown → **New Project** → name `axiolyn-leads` → Create
-3. With that project selected: **APIs & Services → Library**
-4. Search **Google Sheets API** → **Enable**
-5. **APIs & Services → Credentials**
-6. **+ Create Credentials → Service account**
-   - Name: `n8n-leads`
-   - Skip the optional role/access steps → **Done**
-7. Click the new service account → **Keys** tab → **Add Key → Create new key → JSON** → Create
-8. Move the downloaded `.json` into `credentials/` in this repo
-
-Do not paste the JSON contents into chat — it holds a private key. `credentials/`
-is gitignored; Claude reads it from disk.
-
-### B. The sheet (~2 min)
-
-9. Open the JSON, copy the `client_email` value
-   (looks like `n8n-leads@axiolyn-leads.iam.gserviceaccount.com`)
-10. https://sheets.new — name it **Axiolyn Leads**
-11. **Share** → paste the service account email → **Editor** → untick "Notify people" → Share
-12. Copy the sheet URL and give it to Claude
-
-The sheet is created by Waleed rather than by the service account on purpose: a
-service account that creates a spreadsheet owns it in its own Drive, where it
-would be invisible in Waleed's Drive.
-
-### C. Then Claude does the rest
-
-1. Read `client_email` + `private_key` from the JSON, create the `googleApi`
-   credential in n8n over MCP
-2. Build a setup workflow that creates all 7 tabs with the exact headers from
-   the spec, so the schema provably matches rather than being hand-typed
-3. Run it, verify tabs and headers
-4. Write a test row — **Phase 1 exit criteria met**
-
-Then straight into **Phase 2**, the milestone that matters: 20 real Pakistani
-companies in the sheet from OSM Overpass, and a re-run that appends zero
-duplicates.
-
----
+Overpass is first because it is keyless, free, and returns name, website, phone
+and address already structured — no scraping and no parsing fragility to debug
+while the rest of the pipeline is still unproven.
 
 ## Before doing anything else in a new session
 
@@ -66,7 +34,7 @@ Leave that window open. Then verify with `n8n_health_check` — expect `status: 
 
 ---
 
-## ✅ Phase 0 — done
+## ✅ Phases 0 and 1 — done
 
 | Item | State |
 |---|---|
@@ -105,3 +73,26 @@ Full reasoning in `docs/superpowers/specs/2026-09-12-axiolyn-lead-automation-des
 - **Ollama (Phase 6)** — check available RAM. 8 GB+ free means a local model; otherwise Gemini Flash free tier.
 - **Hosting (Phase 9)** — a Schedule Trigger only fires while the laptop is awake. Oracle Cloud Always Free is the recommended target.
 - **API key hygiene** — the n8n API key was pasted into the session transcript. Fine for local dev, but revoke and reissue before sharing or exporting that transcript.
+
+---
+
+## ✅ Phase 1 — done (2026-09-14)
+
+| Item | State |
+|---|---|
+| Google Cloud project | `n8n-resumed` (an existing project — the account had hit its project-creation limit) |
+| Service account | `n8n-leads@n8n-resumed.iam.gserviceaccount.com` |
+| Sheets API | Enabled, verified by minting a token and calling the API directly |
+| Key file | `credentials/n8n-resumed-93ee2bf3f267.json` (gitignored) |
+| n8n credential | `Axiolyn Google Sheets (Service Account)`, id `mx8TrhfzPvlkUeIJ` |
+| Spreadsheet | "Axiolyn Leads", shared with the service account as Editor |
+| Tabs | All 7 created with spec headers, frozen and bolded; verified column-by-column |
+| End-to-end write | n8n appended a row to `_runlog`, confirmed by reading the sheet back independently |
+
+Timestamps came back as `+05:00`, confirming `GENERIC_TIMEZONE=Asia/Karachi`
+is applying — scheduled runs will fire at Pakistan time rather than UTC.
+
+The sheet is reproducible: `node scripts/setup-sheet.js <key.json> <spreadsheetId>`
+recreates every tab and header, and is safe to re-run (it never touches data rows).
+
+Identifiers live in `config.json`; secrets stay in `credentials/`.
