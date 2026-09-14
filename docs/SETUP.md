@@ -111,3 +111,36 @@ curl http://127.0.0.1:5678/api/v1/workflows
 
 Useful for telling an auth problem apart from an SSRF or connectivity problem,
 since the MCP reports both as a generic connection failure.
+
+### Instance-level MCP (running workflows without a webhook)
+
+n8n's public API has no "execute workflow" endpoint, so a workflow whose only
+trigger is a Schedule Trigger cannot be run from outside the UI. Without a way
+around this, testing means bolting a temporary webhook onto each workflow —
+which verifies a different workflow shape than the one that actually ships.
+
+n8n's own instance-level MCP server solves it. Enable at **Settings →
+Instance level MCP → MCP status: Enabled**, then **Connect your client → API
+key tab** and copy the **Access token** (shown once). It is a separate secret
+from the public-API key.
+
+Set it as `N8N_MCP_ACCESS_TOKEN` on the n8n-mcp server. The endpoint
+(`/mcp-server/http`) is derived from `N8N_API_URL`; do not set it separately.
+
+Use the **API key** tab, not OAuth. OAuth needs an interactive browser approval
+that a background MCP server cannot complete.
+
+Verify by hand:
+
+```bash
+# expect an SSE "event: message" frame naming the n8n MCP Server
+curl -X POST http://127.0.0.1:5678/mcp-server/http \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"probe","version":"1.0"}}}'
+```
+
+Each workflow must additionally be exposed to MCP before it can be run this way
+— the `availableInMCP` setting, which can be set through the API at creation
+time rather than clicked per workflow in the UI.
