@@ -10,10 +10,11 @@ name: Lead pipeline
 
 on:
   schedule:
-    # Every three hours. Each run takes one step of the 126-combination sweep,
-    # so the whole of Pakistan is covered in roughly two and a half weeks, then
-    # cycles to pick up newly listed businesses.
-    - cron: '17 */3 * * *'
+    # Hourly. Each run takes one step of the 126-combination sweep, so the
+    # whole of Pakistan is covered in about five days, then cycles to pick up
+    # newly listed businesses. One small Overpass query an hour stays well
+    # inside what the public instances ask of clients.
+    - cron: '17 * * * *'
   workflow_dispatch:
     # Lets you trigger a run by hand from the Actions tab.
     inputs:
@@ -26,7 +27,7 @@ on:
       batch:
         description: 'Leads to enrich this run'
         required: false
-        default: '25'
+        default: '35'
 
 # A second run starting while one is mid-write could append the same lead twice
 # before the first has finished. One at a time.
@@ -63,4 +64,4 @@ jobs:
         run: |
           node scripts/run-pipeline.js \
             --stage=${{ github.event.inputs.stage || 'all' }} \
-            --batch=${{ github.event.inputs.batch || '25' }}
+            --batch=${{ github.event.inputs.batch || '35' }}
