@@ -37,14 +37,44 @@ These are fixed and non-negotiable.
 | Google auth | Service Account, not OAuth2 | OAuth apps left in "Testing" publishing status expire their refresh token every 7 days. A service account with the sheet shared to its address never expires. |
 | Filtering model | 0–100 score, not binary keep/drop | Turns the sheet from a list into a priority queue. The team calls the best 10, not the newest 10. |
 | Category coverage | Every business category | Discovery sweeps all commercial OSM tags and, later, all directory categories. The eight priority verticals raise a score; they never exclude a candidate. |
-| Workflow structure | Four workflows, not one chain | Independently testable and debuggable. Re-running enrichment costs zero search quota. |
+| Workflow structure | One workflow until Phase 4, then split | Revised 2026-09-15. Splitting upfront buys nothing while there is only one stage. The split happens when enrichment arrives, because that is when the reasons become concrete: enrichment sweeps the backlog of leads still missing an email rather than this run's output, so it has a different input set and a different cadence — and a crash during a multi-minute crawl must not force a re-run of a 200-second Overpass fetch. |
 | Primary contact channel | Phone / WhatsApp, email secondary | Pakistani SMBs respond to WhatsApp far more reliably than to cold email. This shapes which fields the pipeline works hardest to find, not any sending behaviour — the team contacts prospects manually. |
 | Throughput target | ~50 new qualified leads/week | Matches realistic follow-up capacity for a small team. Sets rate limits and query volume. |
 | AI provider | Ollama local, Gemini Flash free tier as fallback | Zero cost, no rate limit, fully private. Fallback if hardware is insufficient. |
 
 ## 4. Architecture
 
-Four workflows connected by Google Sheet tabs acting as durable queues. Tabs as queues — rather than direct node-to-node connections — is what makes the pipeline resumable: each stage's output survives the next stage crashing.
+### As built (Phase 2)
+
+One workflow. Discovery, normalisation, deduplication and writing happen in a
+single chain, with a cursor in `_state` advancing through the category sweep:
+
+```
+Schedule (hourly)
+  → Read _state (cursor)
+  → Config (pick combination, build query)
+  → Advance Cursor
+  → Overpass mirror 1 → 2 → 3   (failover on error)
+  → Normalize
+  → Response Empty?  ── empty ──►  _runlog
+  → Read Leads + Read Leads_NoWeb
+  → Drop Already Known
+  → Has Website?  ──►  Leads  /  Leads_NoWeb
+```
+
+The cursor advances *before* the query runs, so a combination that consistently
+fails costs one slot rather than blocking the sweep forever.
+
+### Target (from Phase 4)
+
+Enrichment is what forces a split, because it operates on a different input set
+— every lead in the sheet still missing an email, not this run's discoveries —
+on a different cadence, and a crash partway through a multi-minute crawl must
+not force a re-run of a 200-second Overpass fetch.
+
+Workflows are then connected by Google Sheet tabs acting as durable queues. Tabs
+as queues, rather than direct node-to-node connections, is what makes the
+pipeline resumable: each stage's output survives the next stage crashing.
 
 ```
 WF1 Discovery  ──►  raw_candidates  ──►  WF2 Enrichment  ──►  enriched

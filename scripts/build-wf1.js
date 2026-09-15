@@ -16,9 +16,12 @@ const SHEET_ID = cfg.sheet.spreadsheetId;
 const CRED = { id: cfg.n8n.credentialId, name: cfg.n8n.credentialName };
 
 // Strip the module.exports tail — n8n Code nodes have no module system.
-const normalizerSource = fs
-  .readFileSync(path.join(ROOT, 'workflows', 'src', 'normalize-overpass.js'), 'utf8')
+const stripExports = (p) => fs
+  .readFileSync(path.join(ROOT, 'workflows', 'src', p), 'utf8')
   .replace(/module\.exports\s*=\s*\{[\s\S]*?\};\s*$/, '');
+
+const normalizerSource = stripExports('normalize-overpass.js');
+const targetsSource = stripExports('targets.js');
 
 /**
  * Mirrors must serve the whole planet. overpass.osm.ch is deliberately absent:
@@ -105,7 +108,9 @@ function mirrorNode(i, url, position) {
       sendBody: true,
       contentType: 'form-urlencoded',
       bodyParameters: {
-        parameters: [{ name: 'data', value: '={{ $json.overpass_query }}' }],
+        // Reference Config explicitly: the immediate input is now the cursor
+        // write, whose output is the _state row, not the query.
+        parameters: [{ name: 'data', value: "={{ $('Config').first().json.overpass_query }}" }],
       },
       sendHeaders: true,
       headerParameters: {
@@ -128,44 +133,91 @@ function mirrorNode(i, url, position) {
 const nodes = [
   {
     id: 'sched',
-    name: 'Schedule 5am PKT',
+    name: 'Schedule Hourly',
     type: 'n8n-nodes-base.scheduleTrigger',
     typeVersion: 1.2,
-    position: [-640, 0],
+    position: [-900, 0],
     parameters: {
-      rule: { interval: [{ field: 'cronExpression', expression: '0 5 * * *' }] },
+      // One combination per run. At 126 combinations a daily schedule would
+      // need four months for a full sweep; hourly completes it in about five
+      // days while keeping each query small enough that Overpass answers, and
+      // stays polite at 24 requests a day.
+      rule: { interval: [{ field: 'cronExpression', expression: '0 * * * *' }] },
     },
   },
+  readTab('readState', 'Read _state', '_state', [-680, 0]),
   {
     id: 'cfg',
     name: 'Config',
     type: 'n8n-nodes-base.code',
     typeVersion: 2,
-    position: [-420, 0],
+    position: [-460, 0],
     parameters: {
       jsCode: [
-        '// One small query per run. Big multi-category queries get 504d by the',
-        '// public Overpass instances, and a failure would cost the whole run.',
-        "const CITY = { name: 'Lahore', bbox: '31.35,74.15,31.65,74.50' };",
-        "const AMENITIES = 'clinic|doctors|dentist|hospital|pharmacy';",
+        targetsSource,
         '',
-        'const query = `[out:json][timeout:90];',
-        '(',
-        '  node["amenity"~"^(${AMENITIES})$"](${CITY.bbox});',
-        '  way["amenity"~"^(${AMENITIES})$"](${CITY.bbox});',
-        ');',
-        'out tags center 400;`;',
+        '// --- n8n wrapper ---',
+        '// Pick up the sweep position from the _state tab. A missing or',
+        '// unparseable cursor starts the sweep from the beginning rather than',
+        '// failing the run.',
+        'let cursor = 0;',
+        'try {',
+        "  for (const item of $('Read _state').all()) {",
+        '    const r = item.json || {};',
+        "    if (String(r.key || '').trim() === 'wf1_cursor') {",
+        '      const n = parseInt(String(r.value).trim(), 10);',
+        '      if (Number.isFinite(n)) cursor = n;',
+        '    }',
+        '  }',
+        '} catch (e) { cursor = 0; }',
+        '',
+        'const t = atCursor(cursor);',
         '',
         'return [{ json: {',
-        '  city: CITY.name,',
-        '  bbox: CITY.bbox,',
-        '  overpass_query: query,',
-        '  source_query: `amenity=${AMENITIES} @ ${CITY.name}`,',
+        '  city: t.city,',
+        '  bbox: t.bbox,',
+        '  category_key: t.categoryKey,',
+        '  cursor: t.index,',
+        '  next_cursor: t.nextCursor,',
+        '  total_combinations: t.total,',
+        '  overpass_query: t.query,',
+        '  source_query: t.sourceQuery,',
         '  run_id: String(Date.now()),',
         '  started_at: new Date().toISOString(),',
         '} }];',
       ].join('\n'),
     },
+  },
+  {
+    id: 'saveCursor',
+    name: 'Advance Cursor',
+    type: 'n8n-nodes-base.googleSheets',
+    typeVersion: 4.7,
+    position: [-240, 0],
+    parameters: {
+      authentication: 'serviceAccount',
+      resource: 'sheet',
+      operation: 'appendOrUpdate',
+      documentId: { __rl: true, mode: 'id', value: SHEET_ID },
+      sheetName: { __rl: true, mode: 'name', value: '_state' },
+      columns: {
+        mappingMode: 'defineBelow',
+        value: {
+          key: 'wf1_cursor',
+          value: '={{ $json.next_cursor }}',
+          updated_at: '={{ $now.toISO() }}',
+        },
+        matchingColumns: ['key'],
+        schema: [],
+      },
+      options: { cellFormat: 'RAW' },
+    },
+    credentials: sheetsCred,
+    // Advance BEFORE querying, deliberately. If a combination consistently
+    // fails, advancing afterwards would retry it forever and the sweep would
+    // never move past it.
+    alwaysOutputData: true,
+    onError: 'continueRegularOutput',
   },
   mirrorNode(0, MIRRORS[0], [-200, 0]),
   mirrorNode(1, MIRRORS[1], [-200, 200]),
@@ -193,13 +245,15 @@ const nodes = [
         'if (!rows.length) {',
         "  return [{ json: { __empty: true, stats } }];",
         '}',
-        'return rows.map(r => ({ json: Object.assign({}, r, { __stats: stats }) }));',
+        '// __empty is set explicitly on every row so the downstream IF tests a',
+        '// real boolean rather than relying on undefined coercing to false.',
+        'return rows.map(r => ({ json: Object.assign({}, r, { __empty: false, __stats: stats }) }));',
       ].join('\n'),
     },
   },
   {
     id: 'gotData',
-    name: 'Got Data?',
+    name: 'Response Empty?',
     type: 'n8n-nodes-base.if',
     typeVersion: 2.2,
     position: [150, 0],
@@ -210,7 +264,7 @@ const nodes = [
           id: 'g1',
           leftValue: '={{ $json.__empty }}',
           rightValue: '',
-          operator: { type: 'boolean', operation: 'notTrue', singleValue: true },
+          operator: { type: 'boolean', operation: 'true', singleValue: true },
         }],
         combinator: 'and',
       },
@@ -405,8 +459,10 @@ const nodes = [
 ];
 
 const connections = {
-  'Schedule 5am PKT': { main: [[{ node: 'Config', type: 'main', index: 0 }]] },
-  Config: { main: [[{ node: 'Overpass 1', type: 'main', index: 0 }]] },
+  'Schedule Hourly': { main: [[{ node: 'Read _state', type: 'main', index: 0 }]] },
+  'Read _state': { main: [[{ node: 'Config', type: 'main', index: 0 }]] },
+  Config: { main: [[{ node: 'Advance Cursor', type: 'main', index: 0 }]] },
+  'Advance Cursor': { main: [[{ node: 'Overpass 1', type: 'main', index: 0 }]] },
   // Success -> Normalize. Error -> next mirror.
   'Overpass 1': {
     main: [
@@ -429,11 +485,13 @@ const connections = {
   'All Mirrors Failed': { main: [[{ node: 'Log Failure', type: 'main', index: 0 }]] },
   // A mirror that answers 200 with no elements would otherwise sail through as
   // a successful run that found nothing. Route the empty case to the log.
-  Normalize: { main: [[{ node: 'Got Data?', type: 'main', index: 0 }]] },
-  'Got Data?': {
+  Normalize: { main: [[{ node: 'Response Empty?', type: 'main', index: 0 }]] },
+  // true  = the response held nothing usable -> log it
+  // false = real rows -> carry on into dedup
+  'Response Empty?': {
     main: [
-      [{ node: 'Read Leads', type: 'main', index: 0 }],
       [{ node: 'Empty Response', type: 'main', index: 0 }],
+      [{ node: 'Read Leads', type: 'main', index: 0 }],
     ],
   },
   'Empty Response': { main: [[{ node: 'Log Failure', type: 'main', index: 0 }]] },
