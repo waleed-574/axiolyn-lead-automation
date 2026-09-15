@@ -6,3 +6,4 @@ credentials/*
 !credentials/README.md
 .wf1-id
 fixtures/sites/*.html
+.wf2-id
