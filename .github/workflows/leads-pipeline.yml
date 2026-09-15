@@ -1,0 +1,65 @@
+name: Lead pipeline
+
+# Runs the discovery → enrichment → scoring pipeline on GitHub's runners, so
+# nothing depends on a laptop being awake.
+#
+# Requires one repository secret:
+#   GOOGLE_SERVICE_ACCOUNT_JSON — the full service account key JSON
+#
+# Set it at: Settings → Secrets and variables → Actions → New repository secret
+
+on:
+  schedule:
+    # Every three hours. Each run takes one step of the 126-combination sweep,
+    # so the whole of Pakistan is covered in roughly two and a half weeks, then
+    # cycles to pick up newly listed businesses.
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+    # Lets you trigger a run by hand from the Actions tab.
+    inputs:
+      stage:
+        description: 'Which stage to run'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, discover, enrich, score]
+      batch:
+        description: 'Leads to enrich this run'
+        required: false
+        default: '25'
+
+# A second run starting while one is mid-write could append the same lead twice
+# before the first has finished. One at a time.
+concurrency:
+  group: lead-pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run offline tests
+        # These need no network and no credentials. If the extraction or
+        # normalisation logic is broken, fail here rather than writing bad data
+        # into the sheet.
+        run: |
+          node scripts/test-normalize.js
+          node scripts/test-extract.js
+
+      - name: Run pipeline
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          # config.json is gitignored, so the sheet id comes from a secret here.
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: |
+          node scripts/run-pipeline.js \
+            --stage=${{ github.event.inputs.stage || 'all' }} \
+            --batch=${{ github.event.inputs.batch || '25' }}

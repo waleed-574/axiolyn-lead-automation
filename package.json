@@ -1,0 +1,25 @@
+{
+  "name": "axiolyn-lead-automation",
+  "version": "1.0.0",
+  "description": "Automated B2B lead discovery, contact enrichment and scoring for Pakistani businesses, on free infrastructure",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node scripts/test-normalize.js && node scripts/test-extract.js",
+    "pipeline": "node scripts/run-pipeline.js --stage=all",
+    "discover": "node scripts/run-pipeline.js --stage=discover",
+    "enrich": "node scripts/run-pipeline.js --stage=enrich",
+    "score": "node scripts/run-pipeline.js --stage=score",
+    "build:workflows": "node scripts/build-wf1.js && node scripts/build-wf2.js && node scripts/build-wf3.js"
+  },
+  "keywords": [
+    "lead-generation",
+    "n8n",
+    "automation",
+    "openstreetmap",
+    "google-sheets"
+  ],
+  "license": "UNLICENSED"
+}

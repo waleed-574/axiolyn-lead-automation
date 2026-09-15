@@ -1,0 +1,26 @@
+{
+  "_comment": "Copy to config.json and fill in. config.json is gitignored. In CI these come from repository secrets instead.",
+  "sheet": {
+    "spreadsheetId": "YOUR_GOOGLE_SHEET_ID",
+    "title": "Axiolyn Leads",
+    "tabs": [
+      "Leads",
+      "Leads_NoWeb",
+      "raw_candidates",
+      "enriched",
+      "_state",
+      "_suppression",
+      "_runlog"
+    ]
+  },
+  "googleServiceAccount": {
+    "clientEmail": "your-service-account@your-project.iam.gserviceaccount.com",
+    "keyFile": "credentials/your-key.json"
+  },
+  "n8n": {
+    "url": "http://127.0.0.1:5678",
+    "credentialId": "YOUR_N8N_CREDENTIAL_ID",
+    "credentialName": "Axiolyn Google Sheets (Service Account)",
+    "credentialType": "googleApi"
+  }
+}

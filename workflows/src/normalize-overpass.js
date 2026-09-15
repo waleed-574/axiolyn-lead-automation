@@ -42,7 +42,15 @@ function normalizeDomain(url) {
   s = s.replace(/^https?:\/\//, '').replace(/^www\./, '');
   s = s.split('/')[0].split('?')[0].split('#')[0].split(':')[0];
   if (!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(s)) return '';
-  return NOT_A_HOMEPAGE.has(s) ? '' : s;
+
+  // Match subdomains too. Google's site builder hands every business a
+  // <name>.business.site address; an exact-match check let those through as if
+  // they were real company domains, and they are neither crawlable nor a sign
+  // the business has a web presence worth scoring.
+  for (const blocked of NOT_A_HOMEPAGE) {
+    if (s === blocked || s.endsWith('.' + blocked)) return '';
+  }
+  return s;
 }
 
 /**

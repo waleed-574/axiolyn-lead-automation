@@ -30,6 +30,9 @@ check('rejects shortener', normalizeDomain('https://share.google/yYEdGcFIygiQxEg
 check('rejects facebook', normalizeDomain('https://www.facebook.com/somebusiness'), '');
 check('rejects wa.me', normalizeDomain('https://wa.me/923001234567'), '');
 check('rejects garbage', normalizeDomain('not a url'), '');
+check('rejects business.site subdomain', normalizeDomain('https://shazia-zahid-medical-centre.business.site'), '');
+check('rejects facebook subdomain', normalizeDomain('https://m.facebook.com/x'), '');
+check('keeps a normal subdomain', normalizeDomain('https://clinic.acme.pk'), 'clinic.acme.pk');
 check('rejects empty', normalizeDomain(''), '');
 
 console.log('');

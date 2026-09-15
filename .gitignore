@@ -9,3 +9,8 @@ fixtures/sites/*.html
 .wf2-id
 .probe-id
 .wf3-id
+config.json
+
+# Generated n8n workflows — rebuild with `npm run build:workflows`.
+# They embed the sheet id from config.json, so they stay out of the repo.
+workflows/*.json

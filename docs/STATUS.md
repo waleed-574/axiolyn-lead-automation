@@ -124,10 +124,10 @@ returned an index page with no contact data. Real research needed, not guesswork
 |---|---|
 | n8n | 2.35.7, global npm, `http://127.0.0.1:5678` |
 | n8n-mcp 2.84.4 | Connected; instance-level MCP reachable, 34 tools |
-| Google service account | `n8n-leads@n8n-resumed.iam.gserviceaccount.com`, project `n8n-resumed` |
-| n8n credential | `Axiolyn Google Sheets (Service Account)`, id `mx8TrhfzPvlkUeIJ` |
+| Google service account | `<service-account>@<project>.iam.gserviceaccount.com`, project `<your-gcp-project>` |
+| n8n credential | `Axiolyn Google Sheets (Service Account)`, id `<credential-id>` |
 | Spreadsheet | "Axiolyn Leads", 7 tabs, headers verified column-by-column |
-| WF1 | id `rmXgrxre45gPsY3w`, 18 nodes, inactive |
+| WF1 | id `<workflow-id>`, 18 nodes, inactive |
 
 Setup gotchas are in `docs/SETUP.md` — the `WEBHOOK_SECURITY_MODE` localhost
 block, the encryption-key hazard, the npx timeout, the no-SMTP recovery path,
