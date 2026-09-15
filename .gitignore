@@ -5,3 +5,4 @@ fixtures/cache/
 credentials/*
 !credentials/README.md
 .wf1-id
+fixtures/sites/*.html
