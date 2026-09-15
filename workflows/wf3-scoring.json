@@ -1,0 +1,282 @@
+{
+  "name": "WF3 Scoring — rank the call list",
+  "nodes": [
+    {
+      "id": "sched",
+      "name": "Schedule Hourly",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -680,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "50 * * * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "readWeb",
+      "name": "Read Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -460,
+        0
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "scoreWeb",
+      "name": "Score Web Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        0
+      ],
+      "parameters": {
+        "jsCode": "/**\n * Scores a lead 0-100 for how likely it is to want automation work.\n *\n * Every rule writes a plain-language reason, so a score can be argued with\n * rather than taken on faith. When the team disagrees with the ranking, the\n * reasons say which weight to change.\n *\n * Scores only from columns stored in the sheet, so re-scoring never requires\n * re-crawling a website.\n */\n\n/** Tools that mean the business already automates part of its funnel. */\nconst AUTOMATION_TOOLS = [\n  'hubspot', 'salesforce', 'zoho', 'intercom', 'drift', 'tawk', 'crisp',\n  'calendly', 'mailchimp',\n];\n\n/** Platforms that imply transactions worth automating. */\nconst COMMERCE_TOOLS = ['woocommerce', 'shopify'];\n\n/**\n * OSM category fragments mapped to Axiolyn's priority verticals. A match raises\n * the score; anything unmatched is still scored, never discarded.\n */\nconst VERTICAL_PATTERNS = [\n  ['E-commerce / retail', /shop:(supermarket|convenience|department_store|mall|general|variety_store|wholesale|trade|clothes|shoes|jewelry|furniture|electronics|computer|mobile_phone)/],\n  ['Healthcare', /(amenity|healthcare):(clinic|doctors|dentist|hospital|pharmacy|veterinary|nursing_home)/],\n  ['Logistics', /office:(logistics|courier|freight|forwarding)|shop:trade/],\n  ['Real estate', /(office|shop):(estate_agent|property)/],\n  ['Professional services', /office:(lawyer|accountant|consulting|tax|insurance|financial|architect|engineer|notary|employment_agency)/],\n  ['Agency / consultancy', /office:(advertising_agency|marketing|it|research|company|coworking)/],\n  ['Education / training', /amenity:(school|college|university|language_school|driving_school|music_school|training|prep_school)/],\n  ['SaaS / tech', /office:(it|software|telecommunication)/],\n];\n\n/** Where the money and the density of businesses are. */\nconst TIER_1_CITIES = ['lahore', 'karachi', 'islamabad', 'rawalpindi'];\n\n/** Public bodies do not buy this way, whatever their category says. */\nconst INSTITUTIONAL = /\\b(government|govt|ministry|municipal|corporation of|district|tehsil|cantonment|army|navy|air force|military|cmh|police|railway|wapda|lesco|gepco|fesco|iesco|sui gas|nadra|fbr|utility|board of|authority|commission|embassy|consulate|united nations|unicef|who\\b)/i;\n\nconst clamp = (n) => Math.max(0, Math.min(100, Math.round(n)));\n\nfunction matchVertical(industry) {\n  const s = String(industry || '').toLowerCase();\n  for (const [name, re] of VERTICAL_PATTERNS) if (re.test(s)) return name;\n  return null;\n}\n\nfunction techList(techDetected) {\n  return String(techDetected || '')\n    .toLowerCase()\n    .split(',')\n    .map((t) => t.trim())\n    .filter(Boolean);\n}\n\n/**\n * Score a lead that has a website.\n * @param {Object} lead  a row from the Leads tab\n */\nfunction scoreWebLead(lead) {\n  const reasons = [];\n  const verdictRaw = String(lead.email_valid || '').trim();\n\n  // An unenriched lead has no tech stack and no contact verdict, so scoring it\n  // would rank it purely on city and category. Left unscored it stays out of\n  // the ranking until the crawler has actually looked at it — otherwise the top\n  // of the sheet shows whatever happened to be processed first rather than\n  // whatever is best.\n  if (!verdictRaw) {\n    return { score: '', reasons: 'not yet enriched', service_fit: '', pending: true };\n  }\n\n  let score = 15; // deliberately low: the bonuses below carry the signal\n\n  const tech = techList(lead.tech_detected);\n  const automation = tech.filter((t) => AUTOMATION_TOOLS.includes(t));\n  const commerce = tech.filter((t) => COMMERCE_TOOLS.includes(t));\n  const verdict = String(lead.email_valid || '');\n\n  // The central signal. A business with a real web presence and no CRM,\n  // chatbot or booking tool is doing that work by hand.\n  if (tech.length && !automation.length) {\n    score += 25;\n    reasons.push('no CRM or booking tool on site');\n  } else if (automation.length) {\n    score -= 15;\n    reasons.push('already uses ' + automation.join(', '));\n  }\n\n  if (commerce.length) {\n    score += 10;\n    reasons.push('runs an online store (' + commerce.join(', ') + ')');\n  }\n\n  if (tech.includes('wordpress')) {\n    score += 3;\n    reasons.push('WordPress site, straightforward to integrate');\n  }\n\n  // Reachability. A lead nobody can contact is worth little regardless of fit.\n  if (verdict.startsWith('ok:')) {\n    score += 12;\n    reasons.push('email verified');\n    if (/:(own|related)$/.test(verdict)) {\n      score += 5;\n      reasons.push('official company address');\n    }\n  } else if (verdict.startsWith('nomx:')) {\n    score -= 6;\n    reasons.push('email domain does not accept mail');\n  } else if (verdict === 'fetch_failed') {\n    score -= 12;\n    reasons.push('website unreachable');\n  } else if (verdict === 'no_email_found') {\n    score -= 4;\n    reasons.push('no email published');\n  }\n\n  if (String(lead.whatsapp_ready).toLowerCase() === 'true') {\n    score += 6;\n    reasons.push('mobile number, reachable on WhatsApp');\n  }\n\n  const vertical = matchVertical(lead.industry);\n  if (vertical) {\n    score += 7;\n    reasons.push('priority vertical: ' + vertical);\n  }\n\n  if (TIER_1_CITIES.includes(String(lead.city || '').toLowerCase())) {\n    score += 3;\n    reasons.push('major city');\n  }\n\n  if (INSTITUTIONAL.test(String(lead.company_name || ''))) {\n    score -= 35;\n    reasons.push('public body or utility, unlikely to buy');\n  }\n\n  return {\n    score: clamp(score),\n    reasons: reasons.join('; '),\n    service_fit: vertical || 'General business',\n  };\n}\n\n/**\n * Score a lead with no website. Different model deliberately: the signals that\n * matter are reachability and the size of the gap, not the tech stack.\n */\nfunction scoreNoWebLead(lead) {\n  const reasons = [];\n  let score = 25;\n\n  // No web presence at all is the opportunity, not a disqualification.\n  score += 8;\n  reasons.push('no website — web presence opportunity');\n\n  if (String(lead.whatsapp_ready).toLowerCase() === 'true') {\n    score += 12;\n    reasons.push('mobile number, reachable on WhatsApp');\n  } else if (String(lead.phone_e164 || '').trim()) {\n    score += 5;\n    reasons.push('landline only');\n  }\n\n  if (String(lead.address || '').trim()) {\n    score += 6;\n    reasons.push('full address listed');\n  }\n\n  const vertical = matchVertical(lead.category);\n  if (vertical) {\n    score += 7;\n    reasons.push('priority vertical: ' + vertical);\n  }\n\n  if (TIER_1_CITIES.includes(String(lead.city || '').toLowerCase())) {\n    score += 3;\n    reasons.push('major city');\n  }\n\n  if (INSTITUTIONAL.test(String(lead.company_name || ''))) {\n    score -= 35;\n    reasons.push('public body or utility, unlikely to buy');\n  }\n\n  return {\n    score: clamp(score),\n    reasons: reasons.join('; '),\n    service_fit: vertical || 'General business',\n  };\n}\n\n\n\n// --- n8n wrapper ---\nconst out = [];\nfor (const item of $input.all()) {\n  const lead = item.json;\n  if (!lead.lead_id) continue;\n  const r = scoreWebLead(lead);\n  // Leads the crawler has not reached yet stay unscored, so the top of\n  // the sheet reflects the best known leads rather than whichever ones\n  // happened to be processed first.\n  if (r.pending) continue;\n  out.push({ json: {\n    lead_id: lead.lead_id,\n    score: r.score,\n    score_reasons: r.reasons,\n    service_fit: r.service_fit,\n  } });\n}\nreturn out;"
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "updWeb",
+      "name": "Update Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -20,
+        0
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "lead_id"
+          ],
+          "schema": []
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "readNoWeb",
+      "name": "Read Leads_NoWeb",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        200,
+        0
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads_NoWeb"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "scoreNoWeb",
+      "name": "Score No-Web Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        0
+      ],
+      "parameters": {
+        "jsCode": "/**\n * Scores a lead 0-100 for how likely it is to want automation work.\n *\n * Every rule writes a plain-language reason, so a score can be argued with\n * rather than taken on faith. When the team disagrees with the ranking, the\n * reasons say which weight to change.\n *\n * Scores only from columns stored in the sheet, so re-scoring never requires\n * re-crawling a website.\n */\n\n/** Tools that mean the business already automates part of its funnel. */\nconst AUTOMATION_TOOLS = [\n  'hubspot', 'salesforce', 'zoho', 'intercom', 'drift', 'tawk', 'crisp',\n  'calendly', 'mailchimp',\n];\n\n/** Platforms that imply transactions worth automating. */\nconst COMMERCE_TOOLS = ['woocommerce', 'shopify'];\n\n/**\n * OSM category fragments mapped to Axiolyn's priority verticals. A match raises\n * the score; anything unmatched is still scored, never discarded.\n */\nconst VERTICAL_PATTERNS = [\n  ['E-commerce / retail', /shop:(supermarket|convenience|department_store|mall|general|variety_store|wholesale|trade|clothes|shoes|jewelry|furniture|electronics|computer|mobile_phone)/],\n  ['Healthcare', /(amenity|healthcare):(clinic|doctors|dentist|hospital|pharmacy|veterinary|nursing_home)/],\n  ['Logistics', /office:(logistics|courier|freight|forwarding)|shop:trade/],\n  ['Real estate', /(office|shop):(estate_agent|property)/],\n  ['Professional services', /office:(lawyer|accountant|consulting|tax|insurance|financial|architect|engineer|notary|employment_agency)/],\n  ['Agency / consultancy', /office:(advertising_agency|marketing|it|research|company|coworking)/],\n  ['Education / training', /amenity:(school|college|university|language_school|driving_school|music_school|training|prep_school)/],\n  ['SaaS / tech', /office:(it|software|telecommunication)/],\n];\n\n/** Where the money and the density of businesses are. */\nconst TIER_1_CITIES = ['lahore', 'karachi', 'islamabad', 'rawalpindi'];\n\n/** Public bodies do not buy this way, whatever their category says. */\nconst INSTITUTIONAL = /\\b(government|govt|ministry|municipal|corporation of|district|tehsil|cantonment|army|navy|air force|military|cmh|police|railway|wapda|lesco|gepco|fesco|iesco|sui gas|nadra|fbr|utility|board of|authority|commission|embassy|consulate|united nations|unicef|who\\b)/i;\n\nconst clamp = (n) => Math.max(0, Math.min(100, Math.round(n)));\n\nfunction matchVertical(industry) {\n  const s = String(industry || '').toLowerCase();\n  for (const [name, re] of VERTICAL_PATTERNS) if (re.test(s)) return name;\n  return null;\n}\n\nfunction techList(techDetected) {\n  return String(techDetected || '')\n    .toLowerCase()\n    .split(',')\n    .map((t) => t.trim())\n    .filter(Boolean);\n}\n\n/**\n * Score a lead that has a website.\n * @param {Object} lead  a row from the Leads tab\n */\nfunction scoreWebLead(lead) {\n  const reasons = [];\n  const verdictRaw = String(lead.email_valid || '').trim();\n\n  // An unenriched lead has no tech stack and no contact verdict, so scoring it\n  // would rank it purely on city and category. Left unscored it stays out of\n  // the ranking until the crawler has actually looked at it — otherwise the top\n  // of the sheet shows whatever happened to be processed first rather than\n  // whatever is best.\n  if (!verdictRaw) {\n    return { score: '', reasons: 'not yet enriched', service_fit: '', pending: true };\n  }\n\n  let score = 15; // deliberately low: the bonuses below carry the signal\n\n  const tech = techList(lead.tech_detected);\n  const automation = tech.filter((t) => AUTOMATION_TOOLS.includes(t));\n  const commerce = tech.filter((t) => COMMERCE_TOOLS.includes(t));\n  const verdict = String(lead.email_valid || '');\n\n  // The central signal. A business with a real web presence and no CRM,\n  // chatbot or booking tool is doing that work by hand.\n  if (tech.length && !automation.length) {\n    score += 25;\n    reasons.push('no CRM or booking tool on site');\n  } else if (automation.length) {\n    score -= 15;\n    reasons.push('already uses ' + automation.join(', '));\n  }\n\n  if (commerce.length) {\n    score += 10;\n    reasons.push('runs an online store (' + commerce.join(', ') + ')');\n  }\n\n  if (tech.includes('wordpress')) {\n    score += 3;\n    reasons.push('WordPress site, straightforward to integrate');\n  }\n\n  // Reachability. A lead nobody can contact is worth little regardless of fit.\n  if (verdict.startsWith('ok:')) {\n    score += 12;\n    reasons.push('email verified');\n    if (/:(own|related)$/.test(verdict)) {\n      score += 5;\n      reasons.push('official company address');\n    }\n  } else if (verdict.startsWith('nomx:')) {\n    score -= 6;\n    reasons.push('email domain does not accept mail');\n  } else if (verdict === 'fetch_failed') {\n    score -= 12;\n    reasons.push('website unreachable');\n  } else if (verdict === 'no_email_found') {\n    score -= 4;\n    reasons.push('no email published');\n  }\n\n  if (String(lead.whatsapp_ready).toLowerCase() === 'true') {\n    score += 6;\n    reasons.push('mobile number, reachable on WhatsApp');\n  }\n\n  const vertical = matchVertical(lead.industry);\n  if (vertical) {\n    score += 7;\n    reasons.push('priority vertical: ' + vertical);\n  }\n\n  if (TIER_1_CITIES.includes(String(lead.city || '').toLowerCase())) {\n    score += 3;\n    reasons.push('major city');\n  }\n\n  if (INSTITUTIONAL.test(String(lead.company_name || ''))) {\n    score -= 35;\n    reasons.push('public body or utility, unlikely to buy');\n  }\n\n  return {\n    score: clamp(score),\n    reasons: reasons.join('; '),\n    service_fit: vertical || 'General business',\n  };\n}\n\n/**\n * Score a lead with no website. Different model deliberately: the signals that\n * matter are reachability and the size of the gap, not the tech stack.\n */\nfunction scoreNoWebLead(lead) {\n  const reasons = [];\n  let score = 25;\n\n  // No web presence at all is the opportunity, not a disqualification.\n  score += 8;\n  reasons.push('no website — web presence opportunity');\n\n  if (String(lead.whatsapp_ready).toLowerCase() === 'true') {\n    score += 12;\n    reasons.push('mobile number, reachable on WhatsApp');\n  } else if (String(lead.phone_e164 || '').trim()) {\n    score += 5;\n    reasons.push('landline only');\n  }\n\n  if (String(lead.address || '').trim()) {\n    score += 6;\n    reasons.push('full address listed');\n  }\n\n  const vertical = matchVertical(lead.category);\n  if (vertical) {\n    score += 7;\n    reasons.push('priority vertical: ' + vertical);\n  }\n\n  if (TIER_1_CITIES.includes(String(lead.city || '').toLowerCase())) {\n    score += 3;\n    reasons.push('major city');\n  }\n\n  if (INSTITUTIONAL.test(String(lead.company_name || ''))) {\n    score -= 35;\n    reasons.push('public body or utility, unlikely to buy');\n  }\n\n  return {\n    score: clamp(score),\n    reasons: reasons.join('; '),\n    service_fit: vertical || 'General business',\n  };\n}\n\n\n\n// --- n8n wrapper ---\n// Everything here is scorable at discovery time — there is no crawl to\n// wait for — so no pending state.\nconst out = [];\nfor (const item of $input.all()) {\n  const lead = item.json;\n  if (!lead.lead_id) continue;\n  const r = scoreNoWebLead(lead);\n  out.push({ json: {\n    lead_id: lead.lead_id,\n    score: r.score,\n    score_reasons: r.reasons,\n  } });\n}\nreturn out;"
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "updNoWeb",
+      "name": "Update Leads_NoWeb",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        640,
+        0
+      ],
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "sheet",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1IwgjpXb1xP6Cug-BdQ7ilFSSCHXk3ZYe3laIk_wH_3Q"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads_NoWeb"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "lead_id"
+          ],
+          "schema": []
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "credentials": {
+        "googleApi": {
+          "id": "mx8TrhfzPvlkUeIJ",
+          "name": "Axiolyn Google Sheets (Service Account)"
+        }
+      },
+      "alwaysOutputData": true
+    }
+  ],
+  "connections": {
+    "Schedule Hourly": {
+      "main": [
+        [
+          {
+            "node": "Read Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Leads": {
+      "main": [
+        [
+          {
+            "node": "Score Web Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Web Leads": {
+      "main": [
+        [
+          {
+            "node": "Update Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Leads": {
+      "main": [
+        [
+          {
+            "node": "Read Leads_NoWeb",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Leads_NoWeb": {
+      "main": [
+        [
+          {
+            "node": "Score No-Web Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score No-Web Leads": {
+      "main": [
+        [
+          {
+            "node": "Update Leads_NoWeb",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Karachi",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "availableInMCP": true
+  }
+}

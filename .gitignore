@@ -8,3 +8,4 @@ credentials/*
 fixtures/sites/*.html
 .wf2-id
 .probe-id
+.wf3-id
