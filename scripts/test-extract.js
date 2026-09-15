@@ -92,14 +92,48 @@ check('takes the newest year', detectStaleness('© 2018 Acme. Copyright 2024 Acm
 check('absent when no notice', detectStaleness('<p>nothing</p>').copyrightYear, null);
 
 console.log('');
+console.log('synthetic page — every hazard found on real sites');
+{
+  // Committed rather than the real captured pages: this exercises the same
+  // traps without republishing another company's HTML, so CI covers them too.
+  const synth = fs.readFileSync(
+    path.join(__dirname, '..', 'fixtures', 'synthetic-contact-page.html'), 'utf8');
+  const r = extractFromPage(synth, 'alnoormedical.com.pk');
+  const emails = r.emails.map((e) => e.email);
+
+  check('recovers the Cloudflare-obfuscated address',
+    emails.includes('info@alnoormedical.com.pk'), true);
+  check('own-domain role address ranks first',
+    r.emails[0].email, 'info@alnoormedical.com.pk');
+  check('personal gmail does not outrank it',
+    r.emails.findIndex((e) => e.email === 'dr.ahmed1987@gmail.com') > 0, true);
+  check('rejects spam on a suspicious TLD',
+    emails.some((e) => /replicawatches/.test(e)), false);
+  check('rejects the theme author address',
+    emails.some((e) => /wixpress/.test(e)), false);
+  check('rejects asset filenames',
+    emails.some((e) => /2x\.png|gstatic/.test(e)), false);
+  check('strips the zero-width space from the phone',
+    r.phones[0], '+923041115551');
+  check('detects wordpress and woocommerce',
+    ['wordpress', 'woocommerce'].every((t) => r.tech.includes(t)), true);
+  check('finds no automation tooling', r.automationTech, []);
+  check('reads the stale copyright year', r.stale.copyrightYear, 2019);
+}
+
+console.log('');
 console.log('real captured pages');
 const dir = path.join(__dirname, '..', 'fixtures', 'sites');
 const manifestPath = path.join(dir, 'manifest.json');
-if (!fs.existsSync(manifestPath)) {
-  console.log('  FAIL no fixtures captured — run the capture script first');
-  process.exit(1);
+// The captured pages are deliberately not committed, so this section is a
+// local-only extra. CI relies on the synthetic fixture above.
+const manifest = fs.existsSync(manifestPath)
+  ? JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+      .filter((e) => fs.existsSync(path.join(dir, e.file)))
+  : [];
+if (!manifest.length) {
+  console.log('  skipped — no captured pages present (they are not committed)');
 }
-const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 
 let withEmail = 0;
 let withPhone = 0;
@@ -129,7 +163,9 @@ console.log('');
 console.log(`  pages with an email: ${withEmail}/${manifest.length}`);
 console.log(`  pages with a phone : ${withPhone}/${manifest.length}`);
 
-check('extracts an email from most real pages', withEmail >= Math.ceil(manifest.length / 2), true);
+if (manifest.length) {
+  check('extracts an email from most real pages', withEmail >= Math.ceil(manifest.length / 2), true);
+}
 check('no junk leaked into the top pick',
   rows.every((r) => !r.email || !isJunkEmail(r.email)), true);
 
