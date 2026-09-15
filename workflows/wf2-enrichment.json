@@ -227,8 +227,8 @@
       }
     },
     {
-      "id": "shape",
-      "name": "Shape Update",
+      "id": "mx",
+      "name": "Verify MX",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
@@ -236,7 +236,22 @@
         60
       ],
       "parameters": {
-        "jsCode": "// Only the columns enrichment owns are written. contact_status and\n// notes belong to the team and must never be overwritten by a robot.\nreturn $input.all().map(({ json: j }) => ({ json: {\n  lead_id: j.lead_id,\n  email: j.email,\n  email_valid: j.email_valid,\n  tech_detected: j.tech_detected,\n  last_seen: new Date().toISOString(),\n} }));"
+        "jsCode": "// Confirms the email domain can actually receive mail. This is the free\n// equivalent of a paid verification API — it catches dead domains and\n// typos before anyone wastes an outreach attempt on them.\nconst dnsmod = require('dns');\n\n// n8n resolves against 127.0.0.1 by default in this environment, where\n// nothing is listening, so every lookup fails with ECONNREFUSED. Public\n// resolvers have to be set explicitly.\ndnsmod.setServers(['8.8.8.8', '1.1.1.1']);\nconst dns = dnsmod.promises;\n\nconst cache = new Map();\nasync function hasMx(domain) {\n  if (cache.has(domain)) return cache.get(domain);\n  let ok = false;\n  try {\n    const mx = await dns.resolveMx(domain);\n    ok = Array.isArray(mx) && mx.length > 0;\n  } catch (e) {\n    // A domain may accept mail on its A record even without MX.\n    try {\n      const a = await dns.resolve4(domain);\n      ok = Array.isArray(a) && a.length > 0;\n    } catch (e2) { ok = false; }\n  }\n  cache.set(domain, ok);\n  return ok;\n}\n\nconst out = [];\nfor (const item of $input.all()) {\n  const j = item.json;\n  if (!j.email) { out.push({ json: j }); continue; }\n  const domain = String(j.email).split('@')[1] || '';\n  const ok = domain ? await hasMx(domain) : false;\n  out.push({ json: Object.assign({}, j, { mx_ok: ok }) });\n}\nreturn out;"
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "id": "shape",
+      "name": "Shape Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1080,
+        60
+      ],
+      "parameters": {
+        "jsCode": "// Only the columns enrichment owns are written. contact_status and\n// notes belong to the team and must never be overwritten by a robot.\nreturn $input.all().map(({ json: j }) => ({ json: {\n  lead_id: j.lead_id,\n  email: j.email,\n  // Reads as ok:own:mailto / nomx:free:text / no_email_found —\n  // the verdict first, then how much to trust it.\n  email_valid: j.email\n    ? ((j.mx_ok ? 'ok' : 'nomx') + ':' + String(j.email_valid).replace(/^found:/, ''))\n    : j.email_valid,\n  tech_detected: j.tech_detected,\n  last_seen: new Date().toISOString(),\n} }));"
       }
     },
     {
@@ -245,7 +260,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1080,
+        1300,
         60
       ],
       "parameters": {
@@ -358,6 +373,17 @@
       ]
     },
     "Extract Contacts": {
+      "main": [
+        [
+          {
+            "node": "Verify MX",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify MX": {
       "main": [
         [
           {
