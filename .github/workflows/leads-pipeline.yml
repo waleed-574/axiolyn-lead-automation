@@ -53,6 +53,7 @@ jobs:
         run: |
           node scripts/test-normalize.js
           node scripts/test-extract.js
+          node scripts/test-scoring-rules.js
 
       - name: Run pipeline
         env:
