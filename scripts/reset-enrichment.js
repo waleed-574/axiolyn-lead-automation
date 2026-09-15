@@ -55,19 +55,22 @@ async function api(token, path, method = 'GET', body) {
 
 (async () => {
   const token = await getToken();
-  // email_valid is column F in Leads.
-  const range = 'Leads!F2:F1000';
+  // E = email, F = email_valid. Both are cleared together: clearing only the
+  // verdict leaves a row showing an address with no verdict behind it, which
+  // reads as a pipeline bug when it is only a half-finished reset.
+  const range = 'Leads!E2:F1000';
   const cur = await api(token, `/${SHEET_ID}/values/${encodeURIComponent(range)}`);
   const rows = cur.values || [];
   if (!rows.length) { console.log('nothing to reset'); return; }
 
   let cleared = 0;
   const next = rows.map((r) => {
-    const v = String(r[0] == null ? '' : r[0]).trim();
-    if (!v) return [''];
-    const isFailure = v === 'no_email_found' || v === 'fetch_failed';
-    if (ALL || isFailure) { cleared++; return ['']; }
-    return [v];
+    const email = String(r[0] == null ? '' : r[0]);
+    const verdict = String(r[1] == null ? '' : r[1]).trim();
+    if (!verdict && !email) return ['', ''];
+    const isFailure = verdict === 'no_email_found' || verdict === 'fetch_failed';
+    if (ALL || isFailure || (email && !verdict)) { cleared++; return ['', '']; }
+    return [email, verdict];
   });
 
   await api(
@@ -77,7 +80,7 @@ async function api(token, path, method = 'GET', body) {
     { range, majorDimension: 'ROWS', values: next }
   );
 
-  const remaining = next.filter((r) => r[0]).length;
-  console.log(`cleared ${cleared} marker(s)${ALL ? ' (all)' : ' (failures only)'}`);
+  const remaining = next.filter((r) => r[1]).length;
+  console.log(`cleared ${cleared} lead(s)${ALL ? ' (all)' : ' (failures and half-written rows)'}`);
   console.log(`${remaining} lead(s) still marked as enriched`);
 })().catch((e) => { console.error('FAILED:', e.message); process.exit(1); });
