@@ -48,7 +48,11 @@ console.log('');
 console.log('foreign-domain rejection (spam injected on hacked sites)');
 {
   const { isForeignDomain, stripInvisible } = require('../workflows/src/extract-contacts');
-  check('rejects an unrelated domain', isForeignDomain('info@breitlingreplica.is', 'pakhockey.org'), true);
+  check('rejects spam TLD', isForeignDomain('info@breitlingreplica.is', 'pakhockey.org'), true);
+  check('keeps a related company domain', isForeignDomain('info@dhmc.com.pk', 'doctorshospital.com.pk'), false);
+  const { scoreEmail } = require('../workflows/src/extract-contacts');
+  check('role on related domain beats personal gmail',
+    scoreEmail('info@dhmc.com.pk','doctorshospital.com.pk') > scoreEmail('sanamrana222@gmail.com','doctorshospital.com.pk'), true);
   check('keeps own domain', isForeignDomain('info@acme.pk', 'acme.pk'), false);
   check('keeps subdomain of site', isForeignDomain('a@mail.acme.pk', 'acme.pk'), false);
   check('keeps gmail', isForeignDomain('acme2026@gmail.com', 'acme.pk'), false);

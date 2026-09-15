@@ -84,15 +84,26 @@ const ROLE_RANK = [
 
 function scoreEmail(email, siteDomain) {
   const e = String(email).toLowerCase();
-  const [local, domain] = e.split('@');
+  const local = e.split('@')[0] || '';
   let score = 0;
 
-  // An address on the company's own domain is far more likely to be theirs.
-  if (siteDomain && (domain === siteDomain || domain.endsWith('.' + siteDomain))) score += 50;
-  else if (/gmail\.com|yahoo\.|hotmail\.|outlook\./.test(domain)) score += 10;
+  // Where the domain sits relative to the site, weighted so that a role
+  // address on a related company domain beats somebody's personal Gmail —
+  // doctorshospital.com.pk publishes both info@dhmc.com.pk and
+  // sanamrana222@gmail.com, and the first is the one worth having.
+  switch (classifyEmailDomain(e, siteDomain)) {
+    case 'own': score += 50; break;
+    case 'related': score += 25; break;
+    case 'free': score += 10; break;
+    default: break;
+  }
 
   const roleIdx = ROLE_RANK.indexOf(local);
   if (roleIdx >= 0) score += 30 - roleIdx;
+
+  // A local part carrying a personal name and digits reads as an individual's
+  // address rather than the business's published contact.
+  if (/\d{2,}$/.test(local) && roleIdx < 0) score -= 8;
   return score;
 }
 
@@ -124,7 +135,7 @@ function decodeCfEmail(hex) {
 /** Strip zero-width and bidi characters that web pages hide inside contact details. */
 function stripInvisible(s) {
   return String(s == null ? '' : s)
-    .replace(/[​-‏‪-‮⁠﻿­]/g, '');
+    .replace(/[­​‌‍‎‏‪-‮⁠﻿]/g, '');
 }
 
 /**
@@ -135,23 +146,38 @@ function stripInvisible(s) {
 const FREE_MAIL = /^(gmail|yahoo|ymail|hotmail|outlook|live|msn|aol|proton|protonmail|icloud|zoho)\.(com|co\.uk|pk|net)$/;
 
 /**
- * Rejects an address whose domain has nothing to do with the site it was found
- * on. Hacked sites carry injected spam addresses — pakhockey.org served a
- * Cloudflare-encoded `info@breitlingreplica.is` — and those decode perfectly,
- * rank well, and are indistinguishable from a real find without this check.
+ * TLDs that are implausible for the businesses we target and heavily
+ * over-represented in injected spam. A hacked Pakistani sports site served
+ * `info@breitlingreplica.is`; no prospect of ours publishes an Icelandic
+ * address, but plenty legitimately use a second `.com.pk` or `.org` domain.
  */
-function isForeignDomain(email, siteDomain) {
-  if (!siteDomain) return false;
+const SUSPICIOUS_TLD = /\.(is|ru|su|cn|tk|ml|ga|cf|gq|top|xyz|icu|buzz|loan|click|link|work|men|date|stream|download|racing|win|bid|party|review|country|kim|science|cricket|accountant|faith|webcam)$/i;
+
+/** Where an address sits relative to the site it was found on. */
+function classifyEmailDomain(email, siteDomain) {
   const domain = String(email).toLowerCase().split('@')[1] || '';
-  if (!domain) return true;
-  if (domain === siteDomain || domain.endsWith('.' + siteDomain)) return false;
+  if (!domain) return 'invalid';
+  if (!siteDomain) return 'unknown';
+
+  if (domain === siteDomain || domain.endsWith('.' + siteDomain)) return 'own';
   // The site may sit on a subdomain of the mail domain, or vice versa.
-  if (siteDomain.endsWith('.' + domain)) return false;
-  if (FREE_MAIL.test(domain)) return false;
+  if (siteDomain.endsWith('.' + domain)) return 'own';
   // Same registrable name under a different TLD, e.g. acme.pk vs acme.com
   const stem = (d) => d.split('.')[0];
-  if (stem(domain) && stem(domain) === stem(siteDomain)) return false;
-  return true;
+  if (stem(domain) && stem(domain) === stem(siteDomain)) return 'own';
+
+  if (FREE_MAIL.test(domain)) return 'free';
+  if (SUSPICIOUS_TLD.test(domain)) return 'suspicious';
+  // A different domain on a plausible TLD. Organisations routinely run two —
+  // doctorshospital.com.pk publishes info@dhmc.com.pk — so this is kept, and
+  // ranked below an own-domain address rather than discarded.
+  return 'related';
+}
+
+/** Only outright implausible domains are dropped. */
+function isForeignDomain(email, siteDomain) {
+  const c = classifyEmailDomain(email, siteDomain);
+  return c === 'invalid' || c === 'suspicious';
 }
 
 // --- extraction ------------------------------------------------------------
@@ -193,7 +219,12 @@ function extractEmails(html, siteDomain) {
   while ((m = textRe.exec(html))) add(m[0], 'text');
 
   const ranked = [...found.entries()]
-    .map(([email, source]) => ({ email, source, score: scoreEmail(email, siteDomain) }))
+    .map(([email, source]) => ({
+      email,
+      source,
+      confidence: classifyEmailDomain(email, siteDomain),
+      score: scoreEmail(email, siteDomain),
+    }))
     .sort((a, b) => b.score - a.score);
 
   ranked.rejectedForeign = rejected;
@@ -302,6 +333,8 @@ function extractFromPage(html, siteDomain) {
 
 module.exports = {
   CONTACT_PATHS,
+  classifyEmailDomain,
+  SUSPICIOUS_TLD,
   stripInvisible,
   isForeignDomain,
   candidateUrls,
