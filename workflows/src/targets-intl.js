@@ -59,7 +59,11 @@ const CITIES = [
     country: 'GB',
     name: 'London',
     tiles: [
-      '51.510,-0.110,51.525,-0.080', // City of London
+      // The City is the densest square mile in Britain and refused every query
+      // put to it on 2026-09-24 — craft1, craft2 and craft3 each came back 504
+      // from all three mirrors. Split in half; the same box works in two pieces.
+      '51.510,-0.110,51.525,-0.095', // City of London — west, St Paul's
+      '51.510,-0.095,51.525,-0.080', // City of London — east, Liverpool St
       '51.505,-0.150,51.520,-0.120', // West End / Soho
       '51.498,-0.030,51.512,-0.005', // Canary Wharf
       '51.520,-0.100,51.535,-0.075', // Shoreditch / Old Street
