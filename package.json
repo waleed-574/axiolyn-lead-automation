@@ -7,13 +7,15 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node scripts/test-normalize.js && node scripts/test-extract.js && node scripts/test-scoring-rules.js && node scripts/test-phone.js && node scripts/test-normalize-intl.js",
+    "test": "node scripts/test-normalize.js && node scripts/test-extract.js && node scripts/test-scoring-rules.js && node scripts/test-phone.js && node scripts/test-normalize-intl.js && node scripts/test-scoring-intl.js",
     "pipeline": "node scripts/run-pipeline.js --stage=all",
     "discover": "node scripts/run-pipeline.js --stage=discover",
     "enrich": "node scripts/run-pipeline.js --stage=enrich",
     "score": "node scripts/run-pipeline.js --stage=score",
     "build:workflows": "node scripts/build-wf1.js && node scripts/build-wf2.js && node scripts/build-wf3.js",
-    "stats": "node scripts/sheet-stats.js"
+    "stats": "node scripts/sheet-stats.js",
+    "pipeline:intl": "node scripts/run-intl-pipeline.js --stage=all",
+    "stats:intl": "node scripts/sheet-stats-intl.js"
   },
   "keywords": [
     "lead-generation",

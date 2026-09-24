@@ -1,0 +1,66 @@
+name: Lead pipeline (US & UK)
+
+# Entirely separate from the Pakistan pipeline: its own spreadsheet, its own
+# sweep cursor, its own schedule. Neither can touch the other's data.
+#
+# Requires two repository secrets:
+#   GOOGLE_SERVICE_ACCOUNT_JSON — shared with the Pakistan workflow
+#   SHEET_ID_INTL               — the US & UK spreadsheet id
+#
+# Set at: Settings → Secrets and variables → Actions
+
+on:
+  schedule:
+    # Hourly, offset from the Pakistan run at :17 so the two never compete for
+    # the same Overpass mirror at the same moment. Three sweep steps per run:
+    # 544 combinations at one an hour would take 23 days for a single pass.
+    - cron: '47 * * * *'
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Which stage to run'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, discover, enrich, score]
+      sweeps:
+        description: 'Sweep steps this run'
+        required: false
+        default: '3'
+      batch:
+        description: 'Leads to enrich this run (split across US and UK)'
+        required: false
+        default: '24'
+
+# A second run starting mid-write could append the same lead twice before the
+# first has finished.
+concurrency:
+  group: lead-pipeline-intl
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run offline tests
+        # No network, no credentials. Broken extraction or scoring logic fails
+        # here rather than writing bad data into the sheet.
+        run: npm test
+
+      - name: Run US/UK pipeline
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          SHEET_ID_INTL: ${{ secrets.SHEET_ID_INTL }}
+        run: |
+          node scripts/run-intl-pipeline.js \
+            --stage=${{ github.event.inputs.stage || 'all' }} \
+            --sweeps=${{ github.event.inputs.sweeps || '3' }} \
+            --batch=${{ github.event.inputs.batch || '24' }}

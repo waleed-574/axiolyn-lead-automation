@@ -22,5 +22,15 @@
     "credentialId": "YOUR_N8N_CREDENTIAL_ID",
     "credentialName": "Axiolyn Google Sheets (Service Account)",
     "credentialType": "googleApi"
+  },
+  "sheetIntl": {
+    "spreadsheetId": "YOUR_US_UK_SHEET_ID",
+    "title": "Axiolyn Leads — US & UK",
+    "tabs": [
+      "Leads_US",
+      "Leads_UK",
+      "_state",
+      "_runlog"
+    ]
   }
 }

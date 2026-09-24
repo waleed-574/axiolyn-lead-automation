@@ -91,6 +91,32 @@ async function call(token, url, method = 'GET', body) {
     console.log('created spreadsheet:', id);
   } else {
     console.log('using existing spreadsheet:', id);
+    // A sheet created by hand arrives with a single default tab, so the ones
+    // this project needs have to be added before anything can be written to
+    // them. Only missing tabs are created, making a re-run safe.
+    const existing = await call(token,
+      `https://sheets.googleapis.com/v4/spreadsheets/${id}?fields=sheets.properties`);
+    const present = new Set(existing.sheets.map((s) => s.properties.title));
+    const missing = Object.keys(TABS).filter((t) => !present.has(t));
+    if (missing.length) {
+      await call(token, `https://sheets.googleapis.com/v4/spreadsheets/${id}:batchUpdate`, 'POST', {
+        requests: missing.map((title) => ({
+          addSheet: {
+            properties: {
+              title,
+              gridProperties: {
+                rowCount: 5000,
+                columnCount: TABS[title].length,
+                frozenRowCount: 1,
+              },
+            },
+          },
+        })),
+      });
+      console.log('created tabs:', missing.join(', '));
+    } else {
+      console.log('all tabs already present');
+    }
   }
 
   // Headers on every tab.
