@@ -130,13 +130,20 @@ function buildQuery(bbox, selector, timeout) {
   return `[out:json][timeout:${t}];\n(\n${parts}\n);\nout tags center 400;`;
 }
 
-/** Every city tile × category group, in sweep order. */
+/**
+ * Every city tile × category group, **interleaved by country**.
+ *
+ * Listing all US combinations then all UK ones would leave the UK tab empty for
+ * weeks: there are 256 US combinations, and at three sweep steps an hour the
+ * sweep would not reach Britain for over three days. Alternating fills both
+ * tabs from the first run.
+ */
 function combinations() {
-  const out = [];
+  const perCountry = {};
   for (const city of CITIES) {
     city.tiles.forEach((bbox, tileIndex) => {
       for (const group of CATEGORY_GROUPS) {
-        out.push({
+        (perCountry[city.country] = perCountry[city.country] || []).push({
           country: city.country,
           city: city.name,
           tile: tileIndex + 1,
@@ -147,6 +154,13 @@ function combinations() {
         });
       }
     });
+  }
+
+  const lists = Object.values(perCountry);
+  const longest = Math.max(0, ...lists.map((l) => l.length));
+  const out = [];
+  for (let i = 0; i < longest; i++) {
+    for (const list of lists) if (list[i]) out.push(list[i]);
   }
   return out;
 }

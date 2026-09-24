@@ -13,7 +13,7 @@ domain has no Drive storage quota — it returns `403 PERMISSION_DENIED` on
 creating a file, though it can read and write files shared with it.
 
 1. https://sheets.new → name it **Axiolyn Leads — US & UK**
-2. **Share** → `n8n-leads@n8n-resumed.iam.gserviceaccount.com` → **Editor**, untick "Notify people"
+2. **Share** → `<service-account>@<project>.iam.gserviceaccount.com` → **Editor**, untick "Notify people"
 3. Give Claude the URL
 
 Then Claude runs:
