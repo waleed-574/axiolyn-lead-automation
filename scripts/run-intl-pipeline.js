@@ -5,7 +5,7 @@
  * touch the Pakistan sheet.
  *
  *   node scripts/run-intl-pipeline.js --stage=all
- *   node scripts/run-intl-pipeline.js --stage=discover --sweeps=3
+ *   node scripts/run-intl-pipeline.js --stage=discover --sweeps=6
  *   node scripts/run-intl-pipeline.js --stage=enrich --batch=25
  *   node scripts/run-intl-pipeline.js --stage=score
  *   node scripts/run-intl-pipeline.js --stage=all --dry-run
@@ -31,7 +31,7 @@ const arg = (n, d) => {
 const flag = (n) => process.argv.includes(`--${n}`);
 
 const STAGE = arg('stage', 'all');
-const SWEEPS = parseInt(arg('sweeps', '3'), 10);
+const SWEEPS = parseInt(arg('sweeps', '6'), 10);
 const BATCH = parseInt(arg('batch', '25'), 10);
 const DRY = flag('dry-run');
 

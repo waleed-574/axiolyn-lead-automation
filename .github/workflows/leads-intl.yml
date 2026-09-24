@@ -12,8 +12,12 @@ name: Lead pipeline (US & UK)
 on:
   schedule:
     # Hourly, offset from the Pakistan run at :17 so the two never compete for
-    # the same Overpass mirror at the same moment. Three sweep steps per run:
-    # 1,088 combinations at one an hour would take weeks for a single pass.
+    # the same Overpass mirror at the same moment.
+    #
+    # Six sweep steps per run. GitHub throttles scheduled workflows heavily —
+    # this cron says hourly but lands about 5.7 times a day — so a single step
+    # per run would take over half a year to cross 1,088 combinations. Six
+    # brings a full pass to roughly a month.
     - cron: '47 * * * *'
   workflow_dispatch:
     inputs:
@@ -26,7 +30,7 @@ on:
       sweeps:
         description: 'Sweep steps this run'
         required: false
-        default: '3'
+        default: '6'
       batch:
         description: 'Leads to enrich this run (split across US and UK)'
         required: false
@@ -41,7 +45,9 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Six Overpass queries, each of which may fail over across three mirrors
+    # before giving up. A healthy run is far quicker; this is the ceiling.
+    timeout-minutes: 90
 
     steps:
       - uses: actions/checkout@v4
@@ -62,5 +68,5 @@ jobs:
         run: |
           node scripts/run-intl-pipeline.js \
             --stage=${{ github.event.inputs.stage || 'all' }} \
-            --sweeps=${{ github.event.inputs.sweeps || '3' }} \
+            --sweeps=${{ github.event.inputs.sweeps || '6' }} \
             --batch=${{ github.event.inputs.batch || '24' }}
