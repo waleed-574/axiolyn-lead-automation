@@ -70,6 +70,22 @@ console.log('phone handling differs by country');
 }
 
 console.log('');
+console.log('mismatched website warning (OpenStreetMap tagging errors)');
+{
+  const { nameMatchesDomain } = require('../workflows/src/score-intl');
+  // A genuine error found in the first 26 London leads: an accountancy firm
+  // tagged with a neighbouring restaurant's website.
+  check('flags a genuine mismatch', nameMatchesDomain('Perrys Chartered Accountants','themercer.co.uk'), false);
+  check('accepts plain initials', nameMatchesDomain('Abrahams Dresden','ad-solicitors.co.uk'), true);
+  check('accepts CamelCase initials', nameMatchesDomain('RadcliffesLeBrasseur','rlb-law.com'), true);
+  check('accepts a spelled-out number', nameMatchesDomain("Five St. Andrew's Hill",'5sah.co.uk'), true);
+  check('accepts a direct name match', nameMatchesDomain('Physical Gold','physicalgold.com'), true);
+  check('declines to judge an all-generic name', nameMatchesDomain('The Law Partnership','xyz.co.uk'), null);
+  check('warning reaches the reasons',
+    /may not belong/.test(lead({ company_name: 'Perrys Chartered Accountants', normalized_domain: 'themercer.co.uk' }).reasons), true);
+}
+
+console.log('');
 console.log('reachability');
 check('verified email beats none',
   lead({ email_valid: 'ok:mailto:own' }).score > lead({ email_valid: 'no_email_found' }).score, true);
