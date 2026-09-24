@@ -10,6 +10,8 @@
  * project files.
  */
 const crypto = require('crypto');
+// Plain-language label so a row says 'Law firm' rather than 'office:lawyer'.
+const { businessType } = require('./business-type');
 
 // --- helpers ---------------------------------------------------------------
 
@@ -183,6 +185,7 @@ function normalizeOverpass(elements, opts) {
       country: 'Pakistan',
       region: 'PK',
       category: categoryOf(tags),
+      business_type: businessType(categoryOf(tags)),
       source: 'osm_overpass',
       source_query: sourceQuery,
       discovered_at: now,

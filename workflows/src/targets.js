@@ -34,55 +34,13 @@ const CITIES = [
  * queried wholesale; a single `nwr["shop"]` over Karachi is exactly the kind of
  * query that times out.
  */
-const CATEGORY_GROUPS = [
-  { key: 'office', selector: '["office"]' },
-  { key: 'craft', selector: '["craft"]' },
-  { key: 'healthcare', selector: '["healthcare"]' },
-  {
-    key: 'shop_retail',
-    selector: '["shop"~"^(supermarket|convenience|department_store|mall|general|variety_store|wholesale|trade)$"]',
-  },
-  {
-    key: 'shop_goods',
-    selector: '["shop"~"^(clothes|shoes|jewelry|furniture|electronics|computer|mobile_phone|hardware|doityourself|paint|florist|books|stationery|sports|toys|optician|cosmetics|chemist)$"]',
-  },
-  {
-    key: 'shop_auto',
-    selector: '["shop"~"^(car|car_repair|car_parts|motorcycle|tyres|bicycle|fuel)$"]',
-  },
-  {
-    key: 'shop_services',
-    selector: '["shop"~"^(hairdresser|beauty|laundry|dry_cleaning|travel_agency|copyshop|printing|tailor|photo|funeral_directors|estate_agent|insurance)$"]',
-  },
-  {
-    key: 'amenity_food',
-    selector: '["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court|catering)$"]',
-  },
-  {
-    key: 'amenity_education',
-    selector: '["amenity"~"^(school|college|university|language_school|driving_school|music_school|training|childcare|kindergarten|prep_school)$"]',
-  },
-  {
-    key: 'amenity_health',
-    selector: '["amenity"~"^(clinic|doctors|dentist|hospital|pharmacy|veterinary|nursing_home)$"]',
-  },
-  {
-    key: 'amenity_finance',
-    selector: '["amenity"~"^(bank|bureau_de_change|money_transfer|atm|payment_centre)$"]',
-  },
-  {
-    key: 'amenity_services',
-    selector: '["amenity"~"^(car_rental|car_wash|coworking_space|internet_cafe|marketplace|studio|events_venue|conference_centre|cinema|nightclub|gym)$"]',
-  },
-  {
-    key: 'tourism_stay',
-    selector: '["tourism"~"^(hotel|guest_house|motel|hostel|apartment|resort)$"]',
-  },
-  {
-    key: 'leisure_fitness',
-    selector: '["leisure"~"^(fitness_centre|sports_centre|swimming_pool|golf_course)$"]',
-  },
-];
+const { categoryGroups } = require('./categories');
+
+/**
+ * Every commercial category, shared with the US/UK sweep. Not dense: Pakistani
+ * OSM data is sparse enough that a single ["office"] query answers fine.
+ */
+const CATEGORY_GROUPS = categoryGroups({ dense: false });
 
 /**
  * Ask Overpass only for entries that already carry a contact channel. Four

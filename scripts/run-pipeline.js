@@ -146,6 +146,7 @@ async function stageDiscover(sheet) {
     normalized_domain: r.normalized_domain, email: '', email_valid: '',
     phone_e164: r.phone_e164, whatsapp_ready: r.whatsapp_ready,
     city: r.city, country: r.country, region: r.region, industry: r.category,
+    business_type: r.business_type,
     service_fit: '', score: '', score_reasons: '', tech_detected: '',
     hiring_signal: '', source: r.source, date_found: r.discovered_at,
     last_seen: r.discovered_at, contact_status: '', ai_summary: '', notes: r.address,
@@ -155,6 +156,7 @@ async function stageDiscover(sheet) {
     lead_id: r.lead_id, company_name: r.company_name, phone_e164: r.phone_e164,
     whatsapp_ready: r.whatsapp_ready, address: r.address, city: r.city,
     country: r.country, region: r.region, category: r.category,
+    business_type: r.business_type,
     score: '', score_reasons: '', source: r.source, date_found: r.discovered_at,
     last_seen: r.discovered_at, contact_status: '', notes: '',
   }));

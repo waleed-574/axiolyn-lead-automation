@@ -31,6 +31,8 @@ const src = (f) => fs
   .replace(/^const \{[^}]*\} = require\(['"]\.\/[^'"]+['"]\);\s*$/gm, '');
 
 const targetsSrc = src('targets-intl.js');
+// normalize-intl requires this, and a Code node cannot require project files.
+const businessTypeSrc = src('business-type.js');
 const normalizeSrc = src('normalize-intl.js');
 const phoneSrc = src('phone.js');
 const extractSrc = src('extract-contacts.js');
@@ -184,7 +186,7 @@ const wf4 = {
       position: [220, 0],
       parameters: {
         jsCode: [
-          phoneSrc, '', normalizeSrc, '',
+          phoneSrc, '', businessTypeSrc, '', normalizeSrc, '',
           '// --- n8n wrapper ---',
           "const cfg = $('Config').first().json;",
           'const payload = $input.first().json;',
@@ -303,6 +305,7 @@ function shapeRow() {
     "  email: '', email_valid: '',",
     '  phone_e164: j.phone_e164, phone_type: j.phone_type,',
     '  city: j.city, country: j.country, category: j.category,',
+    '  business_type: j.business_type,',
     "  service_fit: '', score: '', score_reasons: '', tech_detected: '',",
     '  source: j.source, date_found: j.date_found, last_seen: j.last_seen,',
     "  contact_status: '', notes: j.notes,",

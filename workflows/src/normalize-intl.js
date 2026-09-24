@@ -9,6 +9,8 @@
  */
 const crypto = require('crypto');
 const { toE164, isMobile } = require('./phone');
+// Plain-language label so a row says 'Law firm' rather than 'office:lawyer'.
+const { businessType } = require('./business-type');
 
 function pick(tags, ...keys) {
   for (const k of keys) {
@@ -143,6 +145,7 @@ function normalizeIntl(elements, opts) {
       city,
       country,
       category: categoryOf(tags),
+      business_type: businessType(categoryOf(tags)),
       service_fit: '',
       score: '',
       score_reasons: '',

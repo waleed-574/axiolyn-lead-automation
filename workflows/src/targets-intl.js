@@ -97,24 +97,14 @@ const CITIES = [
  * Category groups, split more finely than the Pakistan sweep: a single
  * `["office"]` query over a dense centre is exactly what triggers a 504.
  */
-const CATEGORY_GROUPS = [
-  { key: 'office_prof', selector: '["office"~"^(lawyer|accountant|tax_advisor|financial|insurance|notary|architect|engineer|surveyor)$"]' },
-  { key: 'office_agency', selector: '["office"~"^(advertising_agency|marketing|it|research|consulting|employment_agency|newspaper|telecommunication)$"]' },
-  { key: 'office_property', selector: '["office"~"^(estate_agent|property_management|construction_company|logistics|moving_company|travel_agent)$"]' },
-  { key: 'office_other', selector: '["office"~"^(company|coworking|association|educational_institution|energy_supplier)$"]' },
-  { key: 'craft', selector: '["craft"]' },
-  { key: 'healthcare', selector: '["healthcare"]' },
-  { key: 'shop_retail', selector: '["shop"~"^(supermarket|convenience|department_store|mall|general|variety_store|wholesale|trade|doityourself|hardware)$"]' },
-  { key: 'shop_goods', selector: '["shop"~"^(clothes|shoes|jewelry|furniture|electronics|computer|mobile_phone|sports|toys|books|optician|cosmetics|florist|bicycle)$"]' },
-  { key: 'shop_auto', selector: '["shop"~"^(car|car_repair|car_parts|motorcycle|tyres|fuel)$"]' },
-  { key: 'shop_services', selector: '["shop"~"^(hairdresser|beauty|laundry|dry_cleaning|travel_agency|copyshop|printing|tailor|photo|funeral_directors|pawnbroker)$"]' },
-  { key: 'amenity_food', selector: '["amenity"~"^(restaurant|cafe|fast_food|bar|pub|food_court|ice_cream)$"]' },
-  { key: 'amenity_education', selector: '["amenity"~"^(school|college|university|language_school|driving_school|music_school|training|childcare|kindergarten)$"]' },
-  { key: 'amenity_health', selector: '["amenity"~"^(clinic|doctors|dentist|hospital|pharmacy|veterinary|nursing_home)$"]' },
-  { key: 'amenity_services', selector: '["amenity"~"^(bank|car_rental|car_wash|coworking_space|internet_cafe|marketplace|studio|events_venue|conference_centre|cinema|nightclub|gym)$"]' },
-  { key: 'tourism_stay', selector: '["tourism"~"^(hotel|guest_house|motel|hostel|apartment|resort)$"]' },
-  { key: 'leisure_fitness', selector: '["leisure"~"^(fitness_centre|sports_centre|swimming_pool|golf_course)$"]' },
-];
+const { categoryGroups } = require('./categories');
+
+/**
+ * Every commercial category, shared with the Pakistan sweep. Dense: US and UK
+ * city centres carry far more data, so the office tag is split rather than
+ * queried whole.
+ */
+const CATEGORY_GROUPS = categoryGroups({ dense: true });
 
 /**
  * Ask only for entries that already carry a contact channel. In Pakistan this

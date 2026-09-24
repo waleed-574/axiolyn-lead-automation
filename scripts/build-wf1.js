@@ -18,10 +18,15 @@ const CRED = { id: cfg.n8n.credentialId, name: cfg.n8n.credentialName };
 // Strip the module.exports tail — n8n Code nodes have no module system.
 const stripExports = (p) => fs
   .readFileSync(path.join(ROOT, 'workflows', 'src', p), 'utf8')
-  .replace(/module\.exports\s*=\s*\{[\s\S]*?\};\s*$/, '');
+  .replace(/module\.exports\s*=\s*\{[\s\S]*?\};\s*$/, '')
+  // Sibling requires are inlined above instead; a Code node cannot load
+  // project files, and leaving the line in throws at runtime.
+  .replace(/^const \{[^}]*\} = require\(['"]\.\/[^'"]+['"]\);\s*$/gm, '');
 
 const normalizerSource = stripExports('normalize-overpass.js');
 const targetsSource = stripExports('targets.js');
+// normalize-overpass requires this, and a Code node cannot require project files.
+const businessTypeSource = stripExports('business-type.js');
 
 /**
  * Mirrors must serve the whole planet. overpass.osm.ch is deliberately absent:
@@ -230,6 +235,7 @@ const nodes = [
     position: [40, 0],
     parameters: {
       jsCode: [
+        businessTypeSource,
         normalizerSource,
         '',
         '// --- n8n wrapper ---',
@@ -350,6 +356,7 @@ const nodes = [
         '  country: j.country,',
         '  region: j.region,',
         '  industry: j.category,',
+        '  business_type: j.business_type,',
         "  service_fit: '',",
         "  score: '',",
         "  score_reasons: '',",
@@ -383,6 +390,7 @@ const nodes = [
         '  country: j.country,',
         '  region: j.region,',
         '  category: j.category,',
+        '  business_type: j.business_type,',
         "  score: '',",
         "  score_reasons: '',",
         '  source: j.source,',
