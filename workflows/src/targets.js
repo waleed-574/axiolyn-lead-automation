@@ -66,6 +66,7 @@ function combinations() {
         bbox: city.bbox,
         categoryKey: group.key,
         selector: group.selector,
+        catchAll: Boolean(group.catchAll),
       });
     }
   }
@@ -83,7 +84,7 @@ function atCursor(cursor) {
     total: n,
     nextCursor: (i + 1) % n,
     ...combo,
-    query: buildQuery(combo.bbox, combo.selector),
+    query: buildQuery(combo.bbox, combo.selector, combo.catchAll ? 40 : 90),
     sourceQuery: `${combo.categoryKey} @ ${combo.city}`,
   };
 }

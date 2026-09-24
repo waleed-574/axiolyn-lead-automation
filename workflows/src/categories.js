@@ -76,6 +76,21 @@ const LEISURE_FITNESS = ['fitness_centre', 'sports_centre', 'swimming_pool', 'go
 const re = (values) => `^(${values.join('|')})$`;
 
 /**
+ * Catch-all groups are far more expensive than enumerated ones: Overpass has to
+ * scan every entry carrying the tag and then exclude, rather than matching a
+ * short list. Measured on `office_other` over Manhattan, one query spent fifty
+ * minutes across three mirrors and returned nothing.
+ *
+ * They are marked so the runner can give them a shorter Overpass timeout —
+ * failing fast and moving to the next combination beats hanging a whole run, as
+ * a CI job with a 45-minute cap would otherwise be killed by three of them.
+ */
+const CATCH_ALL_KEYS = new Set([
+  'office_other', 'shop_other', 'amenity_other', 'office', 'craft',
+  'healthcare', 'industrial', 'club',
+]);
+
+/**
  * @param {Object} opts
  * @param {boolean} opts.dense  split the densest tags further. US and UK city
  *   centres carry an order of magnitude more data than Pakistani ones, and a
@@ -105,7 +120,7 @@ function categoryGroups(opts) {
     ...AMENITY_FINANCE, ...AMENITY_SERVICES,
   ];
 
-  return [
+  const groups = [
     ...officeGroups,
     { key: 'craft', selector: '["craft"]' },
     { key: 'healthcare', selector: '["healthcare"]' },
@@ -137,6 +152,9 @@ function categoryGroups(opts) {
     { key: 'works', selector: '["man_made"~"^(works|wastewater_plant|water_works)$"]' },
     { key: 'club', selector: '["club"]' },
   ];
+
+  // Flagged so the runner can cap how long it waits on the expensive ones.
+  return groups.map((g) => ({ ...g, catchAll: CATCH_ALL_KEYS.has(g.key) }));
 }
 
-module.exports = { categoryGroups, AMENITY_NOT_A_BUSINESS };
+module.exports = { categoryGroups, AMENITY_NOT_A_BUSINESS, CATCH_ALL_KEYS };

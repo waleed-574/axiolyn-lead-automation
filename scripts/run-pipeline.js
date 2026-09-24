@@ -24,6 +24,7 @@ const { atCursor } = require(path.join(ROOT, 'workflows/src/targets'));
 const { normalizeOverpass } = require(path.join(ROOT, 'workflows/src/normalize-overpass'));
 const { extractFromPage, candidateUrls } = require(path.join(ROOT, 'workflows/src/extract-contacts'));
 const { scoreWebLead, scoreNoWebLead } = require(path.join(ROOT, 'workflows/src/score-leads'));
+const { parseSheetId } = require(path.join(ROOT, 'workflows/src/sheet-id'));
 
 // config.json holds local identifiers and is gitignored, so CI supplies the
 // same values through the environment instead.
@@ -33,9 +34,10 @@ function loadConfig() {
   return { sheet: {} };
 }
 const cfg = loadConfig();
-const SHEET_ID = process.env.SHEET_ID || cfg.sheet.spreadsheetId;
+// Accepts a full Sheets URL as well as a bare id; see workflows/src/sheet-id.js.
+const SHEET_ID = parseSheetId(process.env.SHEET_ID || cfg.sheet.spreadsheetId);
 if (!SHEET_ID) {
-  console.error('No spreadsheet id: set SHEET_ID, or copy config.example.json to config.json');
+  console.error('No usable spreadsheet id: set SHEET_ID, or copy config.example.json to config.json');
   process.exit(1);
 }
 
@@ -66,7 +68,10 @@ const MIRRORS = [
 
 // ---------------------------------------------------------------- discovery
 
-async function overpass(query) {
+// Catch-all queries are given a shorter client deadline as well as a shorter
+// Overpass timeout: one office_other query over Manhattan spent fifty minutes
+// across three mirrors and returned nothing, which alone would exhaust a CI job.
+async function overpass(query, clientTimeoutMs) {
   const errors = [];
   for (const url of MIRRORS) {
     const t0 = Date.now();
@@ -75,7 +80,7 @@ async function overpass(query) {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': UA },
         body: 'data=' + encodeURIComponent(query),
-        signal: AbortSignal.timeout(180000),
+        signal: AbortSignal.timeout(clientTimeoutMs || 180000),
       });
       if (!res.ok) { errors.push(`${url.split('/')[2]} ${res.status}`); continue; }
       const json = await res.json();
@@ -100,7 +105,7 @@ async function stageDiscover(sheet) {
   // block the sweep forever.
   if (!DRY) await sheet.setState('wf1_cursor', target.nextCursor);
 
-  const { json, error } = await overpass(target.query);
+  const { json, error } = await overpass(target.query, target.catchAll ? 60000 : 180000);
   if (error) {
     log(`  ALL MIRRORS FAILED: ${error}`);
     if (!DRY) {

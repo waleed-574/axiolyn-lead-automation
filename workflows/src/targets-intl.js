@@ -141,6 +141,7 @@ function combinations() {
           bbox,
           categoryKey: group.key,
           selector: group.selector,
+          catchAll: Boolean(group.catchAll),
         });
       }
     });
@@ -167,7 +168,7 @@ function atCursor(cursor) {
     total: n,
     nextCursor: (i + 1) % n,
     ...c,
-    query: buildQuery(c.bbox, c.selector),
+    query: buildQuery(c.bbox, c.selector, c.catchAll ? 40 : 90),
     sourceQuery: `${c.categoryKey} @ ${where}, ${c.country}`,
   };
 }

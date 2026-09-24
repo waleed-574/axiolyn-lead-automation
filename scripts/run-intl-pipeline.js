@@ -22,6 +22,7 @@ const { atCursor, combinations } = require(path.join(ROOT, 'workflows/src/target
 const { normalizeIntl } = require(path.join(ROOT, 'workflows/src/normalize-intl'));
 const { extractFromPage, candidateUrls } = require(path.join(ROOT, 'workflows/src/extract-contacts'));
 const { scoreIntlLead } = require(path.join(ROOT, 'workflows/src/score-intl'));
+const { parseSheetId } = require(path.join(ROOT, 'workflows/src/sheet-id'));
 
 const arg = (n, d) => {
   const hit = process.argv.find((a) => a.startsWith(`--${n}=`));
@@ -35,13 +36,28 @@ const BATCH = parseInt(arg('batch', '25'), 10);
 const DRY = flag('dry-run');
 
 function loadSheetId() {
-  if (process.env.SHEET_ID_INTL) return process.env.SHEET_ID_INTL;
-  const p = path.join(ROOT, 'config.json');
-  if (fs.existsSync(p)) {
-    const c = JSON.parse(fs.readFileSync(p, 'utf8'));
-    if (c.sheetIntl && c.sheetIntl.spreadsheetId) return c.sheetIntl.spreadsheetId;
+  // A full Sheets URL is accepted as well as a bare id. Pasting the URL into a
+  // secret is the obvious mistake to make, and the Sheets API reports it as a
+  // 404 "Requested entity was not found", which reads like a deleted sheet
+  // rather than a malformed id.
+  const raw = process.env.SHEET_ID_INTL
+    || (() => {
+      const p = path.join(ROOT, 'config.json');
+      if (!fs.existsSync(p)) return '';
+      const c = JSON.parse(fs.readFileSync(p, 'utf8'));
+      return (c.sheetIntl && c.sheetIntl.spreadsheetId) || '';
+    })();
+
+  if (!raw) {
+    throw new Error('No US/UK spreadsheet id: set SHEET_ID_INTL or add sheetIntl to config.json');
   }
-  throw new Error('No US/UK spreadsheet id: set SHEET_ID_INTL or add sheetIntl to config.json');
+  const id = parseSheetId(raw);
+  if (!id) {
+    throw new Error(
+      `SHEET_ID_INTL does not look like a spreadsheet id or URL: "${String(raw).slice(0, 40)}"`
+    );
+  }
+  return id;
 }
 const SHEET_ID = loadSheetId();
 
@@ -63,7 +79,10 @@ const MIRRORS = [
 
 // ---------------------------------------------------------------- discovery
 
-async function overpass(query) {
+// Catch-all queries are given a shorter client deadline as well as a shorter
+// Overpass timeout: one office_other query over Manhattan spent fifty minutes
+// across three mirrors and returned nothing, which alone would exhaust a CI job.
+async function overpass(query, clientTimeoutMs) {
   const errors = [];
   for (const url of MIRRORS) {
     const t0 = Date.now();
@@ -72,7 +91,7 @@ async function overpass(query) {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': UA },
         body: 'data=' + encodeURIComponent(query),
-        signal: AbortSignal.timeout(180000),
+        signal: AbortSignal.timeout(clientTimeoutMs || 180000),
       });
       if (!res.ok) { errors.push(`${url.split('/')[2]} ${res.status}`); continue; }
       const json = await res.json();
@@ -112,7 +131,7 @@ async function stageDiscover(sheet) {
     // Advance first, so a combination that always fails cannot block the sweep.
     if (!DRY) await sheet.setState(CURSOR_KEY, target.nextCursor);
 
-    const { json, error, ms, mirror } = await overpass(target.query);
+    const { json, error, ms, mirror } = await overpass(target.query, target.catchAll ? 60000 : 180000);
     if (error) {
       log(`      all mirrors failed: ${error}`);
       notes.push(`FAIL ${target.sourceQuery}: ${error}`);

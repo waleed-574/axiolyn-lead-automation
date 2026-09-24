@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node scripts/test-normalize.js && node scripts/test-extract.js && node scripts/test-scoring-rules.js && node scripts/test-phone.js && node scripts/test-normalize-intl.js && node scripts/test-scoring-intl.js",
+    "test": "node scripts/test-normalize.js && node scripts/test-extract.js && node scripts/test-scoring-rules.js && node scripts/test-phone.js && node scripts/test-normalize-intl.js && node scripts/test-scoring-intl.js && node scripts/test-business-type.js && node scripts/test-sheet-id.js",
     "pipeline": "node scripts/run-pipeline.js --stage=all",
     "discover": "node scripts/run-pipeline.js --stage=discover",
     "enrich": "node scripts/run-pipeline.js --stage=enrich",
