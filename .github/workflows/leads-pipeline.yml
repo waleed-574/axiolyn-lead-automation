@@ -10,10 +10,9 @@ name: Lead pipeline
 
 on:
   schedule:
-    # Hourly. Each run takes one step of the 126-combination sweep, so the
-    # whole of Pakistan is covered in about five days, then cycles to pick up
-    # newly listed businesses. One small Overpass query an hour stays well
-    # inside what the public instances ask of clients.
+    # Hourly. Each run takes one step of the 252-combination sweep, then
+    # cycles back to pick up newly listed businesses. One small Overpass query
+    # an hour stays well inside what the public instances ask of clients.
     - cron: '17 * * * *'
   workflow_dispatch:
     # Lets you trigger a run by hand from the Actions tab.

@@ -13,7 +13,7 @@ on:
   schedule:
     # Hourly, offset from the Pakistan run at :17 so the two never compete for
     # the same Overpass mirror at the same moment. Three sweep steps per run:
-    # 544 combinations at one an hour would take 23 days for a single pass.
+    # 1,088 combinations at one an hour would take weeks for a single pass.
     - cron: '47 * * * *'
   workflow_dispatch:
     inputs:
