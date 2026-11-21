@@ -15,3 +15,6 @@ config.json
 # They embed the sheet id from config.json, so they stay out of the repo.
 workflows/*.json
 .wf-intl-ids
+
+# Personal CVs: never publish (phone number, email). The repo is public.
+*CV*.pdf

@@ -1,98 +1,34 @@
 # LinkedIn post — draft
 
-Edit freely. The numbers are real as of 2026-09-15; update them before posting
-if the sweep has moved on.
+Plain text on purpose: LinkedIn does not render Markdown. Numbers are real as
+of 2026-11-13; rerun `npm run stats` and `npm run stats:intl` before posting if
+time has passed. LinkedIn's limit is 3,000 characters.
+
+Images, in order: linkedin-1-workflow-square.png, linkedin-2-pakistan-leads.png,
+linkedin-3-us-uk-leads.png (on the Desktop).
 
 ---
 
-We were finding clients by hand. So I built something to stop doing that.
+A friend of mine runs Axiolyn, a small automation agency, and a couple of months ago he told me how they were finding clients. Googling businesses, opening their websites one by one, copying emails into a spreadsheet. For a team that sells automation, that was a bit embarrassing.
 
-Axiolyn sells business process automation — which made prospecting by
-spreadsheet a slightly embarrassing way to spend our evenings. Over the last few
-days I built a pipeline that does it for us.
+So I offered to build him something better. The brief was simple: find leads in Pakistan and abroad, on a budget of zero. No paid tools, no Apollo, no server to rent.
 
-It runs every 3 hours, unattended, and costs nothing:
+It has been running on its own for a while now, and it has found 15,506 businesses so far. 4,208 in Pakistan, 5,356 in the US and 5,942 in the UK, with 2,876 verified email addresses between them.
 
-→ **Finds** Pakistani businesses from OpenStreetMap — 126 city × category
-sweeps covering every commercial category, not a curated shortlist
-→ **Crawls** each company's own site for contact details
-→ **Verifies** the email domain actually accepts mail, via DNS MX lookup
-→ **Scores** every lead 0-100 and writes a plain-English reason for each rule
-→ **Writes** it all to a Google Sheet, sorted best-first
+Here is roughly how it works. Several times a day it pulls businesses from OpenStreetMap, city by city and category by category. It visits each company's website and looks for contact details, checks that the email domain can actually receive mail, and then gives every lead a score out of 100 with a short reason behind it. Everything lands in a Google Sheet with the best leads at the top. It's built with n8n and Node.js, and runs for free on GitHub Actions.
 
-188 leads so far, and it keeps going while I sleep.
+The scoring is the part I enjoyed most. I figured the best client for an automation agency is a business that is clearly busy but has no automation at all. So the system looks at each website and notices what's missing, like a CRM, a chat widget or online booking. A clinic with a busy website and no way to book online is still taking appointments over the phone, and that gives the team something real to talk to them about.
 
-**The idea it's built on:** the strongest buy signal for an automation agency is
-a working business with no automation. So the pipeline fingerprints each site's
-tech stack and scores the *absence* of a CRM, chat widget or booking tool.
+A few things I learned by running it on real data:
 
-A clinic running a WooCommerce store with no CRM and no booking system is
-taking appointments by hand. That's not a cold lead — that's a specific problem
-I can open a conversation with.
+One of the data servers kept replying "OK" with zero results, because it only holds data for Switzerland. Nothing crashed, nothing was saved, and for a while I had no idea. A quiet failure is much harder to catch than a loud one.
 
-**Total infrastructure cost: £0.**
-OpenStreetMap (free), Google Sheets (free), DNS for email verification (free),
-GitHub Actions as the scheduler (free). No Apollo, no Hunter, no ZoomInfo, no
-server to rent.
+How you ask matters more than where you ask. My first search found websites for about 3% of businesses. After changing the shape of the query, it was 82%.
 
-**What actually taught me something** — every one of these was found by running
-against real data, not by reading my own code:
+Central London is so dense that the map server refused my query every single time, until I split the area into smaller pieces.
 
-• One Overpass mirror answers Pakistani queries with `200 OK` and zero results
-in under a second. It's a Switzerland-only instance. Unguarded, the run looks
-successful, writes nothing, and logs nothing — indistinguishable from "no new
-businesses today". **A silent success is more dangerous than a loud failure.**
+If you have a process like this that eats up your team's week, I'd be happy to hear about it. Send me a message.
 
-• A hacked Pakistani site was serving a Cloudflare-obfuscated spam address. It
-decoded perfectly and ranked first, because the site published nothing of its
-own.
+You can check out my friend's agency at https://axiolyn.com
 
-• My fix for that was worse than the bug. Rejecting any unfamiliar domain threw
-away `info@dhmc.com.pk` on `doctorshospital.com.pk` — the same organisation —
-and kept somebody's personal Gmail instead. The real signal was the TLD, not the
-domain differing.
-
-• Google Sheets silently destroys phone numbers. Its default cell format parses
-`+923001234567` as arithmetic and stores `923001234567`.
-
-• An unfiltered query for clinics returned 3% with websites and nearly got the
-whole data source written off. A contact-filtered query against commercial
-categories returned 82%. **Query shape decided whether the source was viable.**
-
-Built with n8n for the visual side and plain Node for the scheduled runs — both
-executing the same modules, so the two paths can't drift apart.
-
-Code, tests and the full write-up of what broke:
-https://github.com/waleed-574/axiolyn-lead-automation
-
-#automation #n8n #leadgeneration #opensource #pakistan #startups
-
----
-
-## Shorter variant, if the above runs long
-
-We sell automation but were finding clients by hand. So I fixed that.
-
-A pipeline that runs every 3 hours, unattended, for £0:
-→ finds Pakistani businesses from OpenStreetMap
-→ crawls their sites for contact details
-→ verifies the email domain accepts mail (DNS, not a paid API)
-→ scores each lead 0-100 with a reason you can argue with
-
-188 leads so far.
-
-The core idea: **the strongest buy signal for an automation agency is a working
-business with no automation.** So it fingerprints each site's tech stack and
-scores the absence of a CRM, chat widget or booking tool. A clinic running a
-WooCommerce store with no booking system is taking appointments by hand — that's
-a conversation, not a cold call.
-
-Hardest lesson: one data-source mirror returns `200 OK` with zero results
-because it only holds Swiss data. The run looks like a success, writes nothing,
-logs nothing. **A silent success is worse than a loud failure** — it took a
-timing anomaly to notice.
-
-Code and the full list of what broke:
-https://github.com/waleed-574/axiolyn-lead-automation
-
-#automation #leadgeneration #n8n #opensource
+#automation #n8n #leadgeneration #pakistan
