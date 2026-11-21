@@ -34,7 +34,10 @@ on:
       batch:
         description: 'Leads to enrich this run (split across US and UK)'
         required: false
-        default: '24'
+        # 60 rather than 24: at ~5.7 runs a day, 24 left a backlog of 4,300
+        # uncrawled leads that would take over a month to clear. 60 takes
+        # roughly 10 minutes of crawling, well inside the job timeout.
+        default: '60'
 
 # A second run starting mid-write could append the same lead twice before the
 # first has finished.
@@ -69,4 +72,4 @@ jobs:
           node scripts/run-intl-pipeline.js \
             --stage=${{ github.event.inputs.stage || 'all' }} \
             --sweeps=${{ github.event.inputs.sweeps || '6' }} \
-            --batch=${{ github.event.inputs.batch || '24' }}
+            --batch=${{ github.event.inputs.batch || '60' }}

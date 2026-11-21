@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const { Sheet } = require(path.join(ROOT, 'workflows/src/sheets'));
+const { combinations } = require(path.join(ROOT, 'workflows/src/targets'));
 
 const arg = (n, d) => {
   const hit = process.argv.find((a) => a.startsWith(`--${n}=`));
@@ -58,9 +59,11 @@ const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
 
   // Sweep progress
   const cursor = parseInt((state.find((r) => r.key === 'wf1_cursor') || {}).value || '0', 10);
-  const doneP = pct(cursor, 126);
+  // Read from the target list rather than hard-coded, so it can't drift again.
+  const sweepTotal = combinations().length;
+  const doneP = pct(cursor, sweepTotal);
   console.log('');
-  console.log(`  Sweep position         ${String(cursor).padStart(6)} / 126   ${bar(cursor, 126, 24).padEnd(24)} ${doneP}%`);
+  console.log(`  Sweep position         ${String(cursor).padStart(6)} / ${sweepTotal}   ${bar(cursor, sweepTotal, 24).padEnd(24)} ${doneP}%`);
 
   // Where the leads are coming from
   const by = (list, key) => {
